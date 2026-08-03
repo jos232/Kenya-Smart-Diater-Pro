@@ -1,0 +1,78 @@
+/* ==========================================
+   SPLASH SCREEN
+========================================== */
+
+.splash-screen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #0057b8, #00a651);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.splash-screen.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.splash-content {
+    text-align: center;
+    color: white;
+    animation: zoomIn 0.8s ease;
+}
+
+.splash-logo {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 20px;
+    border-radius: 24px;
+    background: white;
+    padding: 15px;
+    object-fit: contain;
+}
+
+.splash-content h1 {
+    font-size: 30px;
+    margin: 10px 0;
+    font-weight: 700;
+}
+
+.splash-content p {
+    opacity: 0.9;
+    margin-bottom: 30px;
+}
+
+.loader {
+    width: 55px;
+    height: 55px;
+    margin: auto;
+    border: 5px solid rgba(255, 255, 255, .3);
+    border-top: 5px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+@keyframes zoomIn {
+
+    from {
+        opacity: 0;
+        transform: scale(.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}

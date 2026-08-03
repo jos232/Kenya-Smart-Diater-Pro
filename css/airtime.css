@@ -1,0 +1,256 @@
+/* ==========================================
+   KENYA SMART DIALER PRO
+   airtime.css
+========================================== */
+
+/* ===============================
+   Airtime Form
+================================ */
+
+.airtime-form {
+
+    margin: 20px 0;
+
+}
+
+#airtimeNumber {
+
+    width: 100%;
+
+    padding: 16px;
+
+    border-radius: 16px;
+
+    border: 2px solid #334155;
+
+    background: #0F172A;
+
+    color: #fff;
+
+    font-size: 18px;
+
+}
+
+#airtimeNumber:focus {
+
+    border-color: #00C853;
+
+}
+
+/* ===============================
+   Network Badge
+================================ */
+
+#airtimeNetworkResult {
+
+    width: fit-content;
+
+    margin: 15px auto;
+
+    padding: 8px 18px;
+
+    border-radius: 25px;
+
+    background: #1E293B;
+
+    color: #00C853;
+
+    font-weight: 600;
+
+    border: 1px solid rgba(255, 255, 255, .08);
+
+}
+
+/* ===============================
+   Section Title
+================================ */
+
+.section-title {
+
+    margin: 25px 0 15px;
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+}
+
+/* ===============================
+   Amount Buttons
+================================ */
+
+.amount-options {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+
+}
+
+.amount-options button {
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    background: #334155;
+
+    color: #fff;
+
+    font-weight: 600;
+
+    font-size: 15px;
+
+    transition: .3s;
+
+}
+
+.amount-options button:hover {
+
+    background: #00C853;
+
+    transform: translateY(-3px);
+
+}
+
+.amount-options button.active {
+
+    background: #00C853;
+
+}
+
+/* ===============================
+   Custom Amount
+================================ */
+
+.custom-amount {
+
+    margin-top: 20px;
+
+}
+
+.custom-amount label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #CBD5E1;
+
+    font-size: 14px;
+
+}
+
+#customAmount {
+
+    width: 100%;
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    background: #0F172A;
+
+    border: 2px solid #334155;
+
+    color: white;
+
+}
+
+#customAmount:focus {
+
+    border-color: #00C853;
+
+}
+
+/* ===============================
+   Summary Card
+================================ */
+
+.summary-card {
+
+    margin-top: 25px;
+
+}
+
+.summary-card h3 {
+
+    margin-bottom: 15px;
+
+}
+
+.summary-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 10px 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+
+}
+
+.summary-row:last-child {
+
+    border-bottom: none;
+
+}
+
+/* ===============================
+   Buy Button
+================================ */
+
+.primary-btn {
+
+    margin-top: 25px;
+
+    font-size: 18px;
+
+}
+
+/* ===============================
+   Airtime History
+================================ */
+
+#airtimeHistory {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+}
+
+.airtime-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 14px;
+
+    background: #0F172A;
+
+    border-radius: 12px;
+
+}
+
+.airtime-item strong {
+
+    color: #fff;
+
+}
+
+.airtime-item small {
+
+    color: #94A3B8;
+
+}

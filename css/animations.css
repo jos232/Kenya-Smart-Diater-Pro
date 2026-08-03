@@ -1,0 +1,192 @@
+/* ==========================================
+   KENYA SMART DIALER PRO
+   Animations
+========================================== */
+
+/* Fade In */
+
+@keyframes fadeIn {
+
+    from {
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+    }
+
+}
+
+/* Fade Up */
+
+@keyframes fadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(25px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+/* Slide Left */
+
+@keyframes slideLeft {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateX(40px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateX(0);
+
+    }
+
+}
+
+/* Slide Right */
+
+@keyframes slideRight {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateX(-40px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateX(0);
+
+    }
+
+}
+
+/* Scale */
+
+@keyframes scaleIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: scale(.85);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: scale(1);
+
+    }
+
+}
+
+/* Floating */
+
+@keyframes floating {
+
+    0% {
+
+        transform: translateY(0);
+
+    }
+
+    50% {
+
+        transform: translateY(-6px);
+
+    }
+
+    100% {
+
+        transform: translateY(0);
+
+    }
+
+}
+
+/* Pulse */
+
+@keyframes pulse {
+
+    0% {
+
+        transform: scale(1);
+
+    }
+
+    50% {
+
+        transform: scale(1.06);
+
+    }
+
+    100% {
+
+        transform: scale(1);
+
+    }
+
+}
+
+/* Screen Animation */
+
+.screen.active {
+
+    animation: fadeUp .35s ease;
+
+}
+
+/* Cards */
+
+.stat-card,
+.contact-card,
+.bundle-card,
+.subscription-card,
+.airtime-card {
+
+    animation: scaleIn .35s ease;
+
+}
+
+/* Buttons */
+
+button:hover {
+
+    transition: .25s;
+
+}
+
+.call-btn {
+
+    animation: floating 3s infinite;
+
+}

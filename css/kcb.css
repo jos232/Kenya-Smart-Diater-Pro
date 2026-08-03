@@ -1,0 +1,433 @@
+/* ==========================================
+   KCB MOBILE BANKING
+========================================== */
+
+.bank-topbar {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+
+}
+
+.back-btn {
+
+    width: 45px;
+
+    height: 45px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #006341;
+
+    color: white;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+}
+
+.bank-header-logo {
+
+    width: 55px;
+
+    height: 55px;
+
+    object-fit: contain;
+
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 6px;
+
+}
+
+.bank-topbar h2 {
+
+    color: white;
+
+    margin: 0;
+
+}
+
+.bank-topbar small {
+
+    color: #94A3B8;
+
+}
+
+/* Customer */
+
+.customer-card {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: #1E293B;
+
+    padding: 18px;
+
+    border-radius: 18px;
+
+    margin-bottom: 20px;
+
+}
+
+.customer-card h3 {
+
+    color: white;
+
+    margin-bottom: 5px;
+
+}
+
+.customer-card small {
+
+    color: #94A3B8;
+
+}
+
+.customer-avatar {
+
+    width: 60px;
+
+    height: 60px;
+
+    border-radius: 50%;
+
+    background: #00C853;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 26px;
+
+    font-weight: bold;
+
+    color: white;
+
+}
+
+/* Main Balance */
+
+.main-balance-card {
+
+    background: linear-gradient(135deg, #006341, #00A651);
+
+    color: white;
+
+    border-radius: 25px;
+
+    padding: 25px;
+
+    margin-bottom: 25px;
+
+    box-shadow: 0 15px 35px rgba(0, 0, 0, .30);
+
+}
+
+.main-balance-card small {
+
+    opacity: .9;
+
+}
+
+.main-balance-card h1 {
+
+    margin: 15px 0;
+
+    font-size: 36px;
+
+}
+
+.main-balance-card p {
+
+    opacity: .9;
+
+}
+
+/* Accounts */
+
+.accounts-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 30px;
+
+}
+
+.account-box {
+
+    background: #1E293B;
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    text-align: center;
+
+    border: 1px solid rgba(255, 255, 255, .05);
+
+}
+
+.account-box span {
+
+    color: #94A3B8;
+
+    font-size: 14px;
+
+}
+
+.account-box h3 {
+
+    margin-top: 10px;
+
+    color: #00E676;
+
+}
+
+/* Section */
+
+.bank-section-title {
+
+    color: white;
+
+    margin: 25px 0 15px;
+
+}
+
+/* Quick Actions */
+
+.bank-action-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 30px;
+
+}
+
+.bank-action-grid button {
+
+    border: none;
+
+    background: #1E293B;
+
+    color: white;
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 22px;
+
+}
+
+.bank-action-grid button span {
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+.bank-action-grid button:hover {
+
+    background: #006341;
+
+    transform: translateY(-5px);
+
+}
+
+/* Transactions */
+
+.transaction-card {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: #1E293B;
+
+    padding: 18px;
+
+    border-radius: 18px;
+
+    margin-bottom: 15px;
+
+}
+
+.transaction-card strong {
+
+    color: white;
+
+}
+
+.transaction-card small {
+
+    color: #94A3B8;
+
+}
+
+.credit {
+
+    color: #00E676;
+
+    font-weight: bold;
+
+}
+
+.debit {
+
+    color: #EF4444;
+
+    font-weight: bold;
+
+}
+
+.amount-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin: 20px 0;
+
+}
+
+.amount-grid button {
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #006341;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: .3s;
+
+}
+
+.amount-grid button:hover {
+
+    background: #00A651;
+
+    transform: translateY(-2px);
+
+}
+
+.bundle-title {
+
+    margin: 25px 0 15px;
+
+    color: white;
+
+}
+
+.bundle-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+
+}
+
+.bundle-card {
+
+    border: none;
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    background: #1E293B;
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+.bundle-card:hover {
+
+    background: #006341;
+
+    transform: translateY(-4px);
+
+}
+
+.bundle-card strong {
+
+    font-size: 20px;
+
+}
+
+.bundle-card small {
+
+    color: #CBD5E1;
+
+}
+
+.bundle-card span {
+
+    color: #00E676;
+
+    font-weight: bold;
+
+}

@@ -1,0 +1,1229 @@
+/* ==========================================
+   KENYA SMART DIALER PRO
+   FINANCIAL SERVICES
+========================================== */
+
+:root {
+
+    --financial-primary: #00C853;
+    --financial-secondary: #2962FF;
+    --financial-dark: #1E293B;
+    --financial-card: #334155;
+    --financial-light: #CBD5E1;
+    --financial-text: #FFFFFF;
+    --financial-muted: #94A3B8;
+
+}
+
+/* ==========================================
+   SECTION HEADER
+========================================== */
+
+.service-section-title {
+
+    margin: 45px 0 20px;
+
+}
+
+.service-section-title h2 {
+
+    color: #fff;
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+
+}
+
+.service-section-title p {
+
+    color: var(--financial-muted);
+
+    font-size: 15px;
+
+}
+
+/* ==========================================
+   FINANCIAL GRID
+========================================== */
+
+.financial-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 18px;
+
+    margin: 25px 0;
+
+}
+
+/* ==========================================
+   FINANCIAL CARD
+========================================== */
+
+.financial-card {
+
+    border: none;
+
+    border-radius: 22px;
+
+    background: linear-gradient(145deg, #334155, #1E293B);
+
+    padding: 24px;
+
+    color: #fff;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 15px;
+
+    cursor: pointer;
+
+    transition: .30s;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .20);
+
+}
+
+.financial-card:hover {
+
+    transform: translateY(-6px);
+
+    border: 1px solid var(--financial-primary);
+
+}
+
+.financial-card.active {
+
+    background: linear-gradient(135deg, #00C853, #009944);
+
+}
+
+.financial-card span {
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+}
+
+.financial-icon {
+
+    width: 65px;
+
+    height: 65px;
+
+    border-radius: 18px;
+
+    background: linear-gradient(135deg, #2962FF, #00C853);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 30px;
+
+    color: #fff;
+
+}
+
+/* ==========================================
+   FINANCIAL CONTENT
+========================================== */
+
+.financial-content {
+
+    display: none;
+
+    animation: fadeFinancial .35s ease;
+
+}
+
+.financial-content.active {
+
+    display: block;
+
+}
+
+@keyframes fadeFinancial {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+/* ==========================================
+   BANK SELECTION
+========================================== */
+
+.bank-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+
+    margin-top: 25px;
+
+}
+
+
+/* ==========================================
+   BANKING CARDS
+========================================== */
+
+.bank-card {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+    width: 100%;
+
+    margin-bottom: 18px;
+
+    padding: 18px;
+
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, .08);
+
+    backdrop-filter: blur(18px);
+
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, .12);
+
+    cursor: pointer;
+
+    transition: .35s;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .15);
+
+}
+
+.bank-card:hover {
+
+    transform: translateY(-6px);
+
+    box-shadow: 0 18px 35px rgba(0, 0, 0, .25);
+
+}
+
+.bank-logo {
+
+    width: 64px;
+
+    height: 64px;
+
+    object-fit: contain;
+
+    border-radius: 14px;
+
+    background: #fff;
+
+    padding: 8px;
+
+    flex-shrink: 0;
+
+}
+
+.bank-logo.placeholder {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 34px;
+
+    background: #ececec;
+
+}
+
+.bank-details {
+
+    flex: 1;
+
+}
+
+.bank-details h3 {
+
+    margin: 0;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+}
+
+.bank-details p {
+
+    margin: 6px 0;
+
+    font-size: 14px;
+
+    color: #bdbdbd;
+
+}
+
+.bank-status {
+
+    display: inline-block;
+
+    margin-top: 8px;
+
+    padding: 5px 12px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+.bank-status.active {
+
+    background: #22c55e;
+
+    color: #fff;
+
+}
+
+.bank-status.coming {
+
+    background: #f59e0b;
+
+    color: #fff;
+
+}
+
+.bank-arrow {
+
+    font-size: 26px;
+
+    color: #16a34a;
+
+    font-weight: bold;
+
+}
+
+.bank-card.disabled {
+
+    opacity: .65;
+
+    cursor: default;
+
+}
+
+.bank-card.disabled:hover {
+
+    transform: none;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .15);
+
+}
+
+/* ==========================================
+   RESPONSIVE BANK CARDS
+========================================== */
+
+@media (max-width:768px) {
+
+    .bank-card {
+
+        padding: 15px;
+
+        gap: 14px;
+
+    }
+
+    .bank-logo {
+
+        width: 55px;
+
+        height: 55px;
+
+    }
+
+    .bank-details h3 {
+
+        font-size: 16px;
+
+    }
+
+    .bank-details p {
+
+        font-size: 13px;
+
+    }
+
+    .bank-arrow {
+
+        font-size: 22px;
+
+    }
+
+}
+
+.bank-card h3 {
+
+    font-size: 21px;
+
+    margin-bottom: 8px;
+
+}
+
+.bank-card p {
+
+    color: #94A3B8;
+
+    font-size: 14px;
+
+}
+
+/* ==========================================
+   SERVICE CARD
+========================================== */
+
+.service-card {
+
+    background: #334155;
+
+    border-radius: 24px;
+
+    padding: 25px;
+
+    border: 1px solid rgba(255, 255, 255, .06);
+
+    margin-top: 20px;
+
+}
+
+.service-card-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+}
+
+.service-card-icon {
+
+    width: 65px;
+
+    height: 65px;
+
+    border-radius: 18px;
+
+    background: linear-gradient(135deg, #2962FF, #00C853);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 30px;
+
+    color: #fff;
+
+}
+
+.service-card-title h3 {
+
+    color: #fff;
+
+    font-size: 24px;
+
+    margin-bottom: 5px;
+
+}
+
+.service-card-title p {
+
+    color: #94A3B8;
+
+    font-size: 14px;
+
+}
+
+/* ==========================================
+   DIVIDER
+========================================== */
+
+.service-divider {
+
+    height: 1px;
+
+    background: rgba(255, 255, 255, .08);
+
+    margin: 22px 0;
+
+}
+
+/* ==========================================
+   PRIMARY BUTTON
+========================================== */
+
+.financial-btn {
+
+    border: none;
+
+    border-radius: 16px;
+
+    background: #00C853;
+
+    color: #fff;
+
+    padding: 14px 24px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .30s;
+
+}
+
+.financial-btn:hover {
+
+    background: #00B248;
+
+    transform: translateY(-3px);
+
+}
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.financial-empty {
+
+    text-align: center;
+
+    padding: 40px 20px;
+
+    color: #94A3B8;
+
+}
+
+.financial-empty i {
+
+    font-size: 50px;
+
+    display: block;
+
+    margin-bottom: 15px;
+
+}
+
+.financial-empty h3 {
+
+    color: #fff;
+
+    margin-bottom: 10px;
+
+}
+
+/* ==========================================
+   ACCOUNT BALANCE
+========================================== */
+
+.account-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 18px;
+
+    margin: 25px 0;
+
+}
+
+.account-card {
+
+    background: linear-gradient(135deg, #00C853, #2962FF);
+
+    border-radius: 22px;
+
+    padding: 22px;
+
+    color: #fff;
+
+    box-shadow: 0 12px 25px rgba(0, 0, 0, .25);
+
+    transition: .30s;
+
+}
+
+.account-card:hover {
+
+    transform: translateY(-5px);
+
+}
+
+.account-card h4 {
+
+    font-size: 15px;
+
+    opacity: .9;
+
+    margin-bottom: 12px;
+
+}
+
+.account-card h2 {
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+}
+
+.account-card small {
+
+    display: block;
+
+    margin-top: 12px;
+
+    opacity: .9;
+
+}
+
+/* ==========================================
+   FINANCIAL STATS
+========================================== */
+
+.finance-stats {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin: 25px 0;
+
+}
+
+.finance-stat {
+
+    background: #1E293B;
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    text-align: center;
+
+}
+
+.finance-stat h3 {
+
+    color: #00E676;
+
+    font-size: 26px;
+
+    margin-bottom: 6px;
+
+}
+
+.finance-stat p {
+
+    color: #94A3B8;
+
+    font-size: 13px;
+
+}
+
+/* ==========================================
+   QUICK ACTIONS
+========================================== */
+
+.finance-actions {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 18px;
+
+    margin: 30px 0;
+
+}
+
+.finance-action {
+
+    background: #334155;
+
+    border: none;
+
+    border-radius: 22px;
+
+    padding: 24px;
+
+    cursor: pointer;
+
+    color: #fff;
+
+    transition: .30s;
+
+}
+
+.finance-action:hover {
+
+    transform: translateY(-6px);
+
+    background: #3B4B63;
+
+}
+
+.finance-action-icon {
+
+    width: 60px;
+
+    height: 60px;
+
+    border-radius: 18px;
+
+    background: linear-gradient(135deg, #00C853, #2962FF);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 28px;
+
+    margin: auto;
+
+    margin-bottom: 15px;
+
+}
+
+.finance-action span {
+
+    display: block;
+
+    text-align: center;
+
+    font-weight: 600;
+
+}
+
+/* ==========================================
+   TRANSACTION HISTORY
+========================================== */
+
+.transaction-card {
+
+    background: #334155;
+
+    border-radius: 22px;
+
+    padding: 22px;
+
+    margin-top: 25px;
+
+}
+
+.transaction-card h3 {
+
+    margin-bottom: 20px;
+
+    color: #fff;
+
+}
+
+.transaction-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+
+}
+
+.transaction-item:last-child {
+
+    border-bottom: none;
+
+}
+
+.transaction-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+}
+
+.transaction-icon {
+
+    width: 50px;
+
+    height: 50px;
+
+    border-radius: 16px;
+
+    background: linear-gradient(135deg, #2962FF, #00C853);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: #fff;
+
+    font-size: 24px;
+
+}
+
+.transaction-name {
+
+    color: #fff;
+
+    font-weight: 600;
+
+}
+
+.transaction-date {
+
+    color: #94A3B8;
+
+    font-size: 13px;
+
+    margin-top: 4px;
+
+}
+
+.transaction-amount {
+
+    color: #00E676;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+}
+
+/* ==========================================
+   EMPTY TRANSACTION
+========================================== */
+
+.transaction-empty {
+
+    text-align: center;
+
+    padding: 40px;
+
+    color: #94A3B8;
+
+}
+
+.transaction-empty i {
+
+    font-size: 48px;
+
+    display: block;
+
+    margin-bottom: 15px;
+
+}
+
+.send-money-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+    margin-top: 20px;
+
+}
+
+.send-money-form label {
+
+    color: #CBD5E1;
+
+    font-weight: 600;
+
+}
+
+.network-result {
+
+    background: #0F172A;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    color: #00E676;
+
+    font-weight: 600;
+
+}
+
+/* ==========================================
+   KCB DASHBOARD
+========================================== */
+
+.bank-dashboard {
+
+    padding: 20px;
+
+}
+
+.bank-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+
+}
+
+.bank-logo {
+
+    width: 60px;
+
+    height: 60px;
+
+    object-fit: contain;
+
+    background: #fff;
+
+    border-radius: 15px;
+
+    padding: 8px;
+
+}
+
+.bank-header h2 {
+
+    color: #fff;
+
+    font-size: 24px;
+
+    margin-bottom: 5px;
+
+}
+
+.bank-header p {
+
+    color: #94A3B8;
+
+}
+
+/* ==========================================
+   MAIN BALANCE
+========================================== */
+
+.balance-card-main {
+
+    background: linear-gradient(135deg, #006341, #00A651);
+
+    border-radius: 25px;
+
+    padding: 25px;
+
+    color: white;
+
+    margin-bottom: 25px;
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .25);
+
+}
+
+.balance-card-main small {
+
+    font-size: 14px;
+
+    opacity: .9;
+
+}
+
+.balance-card-main h1 {
+
+    font-size: 36px;
+
+    margin: 15px 0;
+
+}
+
+.balance-card-main p {
+
+    opacity: .9;
+
+}
+
+/* ==========================================
+   ACCOUNT SUMMARY
+========================================== */
+
+.account-summary {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 30px;
+
+}
+
+.summary-card {
+
+    background: #1E293B;
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    text-align: center;
+
+    border: 1px solid rgba(255, 255, 255, .05);
+
+}
+
+.summary-card span {
+
+    color: #94A3B8;
+
+    font-size: 14px;
+
+}
+
+.summary-card h3 {
+
+    color: #00E676;
+
+    margin-top: 10px;
+
+}
+
+/* ==========================================
+   SECTION TITLE
+========================================== */
+
+.section-title {
+
+    color: #fff;
+
+    margin: 25px 0 15px;
+
+    font-size: 18px;
+
+}
+
+/* ==========================================
+   QUICK ACTIONS
+========================================== */
+
+.finance-actions {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 30px;
+
+}
+
+.finance-actions button {
+
+    border: none;
+
+    border-radius: 18px;
+
+    background: #334155;
+
+    color: white;
+
+    padding: 20px;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 24px;
+
+}
+
+.finance-actions button span {
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+.finance-actions button:hover {
+
+    transform: translateY(-5px);
+
+    background: #006341;
+
+}
+
+/* ==========================================
+   TRANSACTIONS
+========================================== */
+
+.transaction-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: #1E293B;
+
+    padding: 18px;
+
+    border-radius: 18px;
+
+    margin-bottom: 12px;
+
+}
+
+.transaction-item strong {
+
+    color: white;
+
+}
+
+.transaction-item small {
+
+    color: #94A3B8;
+
+}
+
+.credit {
+
+    color: #00E676;
+
+    font-weight: bold;
+
+}
+
+.debit {
+
+    color: #EF4444;
+
+    font-weight: bold;
+
+}
+
+/* ==========================================
+   MODAL
+========================================== */
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    background: rgba(0, 0, 0, .65);
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 9999;
+
+}
+
+.modal.active {
+
+    display: flex;
+
+}
+
+.modal-content {
+
+    width: 90%;
+
+    max-width: 420px;
+
+    background: #1E293B;
+
+    border-radius: 24px;
+
+    padding: 25px;
+
+    color: white;
+
+}

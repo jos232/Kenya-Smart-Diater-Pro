@@ -1,0 +1,73 @@
+/* ==========================================
+   Responsive
+========================================== */
+
+@media (max-width:768px) {
+
+    body {
+
+        padding: 0;
+
+    }
+
+    .phone {
+
+        width: 100%;
+
+        min-height: 100vh;
+
+        border-radius: 0;
+
+    }
+
+}
+
+@media (max-width:500px) {
+
+    .stats-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .quick-actions {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .amount-options {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+    .dial-pad button {
+
+        width: 70px;
+
+        height: 70px;
+
+    }
+
+}
+
+@media (max-width:380px) {
+
+    .dial-pad {
+
+        gap: 10px;
+
+    }
+
+    .dial-pad button {
+
+        width: 65px;
+
+        height: 65px;
+
+        font-size: 22px;
+
+    }
+
+}

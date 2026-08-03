@@ -1,0 +1,5650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kenya Smart Dialer Pro</title>
+
+    <!-- Google Font -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Global CSS -->
+
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Modules -->
+
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/history.css">
+    <link rel="stylesheet" href="css/dialer.css">
+    <link rel="stylesheet" href="css/contacts.css">
+    <link rel="stylesheet" href="css/airtime.css">
+    <link rel="stylesheet" href="css/bundles.css">
+    <link rel="stylesheet" href="css/subscriptions.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/splash.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="css/call.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="stylesheet" href="css/financial.css">
+    <link rel="stylesheet" href="css/financial.css">
+    <link rel="stylesheet" href="css/bank.css">
+    <link rel="stylesheet" href="css/kcb.css">
+    <link rel="stylesheet" href="css/equity.css">
+    <link rel="stylesheet" href="css/offers.css">
+
+
+</head>
+
+<body>
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="login-screen">
+
+        <div class="login-card">
+
+            <h1>Kenya Smart Dialer Pro</h1>
+
+            <p>Sign in to continue</p>
+
+            <input type="email" id="loginEmail" placeholder="Email">
+
+            <input type="password" id="loginPassword" placeholder="Password">
+
+            <button id="loginBtn">
+                Login
+            </button>
+
+            <button id="showRegisterBtn">
+                Create Account
+            </button>
+
+            <p id="loginMessage"></p>
+
+        </div>
+
+    </div>
+
+    <div id="registerScreen" class="login-screen" style="display:none;">
+
+        <div class="login-card">
+
+            <h1>Create Account</h1>
+
+            <input type="text" id="registerName" placeholder="Full Name">
+
+            <input type="email" id="registerEmail" placeholder="Email">
+
+            <input type="tel" id="registerPhone" placeholder="Phone">
+
+            <input type="password" id="registerPassword" placeholder="Password">
+
+            <button id="registerBtn">
+                Create Account
+            </button>
+
+            <button id="backToLoginBtn">
+                Back to Login
+            </button>
+
+            <p id="registerMessage"></p>
+
+        </div>
+
+    </div>
+
+
+    <div id="appContainer" style="display:none;">
+
+        <!-- EVERYTHING YOU ALREADY HAVE -->
+
+
+        <!-- Splash Screen -->
+        <div id="splashScreen" class="splash-screen">
+
+            <div class="splash-content">
+
+                <img src="assets/logo.png" alt="Kenya Smart Dialer" class="splash-logo">
+
+                <h1>Kenya Smart Dialer Pro</h1>
+
+                <p>Smart Dialing for Kenya 🇰🇪</p>
+
+                <div class="loader"></div>
+
+            </div>
+
+        </div>
+
+        <div class="phone">
+
+            <!-- ===========================
+         TOP BAR
+        ============================ -->
+
+            <header class="top-bar">
+
+                <div class="logo">
+                    <img src="assets/logo.png" alt="Kenya Smart Dialer Pro">
+                </div>
+
+                <div class="status-icons">
+
+                    <span id="currentNetworkStatus">No Network</span>
+
+                    <span id="signalStrength">📶</span>
+
+                    <span id="batteryStatus">🔋100%</span>
+
+                </div>
+
+            </header>
+
+            <div id="activeCallBanner" class="active-call-banner" onclick="returnToCall()">
+
+                <div class="banner-left">
+
+                    <span class="banner-icon">📞</span>
+
+                    <div>
+
+                        <strong id="bannerName">Joshua Nkario</strong>
+
+                        <small id="bannerTimer">00:00</small>
+
+                    </div>
+
+                </div>
+
+                <span class="banner-text">Tap to return</span>
+
+            </div>
+
+            <!-- ===========================
+         MAIN CONTENT
+          ============================ -->
+
+            <main class="screens">
+
+                <!-- ===========================
+             DASHBOARD
+            ============================ -->
+
+                <section id="dashboard" class="screen active">
+
+                    <div class="dashboard-header">
+
+                        <div>
+                            <h2>Welcome Joshua 👋</h2>
+                            <p>Kenya Smart Dialer Pro</p>
+                        </div>
+
+                        <div class="profile-circle">
+                            JN
+                        </div>
+
+                    </div>
+                    <!-- Statistics -->
+
+                    <!-- ==========================================
+                 TELECOM DASHBOARD
+                 ========================================== -->
+
+                    <div class="balance-grid">
+
+                        <!-- Airtime -->
+
+                        <div class="balance-card airtime" onclick="showScreen('airtime')">
+
+                            <div class="balance-icon">💳</div>
+
+                            <div class="balance-info">
+
+                                <h3>Airtime</h3>
+
+                                <h2 id="dashboardAirtime">KSh 0</h2>
+
+                                <small id="dashboardAirtimeExpiry">
+                                    Never expires
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Bundles -->
+
+                        <div class="balance-card data" onclick="showScreen('bundles')">
+
+                            <div class="balance-icon">📶</div>
+
+                            <div class="balance-info">
+
+                                <h3>Bundles</h3>
+
+                                <h2 id="dashboardData">0 MB</h2>
+
+                                <small id="dashboardBundleExpiry">
+                                    No active bundle
+                                </small>
+
+                                <div class="mini-progress">
+
+                                    <div id="bundleProgress" class="mini-progress-fill">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Voice -->
+
+                        <div class="balance-card voice" onclick="showScreen('voice')">
+
+                            <div class="balance-icon">🎤</div>
+
+                            <div class="balance-info">
+
+                                <h3>Voice</h3>
+
+                                <h2 id="dashboardVoice">0 Min</h2>
+
+                                <small id="dashboardVoiceExpiry">
+                                    No active package
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <!-- SMS -->
+
+                        <div class="balance-card sms" onclick="showScreen('sms')">
+
+                            <div class="balance-icon">💬</div>
+
+                            <div class="balance-info">
+
+                                <h3>SMS</h3>
+
+                                <h2 id="dashboardSMS">0 SMS</h2>
+
+                                <small id="dashboardSMSExpiry">
+                                    No active package
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Subscriptions -->
+
+                        <div class="balance-card subscriptions" onclick="showScreen('subscriptions')">
+
+                            <div class="balance-icon">⭐</div>
+
+                            <div class="balance-info">
+
+                                <h3>Subscriptions</h3>
+
+                                <h2 id="dashboardSubscriptions">
+
+                                    0 Active
+
+                                </h2>
+
+                                <small>
+
+                                    View all subscriptions
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                 KE KENYAN NETWORKS
+            ========================================== -->
+
+                    <div class="network-section">
+
+                        <h3 class="section-title">
+
+                            🇰🇪 Kenyan Networks
+
+                        </h3>
+
+                        <!-- Safaricom -->
+
+                        <div class="network-card">
+
+                            <div class="network-left">
+
+                                <img src="assets/safaricom.png" alt="Safaricom" class="network-logo">
+
+                                <div class="network-details">
+
+                                    <h4>Safaricom</h4>
+
+                                    <small>4G • 5G Network</small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="network-status online">
+
+                                <span class="dot"></span>
+
+                                <span>Online</span>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Airtel -->
+
+                        <div class="network-card">
+
+                            <div class="network-left">
+
+                                <img src="assets/airtel.png" alt="Airtel Kenya" class="network-logo">
+
+                                <div class="network-details">
+
+                                    <h4>Airtel Kenya</h4>
+
+                                    <small>4G • 5G Network</small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="network-status online">
+
+                                <span class="dot"></span>
+
+                                <span>Online</span>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Telkom -->
+
+                        <div class="network-card">
+
+                            <div class="network-left">
+
+                                <img src="assets/telkom.png" alt="Telkom Kenya" class="network-logo">
+
+                                <div class="network-details">
+
+                                    <h4>Telkom Kenya</h4>
+
+                                    <small>4G Network</small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="network-status online">
+
+                                <span class="dot"></span>
+
+                                <span>Online</span>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Faiba -->
+
+                        <div class="network-card">
+
+                            <div class="network-left">
+
+                                <img src="assets/faiba.png" alt="Faiba" class="network-logo">
+
+                                <div class="network-details">
+
+                                    <h4>Faiba 4G</h4>
+
+                                    <small>Unlimited Internet</small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="network-status online">
+
+                                <span class="dot"></span>
+
+                                <span>Online</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </section>
+                <!-- ==========================================
+             CALL HISTORY
+        ========================================== -->
+
+                <section id="history" class="screen">
+
+                    <div class="screen-header">
+
+                        <h2>Recent Calls</h2>
+
+                        <p>Your complete call activity</p>
+
+                    </div>
+
+                    <!-- Search -->
+
+                    <div class="history-search">
+
+                        <input type="text" id="historySearch" placeholder="Search name or number..."
+                            oninput="searchHistory(this.value)">
+
+                    </div>
+
+                    <!-- Filters -->
+
+                    <div class="history-filters">
+
+                        <button class="history-filter active" onclick="filterHistory('all',this)">
+                            All
+                        </button>
+
+                        <button class="history-filter" onclick="filterHistory('incoming',this)">
+                            Incoming
+                        </button>
+
+                        <button class="history-filter" onclick="filterHistory('outgoing',this)">
+                            Outgoing
+                        </button>
+
+                        <button class="history-filter" onclick="filterHistory('missed',this)">
+                            Missed
+                        </button>
+
+                    </div>
+
+                    <!-- Actions -->
+
+                    <div class="history-actions">
+
+                        <button onclick="refreshHistory()">
+
+                            🔄 Refresh
+
+                        </button>
+
+                        <button onclick="clearHistory()">
+
+                            🗑 Clear
+
+                        </button>
+
+                    </div>
+
+                    <!-- List -->
+
+                    <div id="historyList" class="history-list">
+
+                    </div>
+
+                </section>
+                <!-- ===========================
+                 DIALER
+            =========================== -->
+
+                <section id="dialer" class="screen">
+
+                    <div class="screen-header">
+
+                        <h2>Smart Dialer</h2>
+
+                        <p>Call any Kenyan mobile number</p>
+
+                    </div>
+
+                    <!-- Phone Number -->
+
+                    <div class="dial-display">
+
+                        <input type="tel" id="phoneNumber" placeholder="Enter phone number" maxlength="13"
+                            autocomplete="off">
+
+                    </div>
+
+                    <!-- Live Contact Preview -->
+
+                    <div id="contactPreview" class="contact-preview" style="display:none;">
+
+                        <img id="contactAvatar" src="assets/user.png" class="contact-avatar">
+
+                        <div class="contact-details">
+
+                            <h3 id="contactName">
+
+                                Unknown Contact
+
+                            </h3>
+
+                            <p id="contactNetwork">
+
+                                Safaricom
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Network Detection -->
+
+                    <div id="networkResult" class="network-result">
+
+                        Unknown Network
+
+                    </div>
+
+                    <!-- Dial Pad -->
+
+                    <div class="dial-pad">
+
+                        <button onclick="pressNumber('1')">1</button>
+
+                        <button onclick="pressNumber('2')">
+                            2
+                            <small>ABC</small>
+                        </button>
+
+                        <button onclick="pressNumber('3')">
+                            3
+                            <small>DEF</small>
+                        </button>
+
+                        <button onclick="pressNumber('4')">
+                            4
+                            <small>GHI</small>
+                        </button>
+
+                        <button onclick="pressNumber('5')">
+                            5
+                            <small>JKL</small>
+                        </button>
+
+                        <button onclick="pressNumber('6')">
+                            6
+                            <small>MNO</small>
+                        </button>
+
+                        <button onclick="pressNumber('7')">
+                            7
+                            <small>PQRS</small>
+                        </button>
+
+                        <button onclick="pressNumber('8')">
+                            8
+                            <small>TUV</small>
+                        </button>
+
+                        <button onclick="pressNumber('9')">
+                            9
+                            <small>WXYZ</small>
+                        </button>
+
+                        <button onclick="pressNumber('*')">*</button>
+
+                        <button onclick="pressNumber('0')">0</button>
+
+                        <button onclick="pressNumber('#')">#</button>
+
+                    </div>
+
+                    <!-- Dialer Actions -->
+
+                    <div class="dial-actions">
+
+                        <button class="backspace-btn" onclick="deleteNumber()">
+
+                            ⌫
+
+                        </button>
+
+                        <button class="call-btn" onclick="startCall()">
+
+                            📞
+
+                        </button>
+
+                        <button class="save-btn" onclick="saveCurrentNumber()">
+
+                            💾
+
+                        </button>
+
+                    </div>
+
+                    <!-- Call Information -->
+
+                    <div class="activity-card">
+
+                        <div class="activity-title">
+
+                            <h3>📈 Recent Activity</h3>
+
+                            <span>Today</span>
+
+                        </div>
+
+                        <div id="dashboardActivity">
+
+                            <div class="activity-item">
+
+                                <div class="activity-icon">📞</div>
+
+                                <div class="activity-info">
+
+                                    <strong>No recent calls</strong>
+
+                                    <small>Your latest calls will appear here.</small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="activity-item">
+
+                                <div class="activity-icon">💳</div>
+
+                                <div class="activity-info">
+
+                                    <strong>No airtime purchases</strong>
+
+                                    <small>Your airtime history will appear here.</small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="activity-item">
+
+                                <div class="activity-icon">📶</div>
+
+                                <div class="activity-info">
+
+                                    <strong>No bundles purchased</strong>
+
+                                    <small>Bundle history will appear here.</small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+             CALL SCREEN
+        ========================================== -->
+
+                <section id="callScreen">
+
+                    <div class="call-container">
+
+                        <!-- Status -->
+
+                        <div class="call-status">
+
+                            <span id="callStatus">Connected</span>
+
+                        </div>
+
+                        <!-- Avatar -->
+
+                        <div class="call-avatar">
+
+                            👤
+
+                        </div>
+
+                        <!-- Contact -->
+
+                        <h2 id="callName">Joshua Nkario</h2>
+
+                        <p id="callPhone">0712345678</p>
+
+                        <div class="call-network">
+
+                            <span id="callNetwork">Safaricom</span>
+
+                        </div>
+
+                        <!-- Timer -->
+
+                        <div id="callTimer">
+
+                            00:00
+
+                        </div>
+
+                        <!-- Row 1 -->
+
+                        <div class="call-actions">
+
+                            <button id="muteButton" class="call-action" onclick="toggleMute()">
+
+                                🔇
+
+                                <span class="label">Mute</span>
+
+                            </button>
+
+                            <button id="keypadButton" class="call-action" onclick="toggleKeypad()">
+
+                                ⌨️
+
+                                <span class="label">Keypad</span>
+
+                            </button>
+
+                            <button id="speakerButton" class="call-action" onclick="toggleSpeaker()">
+
+                                🔊
+
+                                <span class="label">Speaker</span>
+
+                            </button>
+
+                        </div>
+
+                        <!-- Row 2 -->
+
+                        <div class="call-actions">
+
+                            <button class="call-action" onclick="addCall()">
+
+                                ➕
+
+                                <span class="label">Add Call</span>
+
+                            </button>
+
+                            <button id="holdButton" class="call-action" onclick="toggleHold()">
+
+                                ⏸
+
+                                <span class="label">Hold</span>
+
+                            </button>
+
+                            <button id="bluetoothButton" class="call-action" onclick="toggleBluetooth()">
+
+                                🎧
+
+                                <span class="label">Bluetooth</span>
+
+                            </button>
+                            <button id="swapButton" class="call-action" onclick="swapCalls()">
+
+                                ⇄
+
+                                <span class="label">Swap</span>
+
+                            </button>
+
+                        </div>
+                        <!-- ==========================================
+                     IN-CALL KEYPAD
+                ========================================== -->
+
+                        <div id="keypadOverlay" class="keypad-overlay">
+
+                            <div class="keypad-sheet">
+
+                                <div class="keypad-handle"></div>
+
+                                <div class="in-call-keypad">
+
+                                    <button onclick="pressDuringCall('1')">1</button>
+                                    <button onclick="pressDuringCall('2')">2</button>
+                                    <button onclick="pressDuringCall('3')">3</button>
+
+                                    <button onclick="pressDuringCall('4')">4</button>
+                                    <button onclick="pressDuringCall('5')">5</button>
+                                    <button onclick="pressDuringCall('6')">6</button>
+
+                                    <button onclick="pressDuringCall('7')">7</button>
+                                    <button onclick="pressDuringCall('8')">8</button>
+                                    <button onclick="pressDuringCall('9')">9</button>
+
+                                    <button onclick="pressDuringCall('*')">*</button>
+                                    <button onclick="pressDuringCall('0')">0</button>
+                                    <button onclick="pressDuringCall('#')">#</button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- End Call -->
+
+                        <button class="end-call-btn" onclick="endCall()">
+
+                            📞
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ===========================
+                 CONTACTS
+            =========================== -->
+
+                <section id="contacts" class="screen">
+
+                    <div class="screen-header">
+
+                        <h2>Contacts</h2>
+
+                        <p>Manage your saved contacts</p>
+
+                    </div>
+
+                    <!-- Search -->
+
+                    <!-- ===========================
+                 CONTACT SEARCH
+            =========================== -->
+
+                    <div class="contacts-search">
+
+                        <div class="search-icon">
+
+                            🔍
+
+                        </div>
+
+                        <input type="text" id="contactSearch" placeholder="Search contacts..."
+                            oninput="searchContacts(this.value)">
+
+                    </div>
+
+                    <!-- Contact Statistics -->
+
+                    <!-- ===========================
+                 CONTACT STATISTICS
+            =========================== -->
+
+                    <div class="contacts-stats">
+
+                        <div class="contacts-stat-card">
+
+                            <div class="stat-icon">
+
+                                👥
+
+                            </div>
+
+                            <div class="stat-info">
+
+                                <h3 id="contactsCount">
+
+                                    0
+
+                                </h3>
+
+                                <p>Total Contacts</p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="contacts-stat-card">
+
+                            <div class="stat-icon favorite">
+
+                                ⭐
+
+                            </div>
+
+                            <div class="stat-info">
+
+                                <h3 id="favoriteCount">
+
+                                    0
+
+                                </h3>
+
+                                <p>Favorites</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Add Contact -->
+
+                    <!-- ===========================
+                 ADD CONTACT
+            =========================== -->
+
+                    <div class="contact-form-card">
+
+                        <h3>
+
+                            ➕ Add New Contact
+
+                        </h3>
+
+                        <div class="contact-form">
+
+                            <input type="text" id="contactName" placeholder="👤 Full Name">
+
+                            <input type="tel" id="contactPhone" placeholder="📞 Phone Number" maxlength="13">
+
+                            <label class="upload-photo">
+
+                                📷 Choose Photo
+
+                                <input type="file" id="contactPhoto" accept="image/*">
+
+                            </label>
+
+                            <button class="save-contact-btn" onclick="addContact()">
+
+                                💾 Save Contact
+
+                            </button>
+
+                        </div>
+
+                    </div>
+                    <!-- Contact Actions -->
+
+                    <div class="quick-actions">
+
+                        <button onclick="exportContacts()">
+
+                            📤 Export
+
+                        </button>
+
+                        <button onclick="document.getElementById('importContactsFile').click()">
+
+                            📥 Import
+
+                        </button>
+
+                    </div>
+
+
+
+                    <input type="file" id="importContactsFile" accept=".json" style="display:none;">
+
+                    <!-- Favorites -->
+
+                    <div class="favorite-card">
+
+                        <div class="favorite-header">
+
+                            <h3>⭐ Favorite Contacts</h3>
+
+                        </div>
+
+                        <div id="favoriteContactsList">
+
+                            <p class="empty-text">
+
+                                No favorite contacts.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+                    <!-- Contacts List -->
+
+                    <div class="recent-calls">
+
+                        <div class="contacts-header">
+
+                            <h3>All Contacts</h3>
+
+                            <button class="refresh-btn" onclick="loadContacts()" title="Refresh Contacts">
+
+                                🔄
+
+                            </button>
+
+                        </div>
+
+                        <div id="contactsList" class="contacts-list">
+
+                            <div class="empty-text">
+
+                                No contacts saved.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- ==========================================
+                 SPEED DIAL
+            ========================================== -->
+
+                <section id="speedDial" class="screen">
+
+                    <div class="screen-header">
+
+                        <h2>⚡ Speed Dial</h2>
+
+                        <p>Assign contacts to numbers 1–9</p>
+
+                    </div>
+
+                    <div id="speedDialGrid" class="speed-grid">
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 CONTACT DETAILS
+            ========================================== -->
+
+                <section id="contactDetails" class="screen">
+
+                    <div class="screen-header">
+
+                        <h2>Contact Details</h2>
+
+                        <p>Manage your contact</p>
+
+                    </div>
+
+                    <div class="contact-profile">
+
+                        <div class="contact-profile-avatar" id="detailAvatar">
+
+                            J
+
+                        </div>
+
+                        <h2 id="detailName">
+
+                            Contact Name
+
+                        </h2>
+
+                        <p id="detailNumber">
+
+                            0712345678
+
+                        </p>
+
+                        <span id="detailNetwork">
+
+                            Safaricom
+
+                        </span>
+
+                    </div>
+                    <div class="contact-actions">
+
+                        <button class="favorite-contact" title="Favourite"
+                            onclick="event.stopPropagation();toggleFavorite('${contact._id}')">
+
+                            ${contact.favorite ? "⭐" : "☆"}
+
+                        </button>
+
+                        <button class="call-contact" title="Call"
+                            onclick="event.stopPropagation();callContact('${contact._id}')">
+
+                            📞
+
+                        </button>
+
+                        <button class="more-contact" title="More"
+                            onclick="event.stopPropagation();toggleContactMenu('${contact._id}')">
+
+                            ⋮
+
+                        </button>
+
+                    </div>
+
+                    <div class="contact-menu" id="menu-${contact._id}">
+
+                        <button onclick="editContact('${contact._id}')">
+
+                            ✏️ Edit
+
+                        </button>
+
+                        <button onclick="deleteContact('${contact._id}')">
+
+                            🗑 Delete
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="recent-calls">
+
+                        <h3>
+
+                            Recent Calls
+
+                        </h3>
+
+                        <div id="detailRecentCalls">
+
+                            <p class="empty-text">
+
+                                No calls yet.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- ===========================
+                 AIRTIME
+            =========================== -->
+
+                <section id="airtime" class="screen">
+
+                    <div class="screen-header">
+
+                        <h2>Buy Airtime</h2>
+
+                        <p>Fast airtime purchase for all Kenyan networks</p>
+
+                    </div>
+
+                    <!-- Phone Number -->
+
+                    <div class="airtime-form">
+
+                        <input type="tel" id="airtimeNumber" placeholder="Enter phone number" maxlength="13"
+                            oninput="detectNetwork()">
+
+                    </div>
+
+                    <!-- Network Detection -->
+
+                    <div id="airtimeNetworkResult" class="network-result">
+
+                        Unknown Network
+
+                    </div>
+
+                    <!-- Quick Amounts -->
+
+                    <h3 class="section-title">
+
+                        Quick Amount
+
+                    </h3>
+
+                    <div class="amount-options">
+
+                        <button onclick="selectAmount(10)">KSh 10</button>
+                        <button onclick="selectAmount(20)">KSh 20</button>
+                        <button onclick="selectAmount(50)">KSh 50</button>
+                        <button onclick="selectAmount(100)">KSh 100</button>
+                        <button onclick="selectAmount(200)">KSh 200</button>
+                        <button onclick="selectAmount(500)">KSh 500</button>
+
+                    </div>
+
+                    <!-- Custom Amount -->
+
+                    <div class="custom-amount">
+
+                        <label>
+
+                            Custom Amount
+
+                        </label>
+
+                        <input type="number" id="customAmount" placeholder="Enter amount (KSh)" min="5">
+
+                    </div>
+
+                    <!-- Purchase Summary -->
+
+                    <div class="summary-card">
+
+                        <h3>Purchase Summary</h3>
+
+                        <div class="summary-row">
+
+                            <span>Network</span>
+
+                            <span id="summaryNetwork">
+
+                                -
+
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Amount</span>
+
+                            <span id="summaryAmount">
+
+                                KSh 0
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Buy Button -->
+
+                    <button class="primary-btn" onclick="buyAirtime()">
+
+                        💳 Buy Airtime
+
+                    </button>
+
+                    <!-- Purchase History -->
+
+                    <div class="recent-calls">
+
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+
+                            <h3>
+
+                                Airtime History
+
+                            </h3>
+
+                            <button class="bundle-buy" onclick="clearAirtimeHistory()">
+
+                                Clear
+
+                            </button>
+
+                        </div>
+
+                        <div id="airtimeHistory">
+
+                            <p class="empty-text">
+
+                                No airtime purchases yet.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- ===========================
+                    BUNDLES
+            =========================== -->
+
+                <section id="bundles" class="screen">
+
+                    <div class="screen-header">
+
+                        <h2>Buy Bundles</h2>
+
+                        <p>Purchase internet bundles for all Kenyan networks</p>
+
+                    </div>
+
+                    <!-- Phone Number -->
+
+                    <div class="airtime-form">
+
+                        <input type="tel" id="bundleNumber" placeholder="Enter phone number" maxlength="13"
+                            oninput="detectBundleNetwork()">
+
+                    </div>
+
+                    <!-- Network Detection -->
+
+                    <div id="bundleNetworkResult" class="network-result">
+
+                        Unknown Network
+
+                    </div>
+
+                    <!-- Bundle Categories -->
+
+                    <h3 class="section-title">
+
+                        Bundle Category
+
+                    </h3>
+
+                    <div class="amount-options">
+
+                        <button onclick="selectBundleCategory('Daily')">
+
+                            Daily
+
+                        </button>
+
+                        <button onclick="selectBundleCategory('Weekly')">
+
+                            Weekly
+
+                        </button>
+
+                        <button onclick="selectBundleCategory('Monthly')">
+
+                            Monthly
+
+                        </button>
+
+                        <button onclick="selectBundleCategory('Unlimited')">
+
+                            Unlimited
+
+                        </button>
+
+                    </div>
+
+                    <!-- Bundle Offers -->
+
+                    <h3 class="section-title">
+
+                        Bundle Offers
+
+                    </h3>
+
+                    <div class="amount-options" id="bundleOffers">
+
+                        <button onclick="selectBundle(1024,50,'1 GB Daily')">
+
+                            1 GB<br>KSh 50
+
+                        </button>
+
+                        <button onclick="selectBundle(2048,99,'2 GB Daily')">
+
+                            2 GB<br>KSh 99
+
+                        </button>
+
+                        <button onclick="selectBundle(5120,250,'5 GB Weekly')">
+
+                            5 GB<br>KSh 250
+
+                        </button>
+
+                        <button onclick="selectBundle(10240,500,'10 GB Monthly')">
+
+                            10 GB<br>KSh 500
+
+                        </button>
+
+                        <button onclick="selectBundle(20480,1000,'20 GB Monthly')">
+
+                            20 GB<br>KSh 1000
+
+                        </button>
+
+                        <button onclick="selectBundle(51200,3000,'Unlimited')">
+
+                            Unlimited<br>KSh 3000
+
+                        </button>
+
+                    </div>
+
+                    <!-- Purchase Summary -->
+
+                    <div class="summary-card">
+
+                        <h3>Bundle Summary</h3>
+
+                        <div class="summary-row">
+
+                            <span>Network</span>
+
+                            <span id="bundleSummaryNetwork">
+
+                                -
+
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Bundle</span>
+
+                            <span id="bundleSummaryName">
+
+                                -
+
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Size</span>
+
+                            <span id="bundleSummarySize">
+
+                                0 MB
+
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Price</span>
+
+                            <span id="bundleSummaryPrice">
+
+                                KSh 0
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Buy Button -->
+
+                    <button class="primary-btn" onclick="buyBundle()">
+
+                        📶 Buy Bundle
+
+                    </button>
+
+                    <!-- Bundle History -->
+
+                    <div class="recent-calls">
+
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+
+                            <h3>
+
+                                Bundle History
+
+                            </h3>
+
+                            <button class="bundle-buy" onclick="clearBundleHistory()">
+
+                                Clear
+
+                            </button>
+
+                        </div>
+
+                        <div id="bundleHistory">
+
+                            <p class="empty-text">
+
+                                No bundle purchases yet.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- ===========================
+                    VOICE
+            =========================== -->
+
+                <section id="voice" class="screen">
+
+                    <div class="screen-header">
+
+                        <h2>Voice Packages</h2>
+
+                        <p>Buy voice minutes for all Kenyan networks</p>
+
+                    </div>
+
+                    <!-- Current Voice Dashboard -->
+
+                    <div class="voice-dashboard">
+
+                        <div class="voice-card">
+
+                            <div class="voice-icon">🎤</div>
+
+                            <h3>Available Minutes</h3>
+
+                            <h2 id="dashboardVoice">
+
+                                0 Min
+
+                            </h2>
+
+                            <p>Current Voice Balance</p>
+
+                            <div class="voice-progress">
+
+                                <div id="voiceProgress"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Phone Number -->
+
+                    <div class="airtime-form">
+
+                        <input type="tel" id="voiceNumber" placeholder="Enter phone number" maxlength="13"
+                            oninput="detectVoiceNetwork()">
+
+                    </div>
+
+                    <!-- Network -->
+
+                    <div id="voiceNetworkResult" class="network-result">
+
+                        Unknown Network
+
+                    </div>
+
+                    <!-- Voice Categories -->
+
+                    <h3 class="section-title">
+
+                        Voice Packages
+
+                    </h3>
+
+                    <div class="amount-options">
+
+                        <button onclick="selectVoiceCategory('Daily')">
+
+                            Daily
+
+                        </button>
+
+                        <button onclick="selectVoiceCategory('Weekly')">
+
+                            Weekly
+
+                        </button>
+
+                        <button onclick="selectVoiceCategory('Monthly')">
+
+                            Monthly
+
+                        </button>
+
+                        <button onclick="selectVoiceCategory('Unlimited')">
+
+                            Unlimited
+
+                        </button>
+
+                    </div>
+
+                    <!-- Voice Offers -->
+
+                    <div id="voiceOffers" class="amount-options">
+
+                    </div>
+
+                    <!-- Summary -->
+
+                    <div class="summary-card">
+
+                        <h3>Voice Summary</h3>
+
+                        <div class="summary-row">
+
+                            <span>Network</span>
+
+                            <span id="voiceSummaryNetwork">
+
+                                -
+
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Package</span>
+
+                            <span id="voiceSummaryPackage">
+
+                                -
+
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Minutes</span>
+
+                            <span id="voiceSummaryMinutes">
+
+                                0 Min
+
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Price</span>
+
+                            <span id="voiceSummaryPrice">
+
+                                KSh 0
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Buy -->
+
+                    <button class="primary-btn" onclick="buyVoicePackage()">
+
+                        🎤 Buy Voice Package
+
+                    </button>
+
+                    <!-- Voice History -->
+
+                    <div class="recent-calls">
+
+                        <div style="
+                            display:flex;
+                            justify-content:space-between;
+                            align-items:center;
+                        ">
+
+                            <h3>
+
+                                Voice History
+
+                            </h3>
+
+                            <button class="bundle-buy" onclick="clearVoiceHistory()">
+
+                                Clear
+
+                            </button>
+
+                        </div>
+
+                        <div id="voiceHistory">
+
+                            <p class="empty-text">
+
+                                No voice purchases yet.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- ===========================
+                    SMS
+            =========================== -->
+
+                <section id="sms" class="screen">
+
+                    <div class="screen-header">
+
+                        <h2>SMS Packages</h2>
+
+                        <p>Buy SMS bundles for all Kenyan networks</p>
+
+                    </div>
+
+                    <!-- SMS Dashboard -->
+
+                    <div class="voice-dashboard">
+
+                        <div class="voice-card">
+
+                            <div class="voice-icon">💬</div>
+
+                            <h3>Available SMS</h3>
+
+                            <h2 id="dashboardSMS">
+
+                                0 SMS
+
+                            </h2>
+
+                            <p>Current SMS Balance</p>
+
+                            <div class="voice-progress">
+
+                                <div id="smsProgress"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Phone Number -->
+
+                    <div class="airtime-form">
+
+                        <input type="tel" id="smsNumber" placeholder="Enter phone number" maxlength="13"
+                            oninput="detectSMSNetwork()">
+
+                    </div>
+
+                    <!-- Network -->
+
+                    <div id="smsNetworkResult" class="network-result">
+
+                        Unknown Network
+
+                    </div>
+
+                    <!-- Categories -->
+
+                    <h3 class="section-title">
+
+                        SMS Packages
+
+                    </h3>
+
+                    <div class="amount-options">
+
+                        <button onclick="selectSMSCategory('Daily')">
+
+                            Daily
+
+                        </button>
+
+                        <button onclick="selectSMSCategory('Weekly')">
+
+                            Weekly
+
+                        </button>
+
+                        <button onclick="selectSMSCategory('Monthly')">
+
+                            Monthly
+
+                        </button>
+
+                    </div>
+
+                    <!-- SMS Offers -->
+
+                    <div id="smsOffers" class="amount-options">
+
+                    </div>
+
+                    <!-- Summary -->
+
+                    <div class="summary-card">
+
+                        <h3>SMS Summary</h3>
+
+                        <div class="summary-row">
+
+                            <span>Network</span>
+
+                            <span id="smsSummaryNetwork">
+
+                                -
+
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Package</span>
+
+                            <span id="smsSummaryPackage">
+
+                                -
+
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>SMS</span>
+
+                            <span id="smsSummaryCount">
+
+                                0 SMS
+
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Price</span>
+
+                            <span id="smsSummaryPrice">
+
+                                KSh 0
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Buy -->
+
+                    <button class="primary-btn" onclick="buySMSPackage()">
+
+                        💬 Buy SMS Package
+
+                    </button>
+
+                    <!-- History -->
+
+                    <div class="recent-calls">
+
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+
+                            <h3>
+
+                                SMS History
+
+                            </h3>
+
+                            <button class="bundle-buy" onclick="clearSMSHistory()">
+
+                                Clear
+
+                            </button>
+
+                        </div>
+
+                        <div id="smsHistory">
+
+                            <p class="empty-text">
+
+                                No SMS purchases yet.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- ===========================
+                  SUBSCRIPTIONS
+            =========================== -->
+
+                <section id="subscriptions" class="screen">
+
+                    <div class="screen-header">
+
+                        <h2>Subscriptions</h2>
+
+                        <p>Manage recurring telecom packages</p>
+
+                    </div>
+
+                    <!-- Dashboard -->
+
+                    <div class="voice-dashboard">
+
+                        <div class="voice-card">
+
+                            <div class="voice-icon">⭐</div>
+
+                            <h3>Active Subscription</h3>
+
+                            <h2 id="activeSubscription">
+
+                                None
+
+                            </h2>
+
+                            <p id="subscriptionExpiry">
+
+                                No Active Package
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Subscription Plans -->
+
+                    <h3 class="section-title">
+
+                        Available Plans
+
+                    </h3>
+
+                    <div id="subscriptionPlans" class="amount-options">
+
+                    </div>
+
+                    <!-- Summary -->
+
+                    <div class="summary-card">
+
+                        <h3>Subscription Summary</h3>
+
+                        <div class="summary-row">
+
+                            <span>Plan</span>
+
+                            <span id="subscriptionName">
+
+                                -
+
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Price</span>
+
+                            <span id="subscriptionPrice">
+
+                                KSh 0
+
+                            </span>
+
+                        </div>
+
+                        <div class="summary-row">
+
+                            <span>Validity</span>
+
+                            <span id="subscriptionValidity">
+
+                                -
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Subscribe -->
+
+                    <button class="primary-btn" onclick="activateSubscription()">
+
+                        ⭐ Subscribe
+
+                    </button>
+
+                    <!-- History -->
+
+                    <div class="recent-calls">
+
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+
+                            <h3>
+
+                                Subscription History
+
+                            </h3>
+
+                            <button class="bundle-buy" onclick="clearSubscriptionHistory()">
+
+                                Clear
+
+                            </button>
+
+                        </div>
+
+                        <div id="subscriptionHistory">
+
+                            <p class="empty-text">
+
+                                No subscriptions yet.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <div class="bundle-testing">
+
+                    <button class="bundle-buy" onclick="browseInternet()">
+                        🌐 Browse
+                    </button>
+
+                    <button class="bundle-buy" onclick="watchVideo()">
+                        🎥 Video
+                    </button>
+
+                    <button class="bundle-buy" onclick="downloadFile()">
+                        ⬇️ Download
+                    </button>
+
+                </div>
+
+                <!-- =====================================================
+                                SERVICES HOME
+            ===================================================== -->
+
+                <section id="services" class="screen">
+
+                    <div class="screen-header">
+
+                        <h2>📦 Services</h2>
+
+                        <p>Select the category you want to use</p>
+
+                    </div>
+
+                    <div class="services-home-grid">
+
+                        <!-- ======================================
+                                FINANCIAL
+                    ======================================= -->
+
+                        <div class="service-home-card" onclick="showScreen('financialServices')">
+
+                            <div class="service-home-icon">
+
+                                <img src="assets/banks/financial-logo.png" class="financial-logo"
+                                    alt="Financial Services">
+                            </div>
+
+                            <h3>Financial Services</h3>
+
+                            <p>
+
+                                Banking<br>
+                                Wallet<br>
+                                Transfers<br>
+                                Payments
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                    TELECOM SERVICES
+            ========================================== -->
+
+                <section id="telecomServices" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('services')">
+                            ←
+                        </button>
+
+                        <h2>📱 Telecom Services</h2>
+
+                        <p>Select the telecom service you need</p>
+
+                    </div>
+
+                    <div class="services-home-grid">
+
+                        <!-- Airtime -->
+
+                        <div class="service-home-card" onclick="showScreen('airtimeService')">
+
+                            <div class="service-home-icon">💳</div>
+
+                            <h3>Airtime</h3>
+
+                            <p>Buy airtime instantly.</p>
+
+                        </div>
+
+                        <!-- Bundles -->
+
+                        <div class="service-home-card" onclick="showScreen('bundleService')">
+
+                            <div class="service-home-icon">📶</div>
+
+                            <h3>Bundles</h3>
+
+                            <p>Purchase data bundles.</p>
+
+                        </div>
+
+                        <!-- Voice -->
+
+                        <div class="service-home-card" onclick="showScreen('voiceService')">
+
+                            <div class="service-home-icon">📞</div>
+
+                            <h3>Voice</h3>
+
+                            <p>Voice packages and minutes.</p>
+
+                        </div>
+
+                        <!-- SMS -->
+
+                        <div class="service-home-card" onclick="showScreen('smsService')">
+
+                            <div class="service-home-icon">💬</div>
+
+                            <h3>SMS</h3>
+
+                            <p>Buy SMS bundles.</p>
+
+                        </div>
+
+                        <!-- Subscription -->
+
+                        <div class="service-home-card" onclick="showScreen('subscriptionService')">
+
+                            <div class="service-home-icon">🔔</div>
+
+                            <h3>Subscriptions</h3>
+
+                            <p>Manage active subscriptions.</p>
+
+                        </div>
+
+                        <div class="service-card" onclick="openDailyOffers()">
+
+                            <div class="service-icon">
+                                🎁
+                            </div>
+
+                            <div class="service-info">
+
+                                <h3>Daily Offers</h3>
+
+                                <p>Special offers for today</p>
+
+                            </div>
+
+                            <span class="service-arrow">›</span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 DAILY OFFERS
+            ========================================== -->
+
+                <section id="dailyOffers" class="screen">
+
+                    <div class="page-header">
+
+                        <button class="back-btn" onclick="showScreen('services')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Daily Offers</h2>
+
+                    </div>
+
+                    <div id="dailyOffersList" class="offers-list">
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                    FINANCIAL SERVICES
+            ========================================== -->
+
+                <section id="financialServices" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('services')">
+
+                            ←
+
+                        </button>
+
+                        <h2>🏦 Financial Services</h2>
+
+                        <p>Select your preferred bank</p>
+
+                    </div>
+
+                    <div class="services-home-grid">
+
+                        <!-- KCB -->
+
+                        <div class="bank-card" onclick="openKCBDashboard()">
+
+                            <img src="assets/banks/kcb.png" class="bank-logo" alt="KCB Bank">
+
+                            <div class="bank-details">
+
+                                <h3>KCB Bank</h3>
+
+                                <p>Kenya Commercial Bank</p>
+
+                                <div class="bank-balance">
+
+                                    Balance
+
+                                    <strong id="kcbCardBalance">
+
+                                        KSh 0.00
+
+                                    </strong>
+
+                                </div>
+
+                                <span class="bank-status active">
+
+                                    ✔ Available
+
+                                </span>
+
+                            </div>
+
+                            <div class="bank-arrow">
+
+                                ➜
+
+                            </div>
+
+                        </div>
+
+                        <!-- Equity -->
+
+                        <div class="bank-card" onclick="showScreen('equityDashboard')">
+
+                            <img src="assets/banks/equity.png" class="bank-logo" alt="Equity Bank">
+
+                            <div class="bank-details">
+
+                                <h3>Equity Bank</h3>
+
+                                <p>Equity Group</p>
+
+                                <div class="bank-balance">
+
+                                    Balance
+
+                                    <strong id="equityBalance">
+
+                                        KSh 0.00
+
+                                    </strong>
+
+                                </div>
+
+                                <span class="bank-status active">
+
+                                    ✔ Available
+
+                                </span>
+
+                            </div>
+
+                            <div class="bank-arrow">
+
+                                ➜
+
+                            </div>
+
+                        </div>
+
+                        <!-- Co-operative -->
+
+                        <div class="bank-card" onclick="openCoopDashboard()">
+
+                            <img src="assets/banks/coop.png" class="bank-logo" alt="Co-operative Bank">
+
+                            <div class="bank-details">
+
+                                <h3>Co-operative Bank</h3>
+
+                                <p>Mobile Banking</p>
+
+                                <div class="bank-balance">
+
+                                    Balance
+
+                                    <strong id="coopBalance">
+
+                                        KSh 0.00
+
+                                    </strong>
+
+                                </div>
+
+                                <span class="bank-status active">
+
+                                    ✔ Available
+
+                                </span>
+
+                            </div>
+
+                            <div class="bank-arrow">
+
+                                ➜
+
+                            </div>
+
+                        </div>
+
+                        <!-- NCBA -->
+
+                        <div class="bank-card disabled">
+
+                            <div class="bank-logo placeholder">
+
+                                🏦
+
+                            </div>
+
+                            <div class="bank-details">
+
+                                <h3>NCBA</h3>
+
+                                <p>Coming Soon</p>
+
+                                <span class="bank-status coming">
+
+                                    Coming Soon
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Absa -->
+
+                        <div class="bank-card disabled">
+
+                            <div class="bank-logo placeholder">
+
+                                🏦
+
+                            </div>
+
+                            <div class="bank-details">
+
+                                <h3>Absa Bank</h3>
+
+                                <p>Coming Soon</p>
+
+                                <span class="bank-status coming">
+
+                                    Coming Soon
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Family -->
+
+                        <div class="bank-card disabled">
+
+                            <div class="bank-logo placeholder">
+
+                                🏦
+
+                            </div>
+
+                            <div class="bank-details">
+
+                                <h3>Family Bank</h3>
+
+                                <p>Coming Soon</p>
+
+                                <span class="bank-status coming">
+
+                                    Coming Soon
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                        KCB DASHBOARD
+            ========================================== -->
+
+                <section id="kcbDashboard" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('financialServices')">
+
+                            ←
+
+                        </button>
+
+                        <img src="assets/banks/kcb.png" class="bank-header-logo" alt="KCB">
+
+                        <h2>KCB Mobile</h2>
+
+                        <p>Kenya Commercial Bank</p>
+
+                    </div>
+
+                    <!-- ==========================================
+                 CUSTOMER PROFILE
+            ========================================== -->
+
+                    <div class="customer-card">
+
+                        <div>
+
+                            <h3 id="kcbHolder">Joshua Nkario</h3>
+
+                            <small>Premium Customer</small>
+
+                        </div>
+
+                        <div class="customer-avatar">
+
+                            J
+
+                        </div>
+
+                    </div>
+
+                    <!-- ==========================================
+                 MAIN BALANCE
+            ========================================== -->
+
+                    <div class="main-balance-card">
+
+                        <small>Total Balance</small>
+
+                        <h1 id="kcbDashboardBalance">
+
+                            KSh 25,430.00
+
+                        </h1>
+
+                        <p>
+
+                            Account No.
+
+                            <span id="kcbAccountNumber">
+
+                                1234567890
+
+                            </span>
+
+                        </p>
+
+                        <p>
+
+                            Account Type:
+
+                            <span id="kcbAccountType">
+
+                                Current Account
+
+                            </span>
+
+                        </p>
+
+                    </div>
+                    <!-- ==========================================
+                     ACCOUNTS
+                ========================================== -->
+
+                    <h3 class="bank-section-title">
+
+                        My Accounts
+
+                    </h3>
+
+                    <div class="accounts-grid">
+
+                        <div class="account-box">
+
+                            <span>Savings</span>
+
+                            <h3>KSh 12,300</h3>
+
+                        </div>
+
+                        <div class="account-box">
+
+                            <span>Current</span>
+
+                            <h3>KSh 13,130</h3>
+
+                        </div>
+
+                        <div class="account-box">
+
+                            <span>Loans</span>
+
+                            <h3>KSh 0.00</h3>
+
+                        </div>
+
+                        <div class="account-box">
+
+                            <span>Credit Card</span>
+
+                            <h3>KSh 5,000</h3>
+
+                        </div>
+
+                    </div>
+                    <!-- ==========================================
+                     QUICK BANKING
+                ========================================== -->
+
+                    <h3 class="bank-section-title">
+
+                        Quick Banking
+
+                    </h3>
+
+                    <div class="bank-action-grid">
+
+                        <button onclick="showScreen('kcbTransfer')">
+
+                            💸
+
+                            <span>Transfer</span>
+
+                        </button>
+
+                        <button onclick="showScreen('kcbDeposit')">
+
+                            📥
+
+                            <span>Deposit</span>
+
+                        </button>
+
+                        <button onclick="showScreen('kcbWithdraw')">
+
+                            📤
+
+                            <span>Withdraw</span>
+
+                        </button>
+
+                        <button onclick="openStatement()">
+
+                            📄
+
+                            <span>Statement</span>
+
+                        </button>
+
+                        <button onclick="showScreen('kcbBills')">
+
+                            💡
+
+                            <span>Bills</span>
+
+                        </button>
+
+                        <button onclick="openBuyGoods()">
+
+                            🛒
+
+                            <span>Buy Goods</span>
+
+                        </button>
+
+                        <button onclick="openAirtime()">
+
+                            📱
+
+                            <span>Airtime</span>
+
+                        </button>
+
+                        <button onclick="openBundles()">
+
+                            📶
+
+                            <span>Bundles</span>
+
+                        </button>
+
+                        <button onclick="openLoans()">
+
+                            💰
+
+                            <span>Loans</span>
+
+                        </button>
+
+                        <button onclick="openCards()">
+
+                            💳
+
+                            <span>Cards</span>
+
+                        </button>
+                        <button onclick="openSettings()">
+
+                            ⚙️
+
+                            <span>Settings</span>
+
+                        </button>
+
+                    </div>
+                    <!-- ==========================================
+                     RECENT TRANSACTIONS
+                ========================================== -->
+
+                    <h3 class="bank-section-title">
+
+                        Recent Transactions
+
+                    </h3>
+
+                    <div id="kcbRecentTransactions">
+
+                        <div class="transaction-card">
+
+                            <div>
+
+                                <strong>📱 Airtime Purchase</strong>
+
+                                <small>Today • 09:45 AM</small>
+
+                            </div>
+
+                            <span class="transaction-out">
+
+                                - KSh 100
+
+                            </span>
+
+                        </div>
+
+                        <div class="transaction-card">
+
+                            <div>
+
+                                <strong>💸 Money Transfer</strong>
+
+                                <small>Yesterday • 04:20 PM</small>
+
+                            </div>
+
+                            <span class="transaction-out">
+
+                                - KSh 2,500
+
+                            </span>
+
+                        </div>
+
+                        <div class="transaction-card">
+
+                            <div>
+
+                                <strong>💰 Salary Deposit</strong>
+
+                                <small>20 Jul 2026</small>
+
+                            </div>
+
+                            <span class="transaction-in">
+
+                                + KSh 45,000
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                        KCB TRANSFER
+            ========================================== -->
+
+                <section id="kcbTransfer" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>💸 Money Transfer</h2>
+
+                        <p>Transfer money securely</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Recipient Name</label>
+
+                        <input id="transferName" class="form-input" type="text" placeholder="Enter recipient name">
+
+                        <label>Account Number</label>
+
+                        <input id="transferAccount" class="form-input" type="text" placeholder="Enter account number">
+
+                        <label>Bank</label>
+
+                        <select id="transferBank" class="form-input">
+
+                            <option>KCB Bank</option>
+                            <option>Equity Bank</option>
+                            <option>NCBA</option>
+                            <option>Co-operative Bank</option>
+                            <option>Absa Bank</option>
+
+                        </select>
+
+                        <label>Amount</label>
+
+                        <input id="transferAmount" class="form-input" type="number" placeholder="Enter amount">
+
+                        <label>Description</label>
+
+                        <input id="transferDescription" class="form-input" type="text" placeholder="Optional">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="transferPIN" class="form-input" type="password" maxlength="4"
+                            placeholder="Enter 4-digit PIN">
+
+                        <button class="primary-btn" onclick="confirmTransfer()">
+
+                            Continue
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                        TRANSFER CONFIRMATION
+            ========================================== -->
+
+                <section id="kcbTransferConfirm" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbTransfer')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Confirm Transfer</h2>
+
+                        <p>Please verify the details</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <div class="confirm-row">
+
+                            <span>Recipient</span>
+
+                            <strong id="confirmName"></strong>
+
+                        </div>
+
+                        <div class="confirm-row">
+
+                            <span>Account</span>
+
+                            <strong id="confirmAccount"></strong>
+
+                        </div>
+
+                        <div class="confirm-row">
+
+                            <span>Bank</span>
+
+                            <strong id="confirmBank"></strong>
+
+                        </div>
+
+                        <div class="confirm-row">
+
+                            <span>Amount</span>
+
+                            <strong id="confirmAmount"></strong>
+
+                        </div>
+
+                        <div class="confirm-row">
+
+                            <span>Transfer Fee</span>
+
+                            <strong>KSh 22.00</strong>
+
+                        </div>
+
+                        <div class="confirm-row total">
+
+                            <span>Total Debit</span>
+
+                            <strong id="confirmTotal"></strong>
+
+                        </div>
+
+                        <button class="primary-btn" onclick="processTransfer()">
+
+                            Confirm Transfer
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                        PROCESSING SCREEN
+            ========================================== -->
+
+                <section id="kcbProcessing" class="screen">
+
+                    <div class="processing-container">
+
+                        <div class="processing-loader"></div>
+
+                        <h2>Processing Transaction...</h2>
+
+                        <p>Please wait.</p>
+
+                        <small>Do not close the application.</small>
+
+                    </div>
+
+                </section>
+                <section id="kcbTransferSuccess" class="screen">
+
+                    <div class="processing-container">
+
+                        <div style="font-size:80px;">
+
+                            ✅
+
+                        </div>
+
+                        <h2>
+
+                            Transfer Successful
+
+                        </h2>
+
+                        <p>
+
+                            Your money has been transferred successfully.
+
+                        </p>
+
+                        <button class="primary-btn" onclick="showScreen('kcbReceipt')">
+
+                            View Receipt
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                        KCB RECEIPT
+            ========================================== -->
+
+                <section id="kcbReceipt" class="screen">
+
+                    <div class="screen-header">
+
+                        <h2>🧾 Transaction Receipt</h2>
+
+                    </div>
+
+                    <div class="receipt-card">
+
+                        <div class="receipt-logo">
+
+                            <img src="assets/banks/kcb.png" class="bank-header-logo">
+
+                            <h3>KCB BANK</h3>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="receipt-row">
+
+                            <span>Status</span>
+
+                            <strong class="success">SUCCESSFUL</strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Reference</span>
+
+                            <strong id="receiptReference">
+
+                                KCB202607230001
+
+                            </strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Recipient</span>
+
+                            <strong id="receiptRecipient">
+
+                                John Doe
+
+                            </strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Bank</span>
+
+                            <strong id="receiptBank">
+
+                                KCB Bank
+
+                            </strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Amount</span>
+
+                            <strong id="receiptAmount">
+
+                                KSh 0.00
+
+                            </strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Charges</span>
+
+                            <strong>KSh 22.00</strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Date</span>
+
+                            <strong id="receiptDate"></strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Time</span>
+
+                            <strong id="receiptTime"></strong>
+
+                        </div>
+
+                        <button class="primary-btn" onclick="finishTransaction()">
+
+                            Done
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+             KCB STATEMENTS
+            ========================================== -->
+
+                <section id="kcbStatement" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Mini Statement</h2>
+
+                        <p>Recent Transactions</p>
+
+                    </div>
+
+                    <div id="statementList">
+
+                        <div class="transaction-empty">
+
+                            <div class="transaction-empty-icon">
+
+                                📄
+
+                            </div>
+
+                            <h3>No Transactions</h3>
+
+                        </div>
+
+                    </div>
+
+                    <button class="primary-btn" onclick="downloadStatement()">
+
+                        Download Statement
+
+                    </button>
+
+                </section>
+                <!-- ==========================================
+                 KCB DEPOSIT
+            ========================================== -->
+
+                <section id="kcbDeposit" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Deposit Money</h2>
+
+                        <p>Deposit into your KCB Account</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Amount</label>
+
+                        <input id="depositAmount" class="form-input" type="number" placeholder="Enter amount">
+
+                        <label>Deposit Method</label>
+
+                        <label>Deposit Reference</label>
+
+                        <input id="depositReference" class="form-input" type="text"
+                            placeholder="Enter M-Pesa / Bank Reference">
+
+
+                        <select id="depositMethod" class="form-input">
+
+                            <option>M-Pesa</option>
+                            <option>Cash Deposit</option>
+                            <option>Bank Transfer</option>
+
+                        </select>
+
+                        <button class="primary-btn" onclick="submitDeposit()">
+
+                            Deposit Money
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 KCB WITHDRAW
+            ========================================== -->
+
+                <section id="kcbWithdraw" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Withdraw Money</h2>
+
+                        <p>Withdraw from your KCB Account</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Amount</label>
+
+                        <input id="withdrawAmount" class="form-input" type="number" placeholder="Enter amount">
+
+                        <label>Withdrawal Method</label>
+
+                        <select id="withdrawMethod" class="form-input">
+
+                            <option>ATM</option>
+                            <option>Agent</option>
+                            <option>Branch</option>
+
+                        </select>
+
+                        <label>Reference</label>
+
+                        <label>Transaction PIN</label>
+
+                        <input id="withdrawPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <input id="withdrawReference" class="form-input" type="text" placeholder="Withdrawal Reference">
+
+                        <button class="primary-btn" onclick="submitWithdraw()">
+
+                            Withdraw Money
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 KCB PAY BILLS
+            ========================================== -->
+
+                <section id="kcbBills" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+                            ←
+                        </button>
+
+                        <h2>Pay Bills</h2>
+
+                        <p>Pay your bills securely</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Business Name</label>
+
+                        <input id="billBusiness" class="form-input" type="text" placeholder="e.g. Kenya Power">
+
+                        <label>Paybill Number</label>
+
+                        <input id="billNumber" class="form-input" type="number" placeholder="Enter Paybill">
+
+                        <label>Account Number</label>
+
+                        <input id="billAccount" class="form-input" type="text" placeholder="Account Number">
+
+                        <label>Amount</label>
+
+                        <input id="billAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="billPIN" class="form-input" type="password" maxlength="4" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitBillPayment()">
+
+                            Pay Bill
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 KCB BUY GOODS
+            ========================================== -->
+
+                <section id="kcbBuyGoods" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Buy Goods</h2>
+
+                        <p>Pay Merchant Till</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Business Name</label>
+
+                        <input id="goodsBusiness" class="form-input" type="text" placeholder="Business Name">
+
+                        <label>Till Number</label>
+
+                        <input id="goodsTill" class="form-input" type="number" placeholder="Till Number">
+
+                        <label>Amount</label>
+
+                        <input id="goodsAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="goodsPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitBuyGoods()">
+
+                            Buy Goods
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+             KCB AIRTIME
+        ========================================== -->
+
+                <section id="kcbAirtime" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Buy Airtime</h2>
+
+                        <p>Purchase Airtime From Your KCB Account</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Phone Number</label>
+
+                        <input id="airtimePhone" class="form-input" type="tel" maxlength="13" placeholder="07XXXXXXXX"
+                            oninput="detectNetwork()">
+
+                        <div id="networkResult" class="network-result">
+
+                            Network: Not detected
+
+                        </div>
+
+                        <label>Amount</label>
+
+                        <input id="airtimeAmount" class="form-input" type="number" placeholder="Enter Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="airtimePIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitAirtime()">
+
+                            Buy Airtime
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 KCB DATA BUNDLES
+            ========================================== -->
+
+                <section id="kcbBundles" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Buy Bundles</h2>
+
+                        <p>Purchase Mobile Data Bundles</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Phone Number</label>
+
+                        <input id="bundlePhone" class="form-input" type="tel" maxlength="13" placeholder="07XXXXXXXX"
+                            oninput="detectNetwork()">
+
+                        <div id="networkResult" class="network-result">
+
+                            Network: Not detected
+
+                        </div>
+
+                        <label>Select Bundle</label>
+
+                        <select id="bundlePackage" class="form-input">
+
+                            <option value="20">20 MB - KSh 20</option>
+                            <option value="50">100 MB - KSh 50</option>
+                            <option value="100">350 MB - KSh 100</option>
+                            <option value="200">1 GB - KSh 200</option>
+                            <option value="500">3 GB - KSh 500</option>
+                            <option value="1000">10 GB - KSh 1000</option>
+
+                        </select>
+
+                        <label>Transaction PIN</label>
+
+                        <input id="bundlePIN" class="form-input" type="password" maxlength="4" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitBundles()">
+
+                            Buy Bundle
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+             KCB LOANS
+        ========================================== -->
+
+                <section id="kcbLoans" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>KCB Loans</h2>
+
+                        <p>Instant Mobile Loans</p>
+
+                    </div>
+
+                    <!-- Loan Summary -->
+
+                    <div class="balance-card">
+
+                        <h3>Available Loan Limit</h3>
+
+                        <h1 id="loanLimit">KSh 100,000</h1>
+
+                        <small id="loanStatus">
+
+                            No Active Loan
+
+                        </small>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Loan Amount</label>
+
+                        <input id="loanAmount" class="form-input" type="number" placeholder="Enter Amount">
+
+                        <label>Repayment Period</label>
+
+                        <select id="loanMonths" class="form-input">
+
+                            <option value="1">1 Month</option>
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="12">12 Months</option>
+
+                        </select>
+
+                        <label>Transaction PIN</label>
+
+                        <input id="loanPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="applyLoan()">
+
+                            Apply Loan
+
+                        </button>
+
+                    </div>
+                    <hr>
+
+                    <div class="service-card">
+
+                        <h3>Loan Repayment</h3>
+
+                        <p id="loanOutstanding">
+
+                            Outstanding Loan:
+                            KSh 0.00
+
+                        </p>
+
+                        <label>Repayment Amount</label>
+
+                        <input id="loanRepaymentAmount" class="form-input" type="number" placeholder="Enter Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="loanRepaymentPIN" class="form-input" type="password" maxlength="4"
+                            placeholder="****">
+
+                        <button class="primary-btn" onclick="repayLoan()">
+
+                            Repay Loan
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 KCB CARDS
+            ========================================== -->
+
+                <section id="kcbCards" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>My Cards</h2>
+
+                        <p>Manage Your KCB Cards</p>
+
+                    </div>
+
+                    <!-- Virtual Card -->
+
+                    <div class="bank-card">
+
+                        <div class="card-type">
+
+                            KCB VISA DEBIT
+
+                        </div>
+
+                        <div class="card-number" id="cardNumber">
+
+                            •••• •••• •••• 4567
+
+                        </div>
+
+                        <div class="card-holder">
+
+                            Joshua Nkario
+
+                        </div>
+
+                        <div class="card-expiry">
+
+                            Exp: 12/30
+
+                        </div>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <button class="primary-btn" onclick="toggleCardFreeze()">
+
+                            Freeze / Unfreeze Card
+
+                        </button>
+
+                        <button class="primary-btn" onclick="viewCardDetails()">
+
+                            View Card Details
+
+                        </button>
+
+                        <button class="primary-btn danger-btn" onclick="blockCard()">
+
+                            Block Card
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 KCB SETTINGS
+            ========================================== -->
+
+                <section id="kcbSettings" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Settings</h2>
+
+                        <p>Account & Security</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <button class="primary-btn" onclick="changeTransactionPIN()">
+
+                            🔐 Change Transaction PIN
+
+                        </button>
+
+                        <button class="primary-btn" onclick="toggleBiometric()">
+
+                            👆 Biometric Login
+
+                        </button>
+
+                        <button class="primary-btn" onclick="toggleDarkMode()">
+
+                            🌙 Dark Mode
+
+                        </button>
+
+                        <button class="primary-btn" onclick="toggleBankNotifications()">
+
+                            🔔 Notifications
+
+                        </button>
+
+                        <button class="danger-btn" onclick="logoutBanking()">
+
+                            🚪 Logout
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY MOBILE DASHBOARD
+            ========================================== -->
+
+                <section id="equityDashboard" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('financialServices')">
+
+                            ←
+
+                        </button>
+
+                        <img src="assets/banks/equity.png" class="bank-header-logo" alt="Equity">
+
+                        <h2>Equity Mobile</h2>
+
+                        <p>Equity Bank Kenya</p>
+
+                    </div>
+
+                    <!-- Customer -->
+
+                    <div class="customer-card">
+
+                        <div>
+
+                            <h3 id="equityHolder">
+
+                                Joshua Nkario
+
+                            </h3>
+
+                            <small>Equity Customer</small>
+
+                        </div>
+
+                        <div class="customer-avatar">
+
+                            J
+
+                        </div>
+
+                    </div>
+
+                    <!-- Balance -->
+
+                    <div class="balance-card">
+
+                        <h3>Available Balance</h3>
+
+                        <h1 id="equityBalance">
+
+                            KSh 75,000.00
+
+                        </h1>
+
+                        <small id="equityAccountNumber">
+
+                            Account No. 0123456789
+
+                        </small>
+
+                    </div>
+
+                    <!-- ==========================================
+                 QUICK BANKING
+            ========================================== -->
+
+                    <h3 class="bank-section-title">
+
+                        Quick Banking
+
+                    </h3>
+
+                    <div class="bank-action-grid">
+
+                        <button onclick="openEquityTransfer()">
+
+                            💸
+
+                            <span>Transfer</span>
+
+                        </button>
+
+                        <button onclick="openEquityDeposit()">
+
+                            📥
+
+                            <span>Deposit</span>
+
+                        </button>
+
+                        <button onclick="openEquityWithdraw()">
+
+                            📤
+
+                            <span>Withdraw</span>
+
+                        </button>
+
+                        <button onclick="openEquityStatement()">
+
+                            📄
+
+                            <span>Statement</span>
+
+                        </button>
+
+                        <button onclick="openEquityBills()">
+
+                            💡
+
+                            <span>Bills</span>
+
+                        </button>
+
+                        <button onclick="openEquityBuyGoods()">
+
+                            🛒
+
+                            <span>Buy Goods</span>
+
+                        </button>
+
+                        <button onclick="openEquityAirtime()">
+
+                            📱
+
+                            <span>Airtime</span>
+
+                        </button>
+
+                        <button onclick="openEquityBundles()">
+
+                            📶
+
+                            <span>Bundles</span>
+
+                        </button>
+
+                        <button onclick="openEquityLoans()">
+
+                            💰
+
+                            <span>Loans</span>
+
+                        </button>
+
+                        <button onclick="openEquityCards()">
+
+                            💳
+
+                            <span>Cards</span>
+
+                        </button>
+
+                        <button onclick="openEquitySettings()">
+
+                            ⚙️
+
+                            <span>Settings</span>
+
+                        </button>
+
+                    </div>
+
+                    <!-- Recent Transactions -->
+
+                    <div class="service-card">
+
+                        <h3>Recent Transactions</h3>
+
+                        <div id="equityRecentTransactions">
+
+                            <div class="transaction-empty">
+
+                                <div class="transaction-empty-icon">
+
+                                    📄
+
+                                </div>
+
+                                <h3>No Recent Transactions</h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY TRANSFER
+            ========================================== -->
+
+                <section id="equityTransfer" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Money Transfer</h2>
+
+                        <p>Transfer Money</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Recipient Name</label>
+
+                        <input id="equityTransferRecipient" class="form-input" type="text" placeholder="Recipient Name">
+
+                        <label>Recipient Account</label>
+
+                        <input id="equityTransferAccount" class="form-input" type="text" placeholder="Account Number">
+
+                        <label>Amount</label>
+
+                        <input id="equityTransferAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="equityTransferPIN" class="form-input" type="password" maxlength="4"
+                            placeholder="****">
+
+                        <button class="primary-btn" onclick="submitEquityTransfer()">
+
+                            Transfer Money
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY DEPOSIT
+            ========================================== -->
+
+                <section id="equityDeposit" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Deposit Money</h2>
+
+                        <p>Deposit into your Equity Account</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Deposit Method</label>
+
+                        <select id="equityDepositMethod" class="form-input">
+
+                            <option>Cash Deposit</option>
+                            <option>Bank Transfer</option>
+                            <option>Cheque Deposit</option>
+
+                        </select>
+
+                        <label>Amount</label>
+
+                        <input id="equityDepositAmount" class="form-input" type="number" placeholder="Enter Amount">
+
+                        <label>Reference</label>
+
+                        <input id="equityDepositReference" class="form-input" type="text"
+                            placeholder="Deposit Reference">
+
+                        <button class="primary-btn" onclick="submitEquityDeposit()">
+
+                            Deposit Money
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY WITHDRAW
+            ========================================== -->
+
+                <section id="equityWithdraw" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Withdraw Money</h2>
+
+                        <p>Withdraw from your Equity Account</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Withdrawal Method</label>
+
+                        <select id="equityWithdrawMethod" class="form-input">
+
+                            <option>ATM</option>
+                            <option>Agent</option>
+                            <option>Branch</option>
+
+                        </select>
+
+                        <label>Amount</label>
+
+                        <input id="equityWithdrawAmount" class="form-input" type="number" placeholder="Enter Amount">
+
+                        <label>Reference</label>
+
+                        <input id="equityWithdrawReference" class="form-input" type="text"
+                            placeholder="Withdrawal Reference">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="equityWithdrawPIN" class="form-input" type="password" maxlength="4"
+                            placeholder="****">
+
+                        <button class="primary-btn" onclick="submitEquityWithdraw()">
+
+                            Withdraw Money
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY BILLS
+            ========================================== -->
+
+                <section id="equityBills" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Pay Bills</h2>
+
+                        <p>Pay Utilities & Services</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Bill Type</label>
+
+                        <select id="equityBillType" class="form-input">
+
+                            <option>Electricity</option>
+                            <option>Water</option>
+                            <option>Internet</option>
+                            <option>TV</option>
+                            <option>School Fees</option>
+
+                        </select>
+
+                        <label>Account Number</label>
+
+                        <input id="equityBillAccount" class="form-input" placeholder="Bill Account Number">
+
+                        <label>Amount</label>
+
+                        <input id="equityBillAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="equityBillPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitEquityBill()">
+
+                            Pay Bill
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY BUY GOODS
+            ========================================== -->
+
+                <section id="equityBuyGoods" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Buy Goods</h2>
+
+                        <p>Pay Merchant Till</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Till Number</label>
+
+                        <input id="equityTillNumber" class="form-input" placeholder="Enter Till Number">
+
+                        <label>Amount</label>
+
+                        <input id="equityGoodsAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="equityGoodsPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitEquityBuyGoods()">
+
+                            Pay Merchant
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY AIRTIME
+            ========================================== -->
+
+                <section id="equityAirtime" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Buy Airtime</h2>
+
+                        <p>Purchase Airtime</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Phone Number</label>
+
+                        <input id="equityAirtimeNumber" class="form-input" type="tel" maxlength="13"
+                            placeholder="07XXXXXXXX">
+
+                        <label>Amount</label>
+
+                        <input id="equityAirtimeAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="equityAirtimePIN" class="form-input" maxlength="4" type="password"
+                            placeholder="****">
+
+                        <button class="primary-btn" onclick="submitEquityAirtime()">
+
+                            Buy Airtime
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY BUNDLES
+            ========================================== -->
+
+                <section id="equityBundles" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Buy Bundles</h2>
+
+                        <p>Purchase Internet Bundles</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Phone Number</label>
+
+                        <input id="equityBundleNumber" class="form-input" type="tel" maxlength="13"
+                            placeholder="07XXXXXXXX">
+
+                        <label>Bundle Package</label>
+
+                        <select id="equityBundlePackage" class="form-input">
+
+                            <option>100 MB</option>
+                            <option>500 MB</option>
+                            <option>1 GB</option>
+                            <option>5 GB</option>
+                            <option>10 GB</option>
+
+                        </select>
+
+                        <label>Amount</label>
+
+                        <input id="equityBundleAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="equityBundlePIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitEquityBundle()">
+
+                            Buy Bundle
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY LOANS
+            ========================================== -->
+
+                <section id="equityLoans" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Equity Loans</h2>
+
+                        <p>Apply for an Instant Loan</p>
+
+                    </div>
+
+                    <div class="balance-card">
+
+                        <h3>Available Loan Limit</h3>
+
+                        <h1 id="equityLoanLimit">
+
+                            KSh 100,000
+
+                        </h1>
+
+                        <small id="equityLoanStatus">
+
+                            No Active Loan
+
+                        </small>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Loan Amount</label>
+
+                        <input id="equityLoanAmount" class="form-input" type="number" placeholder="Enter Amount">
+
+                        <label>Repayment Period</label>
+
+                        <select id="equityLoanMonths" class="form-input">
+
+                            <option value="1">1 Month</option>
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="12">12 Months</option>
+
+                        </select>
+
+                        <label>Transaction PIN</label>
+
+                        <input id="equityLoanPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="applyEquityLoan()">
+
+                            Apply Loan
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY CARDS
+            ========================================== -->
+
+                <section id="equityCards" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>My Cards</h2>
+
+                        <p>Manage your Equity Cards</p>
+
+                    </div>
+
+                    <div class="balance-card">
+
+                        <h3 id="equityCardType">
+
+                            Visa Debit
+
+                        </h3>
+
+                        <h2 id="equityCardNumber">
+
+                            **** **** **** 4587
+
+                        </h2>
+
+                        <small>
+
+                            Expiry:
+                            <span id="equityCardExpiry">
+
+                                12/30
+
+                            </span>
+
+                        </small>
+
+                        <br>
+
+                        <small>
+
+                            Status:
+                            <span id="equityCardStatus">
+
+                                ACTIVE
+
+                            </span>
+
+                        </small>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <button class="primary-btn" onclick="freezeEquityCard()">
+
+                            Freeze / Unfreeze Card
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY STATEMENT
+            ========================================== -->
+
+                <section id="equityStatement" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Account Statement</h2>
+
+                        <p>Recent Equity Transactions</p>
+
+                    </div>
+
+                    <div id="equityStatementList" class="statement-list">
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY SETTINGS
+            ========================================== -->
+
+                <section id="equitySettings" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Settings</h2>
+
+                        <p>Manage Your Equity Account</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <h3>Account Information</h3>
+
+                        <p>
+
+                            <strong>Name:</strong>
+
+                            <span id="equitySettingsHolder"></span>
+
+                        </p>
+
+                        <p>
+
+                            <strong>Account:</strong>
+
+                            <span id="equitySettingsAccount"></span>
+
+                        </p>
+
+                        <p>
+
+                            <strong>Branch:</strong>
+
+                            <span id="equitySettingsBranch"></span>
+
+                        </p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <h3>Change Transaction PIN</h3>
+
+                        <input id="equityOldPIN" class="form-input" type="password" maxlength="4"
+                            placeholder="Current PIN">
+
+                        <input id="equityNewPIN" class="form-input" type="password" maxlength="4" placeholder="New PIN">
+
+                        <input id="equityConfirmPIN" class="form-input" type="password" maxlength="4"
+                            placeholder="Confirm New PIN">
+
+                        <button class="primary-btn" onclick="changeEquityPIN()">
+
+                            Update PIN
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 CO-OPERATIVE DASHBOARD
+            ========================================== -->
+
+                <section id="coopDashboard" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('financial')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Co-operative Bank</h2>
+
+                        <p>Welcome <span id="coopHolder">Joshua Nkario</span></p>
+
+                    </div>
+
+                    <!-- Account Balance -->
+
+                    <div class="balance-card">
+
+                        <h3>Available Balance</h3>
+
+                        <h1 id="coopBalance">
+
+                            KSh 50,000.00
+
+                        </h1>
+
+                        <small>
+
+                            Account No:
+                            <span id="coopAccountNumber">
+
+                                011234567890
+
+                            </span>
+
+                        </small>
+
+                        <br>
+
+                        <small>
+
+                            Account Type:
+                            <span id="coopAccountType">
+
+                                Current Account
+
+                            </span>
+
+                        </small>
+
+                    </div>
+
+                    <!-- Quick Banking -->
+
+                    <h3 class="bank-section-title">
+
+                        Quick Banking
+
+                    </h3>
+
+                    <div class="bank-action-grid">
+
+                        <button onclick="openCoopTransfer()">
+                            💸
+                            <span>Transfer</span>
+                        </button>
+
+                        <button onclick="openCoopDeposit()">
+                            📥
+                            <span>Deposit</span>
+                        </button>
+
+                        <button onclick="openCoopWithdraw()">
+                            📤
+                            <span>Withdraw</span>
+                        </button>
+
+                        <button onclick="openCoopStatement()">
+                            📄
+                            <span>Statement</span>
+                        </button>
+
+                        <button onclick="openCoopBills()">
+                            💡
+                            <span>Bills</span>
+                        </button>
+
+                        <button onclick="openCoopBuyGoods()">
+                            🛒
+                            <span>Buy Goods</span>
+                        </button>
+
+                        <button onclick="openCoopAirtime()">
+                            📱
+                            <span>Airtime</span>
+                        </button>
+
+                        <button onclick="openCoopBundles()">
+                            📶
+                            <span>Bundles</span>
+                        </button>
+
+                        <button onclick="openCoopLoans()">
+                            💰
+                            <span>Loans</span>
+                        </button>
+
+                        <button onclick="openCoopCards()">
+                            💳
+                            <span>Cards</span>
+                        </button>
+
+                        <button onclick="openCoopSettings()">
+                            ⚙️
+                            <span>Settings</span>
+                        </button>
+
+                    </div>
+
+                    <!-- Recent Transactions -->
+
+                    <h3 class="bank-section-title">
+
+                        Recent Transactions
+
+                    </h3>
+
+                    <div id="coopRecentTransactions">
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 CO-OPERATIVE TRANSFER
+            ========================================== -->
+
+                <section id="coopTransfer" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Money Transfer</h2>
+
+                        <p>Transfer Funds</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Recipient Account</label>
+
+                        <input id="coopTransferAccount" class="form-input" placeholder="Account Number">
+
+                        <label>Amount</label>
+
+                        <input id="coopTransferAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Reference</label>
+
+                        <input id="coopTransferReference" class="form-input" placeholder="Payment Reference">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="coopTransferPIN" class="form-input" type="password" maxlength="4" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitCoopTransfer()">
+
+                            Transfer Money
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 CO-OPERATIVE DEPOSIT
+            ========================================== -->
+
+                <section id="coopDeposit" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Deposit Money</h2>
+
+                        <p>Deposit into your Co-operative Account</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Deposit Method</label>
+
+                        <select id="coopDepositMethod" class="form-input">
+
+                            <option>Cash Deposit</option>
+                            <option>Bank Transfer</option>
+                            <option>Cheque Deposit</option>
+
+                        </select>
+
+                        <label>Amount</label>
+
+                        <input id="coopDepositAmount" class="form-input" type="number" placeholder="Enter Amount">
+
+                        <label>Reference</label>
+
+                        <input id="coopDepositReference" class="form-input" type="text" placeholder="Deposit Reference">
+
+                        <button class="primary-btn" onclick="submitCoopDeposit()">
+
+                            Deposit Money
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 CO-OPERATIVE WITHDRAW
+            ========================================== -->
+
+                <section id="coopWithdraw" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Withdraw Money</h2>
+
+                        <p>Withdraw from your Co-operative Account</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Amount</label>
+
+                        <input id="coopWithdrawAmount" class="form-input" type="number" placeholder="Enter Amount">
+
+                        <label>Withdrawal Method</label>
+
+                        <select id="coopWithdrawMethod" class="form-input">
+
+                            <option>ATM</option>
+                            <option>Agent</option>
+                            <option>Branch</option>
+
+                        </select>
+
+                        <label>Reference</label>
+
+                        <input id="coopWithdrawReference" class="form-input" type="text"
+                            placeholder="Withdrawal Reference">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="coopWithdrawPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitCoopWithdraw()">
+
+                            Withdraw Money
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 CO-OPERATIVE BILLS
+            ========================================== -->
+
+                <section id="coopBills" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Pay Bills</h2>
+
+                        <p>Utility & Service Payments</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Bill Provider</label>
+
+                        <select id="coopBillProvider" class="form-input">
+
+                            <option>KPLC</option>
+                            <option>NWSC</option>
+                            <option>DSTV</option>
+                            <option>GOtv</option>
+                            <option>Zuku</option>
+
+                        </select>
+
+                        <label>Account Number</label>
+
+                        <input id="coopBillAccount" class="form-input" type="text" placeholder="Bill Account">
+
+                        <label>Amount</label>
+
+                        <input id="coopBillAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="coopBillPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitCoopBill()">
+
+                            Pay Bill
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 CO-OPERATIVE BUY GOODS
+            ========================================== -->
+
+                <section id="coopBuyGoods" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Buy Goods</h2>
+
+                        <p>Pay Merchant Till</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Till Number</label>
+
+                        <input id="coopTillNumber" class="form-input" type="text" placeholder="Till Number">
+
+                        <label>Amount</label>
+
+                        <input id="coopGoodsAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="coopGoodsPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitCoopBuyGoods()">
+
+                            Pay Merchant
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+             CO-OPERATIVE AIRTIME
+        ========================================== -->
+
+                <section id="coopAirtime" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Buy Airtime</h2>
+
+                        <p>Purchase Airtime</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Phone Number</label>
+
+                        <input id="coopAirtimeNumber" class="form-input" type="tel" maxlength="13"
+                            placeholder="07XXXXXXXX" oninput="detectNetwork()">
+
+                        <div id="networkResult"></div>
+
+                        <label>Amount</label>
+
+                        <input id="coopAirtimeAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="coopAirtimePIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitCoopAirtime()">
+
+                            Buy Airtime
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 CO-OPERATIVE BUNDLES
+            ========================================== -->
+
+                <section id="coopBundles" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Buy Bundles</h2>
+
+                        <p>Purchase Internet Bundles</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Phone Number</label>
+
+                        <input id="coopBundleNumber" class="form-input" type="tel" maxlength="13"
+                            placeholder="07XXXXXXXX" oninput="detectNetwork()">
+
+                        <div id="networkResult"></div>
+
+                        <label>Bundle Package</label>
+
+                        <select id="coopBundlePackage" class="form-input">
+
+                            <option>100 MB</option>
+                            <option>500 MB</option>
+                            <option>1 GB</option>
+                            <option>5 GB</option>
+                            <option>10 GB</option>
+
+                        </select>
+
+                        <label>Amount</label>
+
+                        <input id="coopBundleAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="coopBundlePIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitCoopBundle()">
+
+                            Buy Bundle
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 CO-OPERATIVE LOANS
+            ========================================== -->
+
+                <section id="coopLoans" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Co-operative Loans</h2>
+
+                        <p>Instant Mobile Loans</p>
+
+                    </div>
+
+                    <div class="balance-card">
+
+                        <h3>Available Loan Limit</h3>
+
+                        <h1 id="coopLoanLimit">
+
+                            KSh 100,000
+
+                        </h1>
+
+                        <small id="coopLoanStatus">
+
+                            No Active Loan
+
+                        </small>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Loan Amount</label>
+
+                        <input id="coopLoanAmount" class="form-input" type="number" placeholder="Enter Amount">
+
+                        <label>Repayment Period</label>
+
+                        <select id="coopLoanMonths" class="form-input">
+
+                            <option value="1">1 Month</option>
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="12">12 Months</option>
+
+                        </select>
+
+                        <label>Transaction PIN</label>
+
+                        <input id="coopLoanPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="applyCoopLoan()">
+
+                            Apply Loan
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 CO-OPERATIVE CARDS
+            ========================================== -->
+
+                <section id="coopCards" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>My Cards</h2>
+
+                        <p>Manage Your Co-operative Cards</p>
+
+                    </div>
+
+                    <div class="balance-card">
+
+                        <h3 id="coopCardType">
+
+                            Visa Debit
+
+                        </h3>
+
+                        <h2 id="coopCardNumber">
+
+                            **** **** **** 6734
+
+                        </h2>
+
+                        <small>
+
+                            Expiry:
+
+                            <span id="coopCardExpiry">
+
+                                12/30
+
+                            </span>
+
+                        </small>
+
+                        <br>
+
+                        <small>
+
+                            Status:
+
+                            <span id="coopCardStatus">
+
+                                ACTIVE
+
+                            </span>
+
+                        </small>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <button class="primary-btn" onclick="freezeCoopCard()">
+
+                            Freeze / Unfreeze Card
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 CO-OPERATIVE STATEMENT
+            ========================================== -->
+
+                <section id="coopStatement" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Account Statement</h2>
+
+                        <p>Recent Transactions</p>
+
+                    </div>
+
+                    <div id="coopStatementList" class="statement-list">
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 CO-OPERATIVE SETTINGS
+            ========================================== -->
+
+                <section id="coopSettings" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Settings & Security</h2>
+
+                        <p>Manage Your Account</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Current PIN</label>
+
+                        <input id="coopOldPIN" class="form-input" type="password" maxlength="4" placeholder="****">
+
+                        <label>New PIN</label>
+
+                        <input id="coopNewPIN" class="form-input" type="password" maxlength="4" placeholder="****">
+
+                        <label>Confirm PIN</label>
+
+                        <input id="coopConfirmPIN" class="form-input" type="password" maxlength="4" placeholder="****">
+
+                        <button class="primary-btn" onclick="changeCoopPIN()">
+
+                            Change PIN
+
+                        </button>
+
+                    </div>
+
+                </section>
+            </main>
+            <!-- ==========================================
+             BOTTOM NAVIGATION
+        ========================================== -->
+
+            <nav class="bottom-nav">
+
+                <button class="nav-btn active" onclick="showScreen('dashboard')">
+
+                    🏠
+                    <span>Home</span>
+
+                </button>
+
+                <button class="nav-btn" onclick="showScreen('dialer')">
+
+                    📞
+                    <span>Dialer</span>
+
+                </button>
+
+                <button class="nav-btn" onclick="showScreen('contacts')">
+
+                    👥
+                    <span>Contacts</span>
+
+                </button>
+
+                <button class="nav-btn" onclick="showScreen('speedDial')">
+
+                    ⚡
+                    <span>Speed</span>
+
+                </button>
+
+                <button class="nav-btn" onclick="showScreen('history')">
+
+                    🕒
+                    <span>History</span>
+
+                </button>
+
+                <button class="nav-btn" onclick="showScreen('services')">
+
+                    📱
+                    <span>Services</span>
+
+                </button>
+
+            </nav>
+
+            <!-- ==========================================
+             TOAST
+        ========================================== -->
+
+            <div id="toast" class="toast">
+
+                <span id="toastMessage">
+
+                    Success
+
+                </span>
+
+            </div>
+
+        </div>
+        <!-- ==========================================
+         SEND MONEY SCREEN
+    ========================================== -->
+
+        <div id="sendMoneyService" class="financial-content">
+
+            <div class="service-card">
+
+                <div class="service-card-title">
+
+                    <div class="service-card-icon">
+
+                        💸
+
+                    </div>
+
+                    <div>
+
+                        <h3>Send Money</h3>
+
+                        <p>Transfer money instantly</p>
+
+                    </div>
+
+                </div>
+
+                <div class="service-divider"></div>
+
+                <div class="send-money-form">
+
+                    <label>
+
+                        Recipient Phone
+
+                    </label>
+
+                    <input id="sendMoneyNumber" class="form-input" type="tel" maxlength="10" placeholder="07XXXXXXXX"
+                        oninput="detectTransferNetwork()">
+
+                    <div id="transferNetwork" class="network-result">
+
+                        Network : Unknown
+
+                    </div>
+
+                    <label>
+
+                        Recipient Name
+
+                    </label>
+
+                    <input id="recipientName" class="form-input" type="text" placeholder="Full Name">
+
+                    <label>
+
+                        Amount
+
+                    </label>
+
+                    <input id="sendAmount" class="form-input" type="number" placeholder="Amount">
+
+                    <label>
+
+                        Description
+
+                    </label>
+
+                    <input id="sendDescription" class="form-input" type="text" placeholder="Optional">
+
+                    <button class="primary-btn" onclick="previewTransfer()">
+
+                        Continue →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- ==========================================
+         PROFESSIONAL CALL SCREEN
+    ========================================== -->
+
+        <div id="callScreen" class="call-screen">
+
+            <div class="call-background"></div>
+
+            <div class="call-container">
+
+                <!-- Top -->
+
+                <div class="call-status">
+
+                    Calling...
+
+                </div>
+
+                <!-- Avatar -->
+
+                <div class="caller-avatar">
+
+                    <img id="callPhoto" src="assets/avatar.png" alt="Caller">
+
+                </div>
+
+                <!-- Contact -->
+
+                <h1 id="callName">
+
+                    Unknown Contact
+
+                </h1>
+
+                <p id="callPhone">
+
+                    0700000000
+
+                </p>
+
+                <div id="callNetwork" class="call-network">
+
+                    Safaricom
+
+                </div>
+
+                <!-- Timer -->
+
+                <div id="callTimer" class="call-timer">
+
+                    00:00
+
+                </div>
+
+                <!-- Main Actions -->
+
+                <div class="call-action-grid">
+
+                    <button class="call-action" onclick="toggleMute()">
+
+                        <div class="call-icon">
+
+                            🔇
+
+                        </div>
+
+                        <span>Mute</span>
+
+                    </button>
+
+                    <button class="call-action" onclick="toggleSpeaker()">
+
+                        <div class="call-icon">
+
+                            🔊
+
+                        </div>
+
+                        <span>Speaker</span>
+
+                    </button>
+
+                    <button class="call-action" onclick="openKeypad()">
+
+                        <div class="call-icon">
+
+                            ⌨️
+
+                        </div>
+
+                        <span>Keypad</span>
+
+                    </button>
+
+                    <button class="call-action" onclick="addCall()">
+
+                        <div class="call-icon">
+
+                            ➕
+
+                        </div>
+
+                        <span>Add Call</span>
+
+                    </button>
+
+                    <button class="call-action" onclick="holdCall()">
+
+                        <div class="call-icon">
+
+                            ⏸
+
+                        </div>
+
+                        <span>Hold</span>
+
+                    </button>
+
+                    <button class="call-action" onclick="recordCall()">
+
+                        <div class="call-icon">
+
+                            🎙️
+
+                        </div>
+
+                        <span>Record</span>
+
+                    </button>
+
+                </div>
+
+                <!-- End Call -->
+
+                <button class="end-call-btn" onclick="endCall()">
+
+                    📞
+
+                </button>
+
+            </div>
+
+        </div>
+        <!-- ==========================================
+         INCOMING CALL SCREEN
+    ========================================== -->
+
+        <div id="incomingCallScreen" class="incoming-call-screen">
+
+            <div class="incoming-status">
+
+                Incoming Call
+
+            </div>
+
+            <img id="incomingPhoto" src="assets/user.png" class="incoming-photo">
+
+            <h2 id="incomingName">
+                Unknown Caller
+            </h2>
+
+            <p id="incomingNumber">
+                0700000000
+            </p>
+
+            <p id="incomingNetwork">
+                Safaricom
+            </p>
+
+            <div class="incoming-actions">
+
+                <button class="decline-btn" onclick="declineIncomingCall()">
+
+                    🔴
+
+                    <span>Decline</span>
+
+                </button>
+
+                <button class="accept-btn" onclick="acceptIncomingCall()">
+
+                    🟢
+
+                    <span>Accept</span>
+
+                </button>
+
+            </div>
+
+        </div>
+        <!-- ==========================================
+         MODERN INCOMING CALL SCREEN
+    ========================================== -->
+
+        <section id="incomingCallScreen" class="incoming-call-screen">
+
+            <div class="incoming-overlay"></div>
+
+            <div class="incoming-container">
+
+                <p class="incoming-status">
+
+                    Incoming Call
+
+                </p>
+
+                <div class="incoming-avatar">
+
+                    <img id="incomingPhoto" src="assets/avatar.png" alt="Caller">
+
+                </div>
+
+                <h1 id="incomingName">
+
+                    Unknown Caller
+
+                </h1>
+
+                <p id="incomingPhone">
+
+                    0700000000
+
+                </p>
+
+                <div id="incomingNetwork" class="incoming-network">
+
+                    Safaricom
+
+                </div>
+
+                <div class="incoming-buttons">
+
+                    <button class="decline-btn" onclick="declineIncomingCall()">
+
+                        ❌
+
+                    </button>
+
+                    <button class="accept-btn" onclick="acceptIncomingCall()">
+
+                        📞
+
+                    </button>
+
+                </div>
+
+                <div class="incoming-labels">
+
+                    <span>Decline</span>
+
+                    <span>Answer</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <script src="js/storage.js"></script>
+        <script src="js/networks.js"></script>
+        <script src="js/telecom-engine.js"></script>
+        <script src="js/api.js"></script>
+        <script src="js/auth.js"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/toast.js"></script>
+        <script src="js/splash.js"></script>
+
+        <script src="js/dashboard.js"></script>
+        <script src="js/contacts.js"></script>
+
+        <!-- Dialer Modules -->
+
+        <script src="js/dialer.js"></script>
+
+        <script src="js/dialpad.js"></script>
+
+        <script src="js/contact-preview.js"></script>
+
+        <script src="js/callscreen.js"></script>
+
+        <script src="js/call-controls.js"></script>
+
+        <script src="js/incoming-call.js"></script>
+
+        <script src="js/call-history.js"></script>
+
+        <script src="js/speed-dial.js"></script>
+
+        <script src="js/airtime.js"></script>
+        <script src="js/bundles.js"></script>
+        <script src="js/voice.js"></script>
+        <script src="js/sms.js"></script>
+        <script src="js/subscriptions.js"></script>
+        <script src="js/offers.js"></script>
+
+        <script src="js/services.js"></script>
+        <script src="js/financial.js"></script>
+        <script src="js/history.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/bank.js"></script>
+
+        <!-- Financial Core -->
+        <script src="financial/banking-engine.js"></script>
+        <script src="financial/beneficiary-engine.js"></script>
+        <script src="financial/fee-engine.js"></script>
+        <script src="financial/notification-engine.js"></script>
+        <script src="financial/receipt-engine.js"></script>
+        <script src="financial/security-engine.js"></script>
+        <script src="financial/statement-engine.js"></script>
+
+        <!-- KCB -->
+        <script src="financial/kcb/dashboard.js"></script>
+        <script src="financial/kcb/transfer.js"></script>
+        <script src="financial/kcb/deposit.js"></script>
+        <script src="financial/kcb/withdraw.js"></script>
+        <script src="financial/kcb/statement.js"></script>
+        <script src="financial/kcb/bills.js"></script>
+        <script src="financial/kcb/buygoods.js"></script>
+        <script src="financial/kcb/airtime.js"></script>
+        <script src="financial/kcb/bundles.js"></script>
+        <script src="financial/kcb/loans.js"></script>
+        <script src="financial/kcb/cards.js"></script>
+        <script src="financial/kcb/settings.js"></script>
+
+        <!-- ==========================================
+         EQUITY BANK
+    ========================================== -->
+
+        <script src="financial/equity/dashboard.js"></script>
+        <script src="financial/equity/services.js"></script>
+
+        <script src="financial/equity/transfer.js"></script>
+        <script src="financial/equity/deposit.js"></script>
+        <script src="financial/equity/withdraw.js"></script>
+
+        <script src="financial/equity/bills.js"></script>
+        <script src="financial/equity/buygoods.js"></script>
+
+        <script src="financial/equity/airtime.js"></script>
+        <script src="financial/equity/bundles.js"></script>
+
+        <script src="financial/equity/loans.js"></script>
+        <script src="financial/equity/cards.js"></script>
+
+        <script src="financial/equity/statement.js"></script>
+        <script src="financial/equity/settings.js"></script>
+
+        <!-- ==========================================
+         CO-OPERATIVE BANK
+    ========================================== -->
+
+        <script src="financial/coop/dashboard.js"></script>
+        <script src="financial/coop/services.js"></script>
+
+        <script src="financial/coop/transfer.js"></script>
+        <script src="financial/coop/deposit.js"></script>
+        <script src="financial/coop/withdraw.js"></script>
+
+        <script src="financial/coop/bills.js"></script>
+        <script src="financial/coop/buygoods.js"></script>
+
+        <script src="financial/coop/airtime.js"></script>
+        <script src="financial/coop/bundles.js"></script>
+
+        <script src="financial/coop/loans.js"></script>
+        <script src="financial/coop/cards.js"></script>
+
+        <script src="financial/coop/statement.js"></script>
+        <script src="financial/coop/settings.js"></script>
+
+    </div>
+</body>
+
+</html>

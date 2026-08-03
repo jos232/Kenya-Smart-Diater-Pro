@@ -1,0 +1,458 @@
+/* ==========================================
+   KENYA SMART DIALER PRO
+   bundles.css
+========================================== */
+
+/* ===============================
+   Network Tabs
+================================ */
+
+.bundle-tabs {
+
+    display: flex;
+
+    gap: 10px;
+
+    overflow-x: auto;
+
+    margin: 20px 0 25px;
+
+    padding-bottom: 5px;
+
+}
+
+.bundle-tabs::-webkit-scrollbar {
+
+    display: none;
+
+}
+
+.bundle-tab {
+
+    padding: 12px 20px;
+
+    border-radius: 25px;
+
+    background: #334155;
+
+    color: #fff;
+
+    white-space: nowrap;
+
+    font-weight: 600;
+
+    transition: .3s;
+
+}
+
+.bundle-tab:hover {
+
+    background: #00C853;
+
+    transform: translateY(-2px);
+
+}
+
+.bundle-tab.active {
+
+    background: #00C853;
+
+    color: #fff;
+
+}
+
+/* ===============================
+   Featured Bundle
+================================ */
+
+.bundle-feature {
+
+    background: linear-gradient(135deg, #00C853, #009624);
+
+    color: #fff;
+
+    padding: 20px;
+
+    border-radius: 18px;
+
+    margin-bottom: 25px;
+
+    box-shadow: 0 10px 25px rgba(0, 200, 83, .25);
+
+}
+
+.bundle-feature h3 {
+
+    margin-bottom: 10px;
+
+}
+
+.bundle-feature p {
+
+    margin-bottom: 10px;
+
+    opacity: .95;
+
+}
+
+.bundle-feature strong {
+
+    font-size: 22px;
+
+}
+
+/* ===============================
+   Bundle List
+================================ */
+
+.bundle-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+    margin-top: 20px;
+
+}
+
+/* ===============================
+   Bundle Card
+================================ */
+
+.bundle-card {
+
+    background: #1E293B;
+
+    border: 1px solid rgba(255, 255, 255, .08);
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    transition: .3s;
+
+}
+
+.bundle-card:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .25);
+
+}
+
+.bundle-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 12px;
+
+}
+
+.bundle-network {
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    color: #fff;
+
+}
+
+.bundle-price {
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    color: #00C853;
+
+}
+
+.bundle-size {
+
+    font-size: 20px;
+
+    font-weight: 600;
+
+    color: #fff;
+
+    margin-bottom: 8px;
+
+}
+
+.bundle-validity {
+
+    color: #94A3B8;
+
+    margin-bottom: 18px;
+
+}
+
+/* ===============================
+   Buy Button
+================================ */
+
+.bundle-buy {
+
+    width: 100%;
+
+    padding: 14px;
+
+    background: #00C853;
+
+    color: #fff;
+
+    border-radius: 14px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    transition: .3s;
+
+}
+
+.bundle-buy:hover {
+
+    background: #009624;
+
+}
+
+/* ===============================
+   Network Colors
+================================ */
+
+.bundle-card.safaricom {
+
+    border-left: 5px solid #00C853;
+
+}
+
+.bundle-card.airtel {
+
+    border-left: 5px solid #E53935;
+
+}
+
+.bundle-card.telkom {
+
+    border-left: 5px solid #2962FF;
+
+}
+
+.bundle-card.faiba {
+
+    border-left: 5px solid #9C27B0;
+
+}
+
+/* ===============================
+   Purchase History
+================================ */
+
+#bundleHistory {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+}
+
+.bundle-history-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: #0F172A;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+}
+
+.bundle-history-item strong {
+
+    color: #fff;
+
+}
+
+.bundle-history-item small {
+
+    color: #94A3B8;
+
+}
+
+/* ===============================
+   Responsive
+================================ */
+
+@media (max-width:480px) {
+
+    .bundle-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 10px;
+
+    }
+
+}
+
+/* ==========================================
+   BUNDLE PURCHASE MODAL
+========================================== */
+
+.bundle-modal {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, .75);
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 9999;
+
+    animation: fadeIn .3s ease;
+
+}
+
+.bundle-modal-content {
+
+    width: 420px;
+
+    max-width: 95%;
+
+    background: #1e293b;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .45);
+
+    animation: popUp .25s ease;
+
+}
+
+.bundle-modal-content h2 {
+
+    text-align: center;
+
+    margin-bottom: 20px;
+
+    color: #fff;
+
+}
+
+.bundle-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+.bundle-form label {
+
+    color: #cbd5e1;
+
+    font-size: .9rem;
+
+    font-weight: 600;
+
+}
+
+.bundle-form input {
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #334155;
+
+    color: #fff;
+
+    font-size: 15px;
+
+}
+
+.bundle-form input:focus {
+
+    outline: 2px solid #22c55e;
+
+}
+
+.close-modal {
+
+    float: right;
+
+    font-size: 28px;
+
+    cursor: pointer;
+
+    color: #fff;
+
+}
+
+.close-modal:hover {
+
+    color: #22c55e;
+
+}
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+@keyframes popUp {
+
+    from {
+
+        transform: scale(.85);
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        transform: scale(1);
+
+        opacity: 1;
+
+    }
+
+}

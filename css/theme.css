@@ -1,0 +1,32 @@
+/* ==========================================
+   KENYA SMART DIALER PRO THEME
+========================================== */
+
+:root {
+
+    --primary: #00d26a;
+    --primary-dark: #00a855;
+
+    --secondary: #2563eb;
+
+    --background: #0b1020;
+
+    --surface: #1f2937;
+
+    --surface-light: #273449;
+
+    --text: #ffffff;
+
+    --text-secondary: #b8c0d4;
+
+    --success: #22c55e;
+
+    --warning: #f59e0b;
+
+    --danger: #ef4444;
+
+    --radius: 20px;
+
+    --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+
+}
