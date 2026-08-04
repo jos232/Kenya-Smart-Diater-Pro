@@ -15,6 +15,10 @@ const voiceRoutes = require("./routes/voiceRoutes");
 const smsRoutes = require("./routes/smsRoutes");
 const authRoutes = require("./routes/auth");
 const financialRoutes = require("./routes/financialRoutes");
+const loanRoutes = require("./routes/loanRoutes");
+const cardRoutes = require("./routes/cardRoutes");
+const statementRoutes = require("./routes/statementRoutes");
+
 
 const app = express();
 
@@ -35,6 +39,9 @@ app.use("/api/voice", voiceRoutes);
 app.use("/api/sms", smsRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/financial", financialRoutes);
+app.use("/api/loans", loanRoutes);
+app.use("/api/cards", cardRoutes);
+app.use("/api/statements", statementRoutes);
 
 // Test Route
 app.get("/", (req, res) => {

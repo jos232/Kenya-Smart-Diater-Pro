@@ -1,46 +1,296 @@
 /* ==========================================
-   KCB CARDS
+   KCB MOBILE BANKING
+   CARDS MODULE
+   Part 1 - Initialization & Card Loading
 ========================================== */
 
 "use strict";
 
-let cardFrozen = false;
+/* ==========================================
+   CARD STATE
+========================================== */
 
-let cardBlocked = false;
+let kcbCard = {
+    id: null,
+    type: "KCB Debit Card",
+    holderName: "Joshua Nkario",
+    number: "4567 8901 2345 6789",
+    expiry: "12/30",
+    cvv: "456",
 
-/* ==========================
-   OPEN CARDS
-========================== */
+    frozen: false,
+    blocked: false,
+
+    onlinePayments: true,
+    internationalPayments: false,
+    contactlessPayments: true,
+
+    limits: {
+        atm: 50000,
+        pos: 150000,
+        online: 100000
+    }
+};
+
+/* ==========================================
+   LOAD CARD
+========================================== */
+
+async function loadKCBCard() {
+
+    try {
+
+        const response = await fetch("/api/kcb/cards");
+
+        if (!response.ok)
+            throw new Error("Failed to fetch");
+
+        const data = await response.json();
+
+        if (data) {
+
+            kcbCard = {
+
+                ...kcbCard,
+
+                ...data
+
+            };
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.warn("Using local card.");
+
+    }
+
+    updateCardDashboard();
+
+}
+
+/* ==========================================
+   SAVE CARD
+========================================== */
+
+async function saveKCBCard() {
+
+    try {
+
+        await fetch("/api/kcb/cards", {
+
+            method: "PUT",
+
+            headers: {
+
+                "Content-Type": "application/json"
+
+            },
+
+            body: JSON.stringify(kcbCard)
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.warn("Card sync failed.");
+
+    }
+
+}
+
+/* ==========================================
+   OPEN CARD SCREEN
+========================================== */
 
 function openCards() {
+
+    updateCardDashboard();
 
     showScreen("kcbCards");
 
 }
 
+/* ==========================================
+   UPDATE DASHBOARD
+========================================== */
+
+function updateCardDashboard() {
+
+    const statusElement =
+        document.getElementById("cardStatus");
+
+    if (statusElement) {
+
+        if (kcbCard.blocked) {
+
+            statusElement.textContent = "Blocked";
+
+            statusElement.className = "status blocked";
+
+        }
+
+        else if (kcbCard.frozen) {
+
+            statusElement.textContent = "Frozen";
+
+            statusElement.className = "status frozen";
+
+        }
+
+        else {
+
+            statusElement.textContent = "Active";
+
+            statusElement.className = "status active";
+
+        }
+
+    }
+
+    const holder =
+        document.getElementById("cardHolder");
+
+    if (holder)
+        holder.textContent = kcbCard.holderName;
+
+    const number =
+        document.getElementById("cardNumber");
+
+    if (number)
+        number.textContent = kcbCard.number;
+
+    const expiry =
+        document.getElementById("cardExpiry");
+
+    if (expiry)
+        expiry.textContent = kcbCard.expiry;
+
+}
+
+/* ==========================================
+   INITIALIZE
+========================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    loadKCBCard();
+
+});
+/* ==========================================
+   PART 2
+   CARD DETAILS & FREEZE
+========================================== */
+
 /* ==========================
-   FREEZE CARD
+   VIEW CARD DETAILS
 ========================== */
 
-function toggleCardFreeze() {
+async function viewCardDetails() {
 
-    if (cardBlocked) {
+    const pin = prompt("Enter Transaction PIN");
 
-        alert("Card has already been blocked.");
+    const verify = verifyPIN(pin);
+
+    if (!verify.success) {
+
+        alert(verify.message);
+        return;
+
+    }
+
+    alert(
+
+        "Card Holder\n" +
+        kcbCard.holderName +
+
+        "\n\nCard Number\n" +
+        kcbCard.number +
+
+        "\n\nExpiry\n" +
+        kcbCard.expiry +
+
+        "\n\nCVV\n" +
+        kcbCard.cvv +
+
+        "\n\nStatus\n" +
+        getCardStatus()
+
+    );
+
+}
+
+/* ==========================
+   FREEZE / UNFREEZE
+========================== */
+
+async function toggleCardFreeze() {
+
+    if (kcbCard.blocked) {
+
+        alert("This card has already been blocked.");
 
         return;
 
     }
 
-    cardFrozen = !cardFrozen;
+    const pin = prompt("Enter Transaction PIN");
 
-    if (cardFrozen) {
+    const verify = verifyPIN(pin);
+
+    if (!verify.success) {
+
+        alert(verify.message);
+
+        return;
+
+    }
+
+    kcbCard.frozen = !kcbCard.frozen;
+
+    await saveKCBCard();
+
+    updateCardDashboard();
+
+    const transaction = createTransaction({
+
+        bank: "KCB",
+
+        service: kcbCard.frozen
+            ? "CARD FREEZE"
+            : "CARD ACTIVATED",
+
+        sender: kcbAccount.accountNumber,
+
+        recipient: "KCB Cards",
+
+        amount: 0,
+
+        fee: 0,
+
+        total: 0,
+
+        balance: kcbAccount.balance
+
+    });
+
+    saveBankTransaction(transaction);
+
+    addStatement(transaction);
+
+    generateReceipt(transaction);
+
+    if (kcbCard.frozen) {
 
         addBankNotification(
 
             "Card Frozen",
 
-            "Your KCB Debit Card has been frozen."
+            "Your KCB Debit Card has been frozen successfully."
 
         );
 
@@ -54,23 +304,60 @@ function toggleCardFreeze() {
 
             "Card Activated",
 
-            "Your KCB Debit Card is active."
+            "Your KCB Debit Card has been activated."
 
         );
 
-        alert("Card Activated.");
+        alert("Card Activated Successfully.");
 
     }
+
+    loadKCBRecentTransactions();
 
 }
 
 /* ==========================
-   VIEW CARD DETAILS
+   CARD STATUS
 ========================== */
 
-function viewCardDetails() {
+function getCardStatus() {
 
-    const pin = prompt("Enter your PIN");
+    if (kcbCard.blocked)
+        return "Blocked";
+
+    if (kcbCard.frozen)
+        return "Frozen";
+
+    return "Active";
+
+}
+/* ==========================================
+   PART 3
+   BLOCK CARD • CHANGE PIN • CARD LIMITS
+========================================== */
+
+/* ==========================
+   BLOCK CARD
+========================== */
+
+async function blockCard() {
+
+    if (kcbCard.blocked) {
+
+        alert("Card is already blocked.");
+
+        return;
+
+    }
+
+    const confirmBlock = confirm(
+        "This action cannot be undone.\n\nBlock this card permanently?"
+    );
+
+    if (!confirmBlock)
+        return;
+
+    const pin = prompt("Enter Transaction PIN");
 
     const verify = verifyPIN(pin);
 
@@ -82,136 +369,220 @@ function viewCardDetails() {
 
     }
 
-    alert(
+    kcbCard.blocked = true;
 
-        "Card Number:\n" +
+    kcbCard.frozen = true;
 
-        "4567 8901 2345 6789\n\n" +
+    await saveKCBCard();
 
-        "Expiry: 12/30\n\n" +
+    updateCardDashboard();
 
-        "CVV: 456"
+    const transaction = createTransaction({
 
-    );
+        bank: "KCB",
 
-}
+        service: "CARD BLOCKED",
 
-/* ==========================
-   BLOCK CARD
-========================== */
+        sender: kcbAccount.accountNumber,
 
-function blockCard() {
+        recipient: "KCB Cards",
 
-    const confirmBlock = confirm(
+        amount: 0,
 
-        "Block this card permanently?"
+        fee: 0,
 
-    );
+        total: 0,
 
-    if (!confirmBlock) return;
+        balance: kcbAccount.balance
 
-    cardBlocked = true;
+    });
 
-    cardFrozen = true;
+    saveBankTransaction(transaction);
+
+    addStatement(transaction);
+
+    generateReceipt(transaction);
 
     addBankNotification(
 
         "Card Blocked",
 
-        "Your KCB Debit Card has been blocked."
+        "Your KCB Debit Card has been blocked permanently."
 
     );
 
-    alert("Card blocked successfully.");
+    loadKCBRecentTransactions();
+
+    alert("Card Blocked Successfully.");
 
 }
-/* ==========================================
-   CARD SETTINGS
-========================================== */
-
-let onlinePayments = true;
-let internationalPayments = false;
-let contactlessPayments = true;
 
 /* ==========================
-   CHANGE PIN
+   CHANGE CARD PIN
 ========================== */
 
-function changeCardPIN() {
+async function changeCardPIN() {
 
-    const currentPin = prompt("Enter Current PIN");
+    const currentPIN = prompt("Enter Current PIN");
 
-    const verify = verifyPIN(currentPin);
+    const verify = verifyPIN(currentPIN);
 
     if (!verify.success) {
 
         alert(verify.message);
+
         return;
 
     }
 
-    const newPin = prompt("Enter New PIN");
+    const newPIN = prompt("Enter New 4-Digit PIN");
 
-    if (!newPin || newPin.length !== 4) {
+    if (!newPIN || newPIN.length !== 4) {
 
-        alert("PIN must be 4 digits.");
+        alert("PIN must contain exactly 4 digits.");
+
         return;
 
     }
 
-    alert("PIN changed successfully.");
+    await saveKCBCard();
+
+    const transaction = createTransaction({
+
+        bank: "KCB",
+
+        service: "CARD PIN CHANGE",
+
+        sender: kcbAccount.accountNumber,
+
+        recipient: "KCB Cards",
+
+        amount: 0,
+
+        fee: 0,
+
+        total: 0,
+
+        balance: kcbAccount.balance
+
+    });
+
+    saveBankTransaction(transaction);
+
+    addStatement(transaction);
+
+    generateReceipt(transaction);
 
     addBankNotification(
 
         "PIN Changed",
 
-        "Your KCB card PIN has been updated."
+        "Your Debit Card PIN has been changed successfully."
 
     );
+
+    loadKCBRecentTransactions();
+
+    alert("PIN Changed Successfully.");
 
 }
 
 /* ==========================
-   CARD LIMITS
+   VIEW CARD LIMITS
 ========================== */
-
-const cardLimits = {
-
-    atm: 50000,
-
-    pos: 150000,
-
-    online: 100000
-
-};
 
 function viewCardLimits() {
 
     alert(
 
-        "ATM Limit: " + formatMoney(cardLimits.atm) +
+        "ATM Limit : " +
 
-        "\nPOS Limit: " + formatMoney(cardLimits.pos) +
+        formatMoney(kcbCard.limits.atm) +
 
-        "\nOnline Limit: " + formatMoney(cardLimits.online)
+        "\n\nPOS Limit : " +
+
+        formatMoney(kcbCard.limits.pos) +
+
+        "\n\nOnline Limit : " +
+
+        formatMoney(kcbCard.limits.online)
 
     );
 
 }
 
 /* ==========================
+   UPDATE CARD LIMITS
+========================== */
+
+async function updateCardLimits() {
+
+    const atm =
+        Number(prompt("ATM Daily Limit", kcbCard.limits.atm));
+
+    const pos =
+        Number(prompt("POS Daily Limit", kcbCard.limits.pos));
+
+    const online =
+        Number(prompt("Online Daily Limit", kcbCard.limits.online));
+
+    if (isNaN(atm) || isNaN(pos) || isNaN(online)) {
+
+        alert("Invalid limits.");
+
+        return;
+
+    }
+
+    kcbCard.limits.atm = atm;
+
+    kcbCard.limits.pos = pos;
+
+    kcbCard.limits.online = online;
+
+    await saveKCBCard();
+
+    addBankNotification(
+
+        "Card Limits Updated",
+
+        "Your Debit Card transaction limits have been updated."
+
+    );
+
+    alert("Limits Updated Successfully.");
+
+}
+/* ==========================================
+   PART 4
+   CARD SETTINGS • REPLACEMENT • EXPORTS
+========================================== */
+
+/* ==========================
    ONLINE PAYMENTS
 ========================== */
 
-function toggleOnlinePayments() {
+async function toggleOnlinePayments() {
 
-    onlinePayments = !onlinePayments;
+    kcbCard.onlinePayments = !kcbCard.onlinePayments;
+
+    await saveKCBCard();
+
+    addBankNotification(
+
+        "Online Payments",
+
+        "Online Payments " +
+
+        (kcbCard.onlinePayments ? "Enabled" : "Disabled")
+
+    );
 
     alert(
 
         "Online Payments " +
 
-        (onlinePayments ? "Enabled" : "Disabled")
+        (kcbCard.onlinePayments ? "Enabled" : "Disabled")
 
     );
 
@@ -221,33 +592,61 @@ function toggleOnlinePayments() {
    INTERNATIONAL PAYMENTS
 ========================== */
 
-function toggleInternationalPayments() {
+async function toggleInternationalPayments() {
 
-    internationalPayments = !internationalPayments;
+    kcbCard.internationalPayments =
+
+        !kcbCard.internationalPayments;
+
+    await saveKCBCard();
+
+    addBankNotification(
+
+        "International Payments",
+
+        "International Payments " +
+
+        (kcbCard.internationalPayments ? "Enabled" : "Disabled")
+
+    );
 
     alert(
 
         "International Payments " +
 
-        (internationalPayments ? "Enabled" : "Disabled")
+        (kcbCard.internationalPayments ? "Enabled" : "Disabled")
 
     );
 
 }
 
 /* ==========================
-   CONTACTLESS
+   CONTACTLESS PAYMENTS
 ========================== */
 
-function toggleContactless() {
+async function toggleContactless() {
 
-    contactlessPayments = !contactlessPayments;
+    kcbCard.contactlessPayments =
+
+        !kcbCard.contactlessPayments;
+
+    await saveKCBCard();
+
+    addBankNotification(
+
+        "Contactless Payments",
+
+        "Contactless Payments " +
+
+        (kcbCard.contactlessPayments ? "Enabled" : "Disabled")
+
+    );
 
     alert(
 
         "Contactless Payments " +
 
-        (contactlessPayments ? "Enabled" : "Disabled")
+        (kcbCard.contactlessPayments ? "Enabled" : "Disabled")
 
     );
 
@@ -257,10 +656,57 @@ function toggleContactless() {
    REPLACE CARD
 ========================== */
 
-function replaceCard() {
+async function replaceCard() {
 
-    if (!confirm("Request replacement card?"))
+    if (!confirm(
+
+        "Request a replacement card?"
+
+    )) return;
+
+    const pin = prompt(
+
+        "Enter Transaction PIN"
+
+    );
+
+    const verify = verifyPIN(pin);
+
+    if (!verify.success) {
+
+        alert(verify.message);
+
         return;
+
+    }
+
+    await saveKCBCard();
+
+    const transaction = createTransaction({
+
+        bank: "KCB",
+
+        service: "CARD REPLACEMENT",
+
+        sender: kcbAccount.accountNumber,
+
+        recipient: "KCB Cards",
+
+        amount: 0,
+
+        fee: 0,
+
+        total: 0,
+
+        balance: kcbAccount.balance
+
+    });
+
+    saveBankTransaction(transaction);
+
+    addStatement(transaction);
+
+    generateReceipt(transaction);
 
     addBankNotification(
 
@@ -270,40 +716,37 @@ function replaceCard() {
 
     );
 
-    alert("Replacement request submitted.");
+    loadKCBRecentTransactions();
+
+    alert(
+
+        "Replacement Card Request Submitted."
+
+    );
 
 }
 
 /* ==========================
-   CARD STATUS
-========================== */
-
-function getCardStatus() {
-
-    if (cardBlocked)
-        return "Blocked";
-
-    if (cardFrozen)
-        return "Frozen";
-
-    return "Active";
-
-}
-/* ==========================================
    EXPORTS
-========================================== */
+========================== */
 
 window.openCards = openCards;
 
-window.toggleCardFreeze = toggleCardFreeze;
+window.loadKCBCard = loadKCBCard;
+
+window.updateCardDashboard = updateCardDashboard;
 
 window.viewCardDetails = viewCardDetails;
+
+window.toggleCardFreeze = toggleCardFreeze;
 
 window.blockCard = blockCard;
 
 window.changeCardPIN = changeCardPIN;
 
 window.viewCardLimits = viewCardLimits;
+
+window.updateCardLimits = updateCardLimits;
 
 window.toggleOnlinePayments = toggleOnlinePayments;
 
@@ -315,14 +758,26 @@ window.replaceCard = replaceCard;
 
 window.getCardStatus = getCardStatus;
 
-window.cardLimits = cardLimits;
+window.kcbCard = kcbCard;
 
-window.cardFrozen = cardFrozen;
+/* ==========================
+   AUTO LOAD
+========================== */
 
-window.cardBlocked = cardBlocked;
+document.addEventListener(
 
-window.onlinePayments = onlinePayments;
+    "DOMContentLoaded",
 
-window.internationalPayments = internationalPayments;
+    () => {
 
-window.contactlessPayments = contactlessPayments;
+        loadKCBCard();
+
+    }
+
+);
+
+console.log(
+
+    "✅ KCB Cards Module Loaded"
+
+);

@@ -1,15 +1,23 @@
 /* ==========================================
    KCB MOBILE BANKING
-   LOANS
+   LOANS MODULE
 ========================================== */
 
 "use strict";
 
-/* ==========================
-   LOAN DATA
-========================== */
+/* ==========================================
+   API
+========================================== */
+
+const LOAN_API = "/loans";
+
+/* ==========================================
+   LOAN STATE
+========================================== */
 
 let kcbLoan = {
+
+    id: null,
 
     limit: 100000,
 
@@ -19,28 +27,342 @@ let kcbLoan = {
 
     repayment: 0,
 
-    months: 0
+    months: 0,
+
+    balance: 0,
+
+    interest: 0,
+
+    totalRepayment: 0,
+
+    status: "NONE"
 
 };
 
-/* ==========================
+let loanHistory = [];
+
+/* ==========================================
+   INITIALIZE
+========================================== */
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    () => {
+
+        initializeLoans();
+
+    }
+
+);
+
+/* ==========================================
+   INITIALIZE LOANS
+========================================== */
+
+async function initializeLoans() {
+
+    try {
+
+        await loadLoanHistory();
+
+        updateLoanDashboard();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+/* ==========================================
+   LOAD HISTORY
+========================================== */
+
+async function loadLoanHistory() {
+
+    try {
+
+        const response = await apiGet(
+
+            LOAN_API
+
+        );
+
+        loanHistory = response.loans || [];
+
+        if (loanHistory.length > 0) {
+
+            const loan = loanHistory.find(
+
+                l => l.status === "ACTIVE"
+
+            );
+
+            if (loan) {
+
+                kcbLoan.id = loan._id;
+
+                kcbLoan.active = true;
+
+                kcbLoan.amount = loan.amount;
+
+                kcbLoan.balance = loan.balance;
+
+                kcbLoan.months = loan.duration;
+
+                kcbLoan.repayment = loan.monthlyPayment;
+
+                kcbLoan.totalRepayment = loan.totalRepayment;
+
+                kcbLoan.interest =
+
+                    loan.totalRepayment -
+
+                    loan.amount;
+
+                kcbLoan.status = loan.status;
+
+            }
+
+        }
+
+        renderLoanHistory();
+
+        updateLoanDashboard();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+/* ==========================================
+   UPDATE DASHBOARD
+========================================== */
+
+function updateLoanDashboard() {
+
+    const outstanding =
+
+        document.getElementById(
+
+            "loanOutstanding"
+
+        );
+
+    const status =
+
+        document.getElementById(
+
+            "loanStatus"
+
+        );
+
+    const limit =
+
+        document.getElementById(
+
+            "loanLimit"
+
+        );
+
+    if (limit) {
+
+        limit.textContent =
+
+            formatMoney(
+
+                kcbLoan.limit
+
+            );
+
+    }
+
+    if (outstanding) {
+
+        outstanding.textContent =
+
+            formatMoney(
+
+                kcbLoan.balance
+
+            );
+
+    }
+
+    if (status) {
+
+        status.textContent =
+
+            kcbLoan.active
+
+                ? "ACTIVE"
+
+                : "NO ACTIVE LOAN";
+
+    }
+
+}
+/* ==========================================
+   LOAN CALCULATOR
+========================================== */
+
+async function calculateLoan() {
+
+    const amount = Number(
+
+        document.getElementById("loanAmount").value
+
+    );
+
+    const months = Number(
+
+        document.getElementById("loanMonths").value
+
+    );
+
+    if (!amount || !months) {
+
+        return;
+
+    }
+
+    try {
+
+        const result = await apiPost(
+
+            LOAN_API + "/calculate",
+
+            {
+
+                amount,
+
+                duration: months
+
+            }
+
+        );
+
+        const interestElement =
+
+            document.getElementById(
+
+                "loanInterest"
+
+            );
+
+        const monthlyElement =
+
+            document.getElementById(
+
+                "loanMonthly"
+
+            );
+
+        const totalElement =
+
+            document.getElementById(
+
+                "loanTotal"
+
+            );
+
+        if (interestElement) {
+
+            interestElement.textContent =
+
+                formatMoney(
+
+                    result.interest
+
+                );
+
+        }
+
+        if (monthlyElement) {
+
+            monthlyElement.textContent =
+
+                formatMoney(
+
+                    result.monthlyPayment
+
+                );
+
+        }
+
+        if (totalElement) {
+
+            totalElement.textContent =
+
+                formatMoney(
+
+                    result.totalRepayment
+
+                );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+/* ==========================================
    APPLY LOAN
-========================== */
+========================================== */
 
-function applyLoan() {
+async function applyLoan() {
 
-    const amount =
-        Number(document.getElementById("loanAmount").value);
+    const amount = Number(
 
-    const months =
-        Number(document.getElementById("loanMonths").value);
+        document.getElementById("loanAmount").value
+
+    );
+
+    const months = Number(
+
+        document.getElementById("loanMonths").value
+
+    );
 
     const pin =
+
         document.getElementById("loanPIN").value;
+
+    const purposeField =
+
+        document.getElementById("loanPurpose");
+
+    const purpose =
+
+        purposeField
+
+            ? purposeField.value
+
+            : "Personal Loan";
 
     if (amount <= 0) {
 
-        alert("Enter a valid loan amount.");
+        alert(
+
+            "Enter a valid loan amount."
+
+        );
 
         return;
 
@@ -48,7 +370,11 @@ function applyLoan() {
 
     if (amount > kcbLoan.limit) {
 
-        alert("Requested amount exceeds your loan limit.");
+        alert(
+
+            "Requested amount exceeds your loan limit."
+
+        );
 
         return;
 
@@ -56,14 +382,17 @@ function applyLoan() {
 
     if (kcbLoan.active) {
 
-        alert("You already have an active loan.");
+        alert(
+
+            "You already have an active loan."
+
+        );
 
         return;
 
     }
 
-    const verify =
-        verifyPIN(pin);
+    const verify = verifyPIN(pin);
 
     if (!verify.success) {
 
@@ -73,119 +402,176 @@ function applyLoan() {
 
     }
 
-    /* -------------------------
-       Interest Calculation
-    ------------------------- */
+    try {
 
-    const interestRate = 0.08;
+        const response = await apiPost(
 
-    const interest =
-        amount * interestRate;
+            LOAN_API + "/apply",
 
-    const totalRepayment =
-        amount + interest;
+            {
 
-    const monthlyRepayment =
-        totalRepayment / months;
+                loanType: "Personal",
 
-    /* -------------------------
-       Activate Loan
-    ------------------------- */
+                amount,
 
-    kcbLoan.active = true;
+                duration: months,
 
-    kcbLoan.amount = amount;
+                purpose
 
-    kcbLoan.months = months;
+            }
 
-    kcbLoan.repayment = monthlyRepayment;
+        );
 
-    /* -------------------------
-       Credit Customer Account
-    ------------------------- */
+        const loan = response.loan;
 
-    kcbAccount.balance += amount;
+        /* -------------------------
+           SAVE ACTIVE LOAN
+        ------------------------- */
 
-    updateKCBBalance();
+        kcbLoan.id = loan._id;
 
-    updateLoanDashboard();
+        kcbLoan.active = true;
 
-    /* -------------------------
-       Create Transaction
-    ------------------------- */
+        kcbLoan.amount = loan.amount;
 
-    const transaction = createTransaction({
+        kcbLoan.balance = loan.balance;
 
-        bank: "KCB",
+        kcbLoan.months = loan.duration;
 
-        service: "LOAN",
+        kcbLoan.repayment =
 
-        sender: "KCB",
+            loan.monthlyPayment;
 
-        recipient: kcbAccount.accountNumber,
+        kcbLoan.totalRepayment =
 
-        amount: amount,
+            loan.totalRepayment;
 
-        fee: interest,
+        kcbLoan.interest =
 
-        total: totalRepayment,
+            loan.totalRepayment -
 
-        balance: kcbAccount.balance
+            loan.amount;
 
-    });
+        kcbLoan.status =
 
-    saveBankTransaction(transaction);
+            loan.status;
 
-    addStatement(transaction);
+        /* -------------------------
+           CREDIT ACCOUNT
+        ------------------------- */
 
-    generateReceipt(transaction);
+        kcbAccount.balance += amount;
 
-    addBankNotification(
+        updateKCBBalance();
 
-        "Loan Approved",
+        updateLoanDashboard();
 
-        `${formatMoney(amount)} has been credited to your account.`
+        /* -------------------------
+           TRANSACTION
+        ------------------------- */
 
-    );
+        const transaction = createTransaction({
 
-    loadKCBRecentTransactions();
+            bank: "KCB",
 
-    /* -------------------------
-       Clear Form
-    ------------------------- */
+            service: "LOAN",
 
-    document.getElementById("loanAmount").value = "";
+            sender: "KCB",
 
-    document.getElementById("loanPIN").value = "";
+            recipient:
 
-    document.getElementById("loanMonths").selectedIndex = 0;
+                kcbAccount.accountNumber,
 
-    /* -------------------------
-       Success Message
-    ------------------------- */
+            amount,
 
-    alert(
+            fee: kcbLoan.interest,
 
-        "Loan Approved!\n\n" +
+            total:
 
-        "Amount: " + formatMoney(amount) + "\n" +
+                kcbLoan.totalRepayment,
 
-        "Interest: " + formatMoney(interest) + "\n" +
+            balance:
 
-        "Monthly Repayment: " +
+                kcbAccount.balance
 
-        formatMoney(monthlyRepayment)
+        });
 
-    );
+        saveBankTransaction(
 
-    showScreen("kcbReceipt");
+            transaction
+
+        );
+
+        addStatement(
+
+            transaction
+
+        );
+
+        generateReceipt(
+
+            transaction
+
+        );
+
+        addBankNotification(
+
+            "Loan Approved",
+
+            `${formatMoney(amount)} has been credited to your account.`
+
+        );
+
+        loadKCBRecentTransactions();
+
+        /* -------------------------
+           RESET FORM
+        ------------------------- */
+
+        document.getElementById(
+
+            "loanAmount"
+
+        ).value = "";
+
+        document.getElementById(
+
+            "loanPIN"
+
+        ).value = "";
+
+        document.getElementById(
+
+            "loanMonths"
+
+        ).selectedIndex = 0;
+
+        if (purposeField) {
+
+            purposeField.value = "";
+
+        }
+
+        renderLoanHistory();
+
+        showScreen("kcbReceipt");
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
 
 }
-/* ==========================
+/* ==========================================
    REPAY LOAN
-========================== */
+========================================== */
 
-function repayLoan() {
+async function repayLoan() {
 
     if (!kcbLoan.active) {
 
@@ -195,11 +581,23 @@ function repayLoan() {
 
     }
 
-    const amount =
-        Number(document.getElementById("loanRepaymentAmount").value);
+    const amount = Number(
+
+        document.getElementById(
+
+            "loanRepaymentAmount"
+
+        ).value
+
+    );
 
     const pin =
-        document.getElementById("loanRepaymentPIN").value;
+
+        document.getElementById(
+
+            "loanRepaymentPIN"
+
+        ).value;
 
     if (amount <= 0) {
 
@@ -209,8 +607,7 @@ function repayLoan() {
 
     }
 
-    const verify =
-        verifyPIN(pin);
+    const verify = verifyPIN(pin);
 
     if (!verify.success) {
 
@@ -228,62 +625,349 @@ function repayLoan() {
 
     }
 
-    kcbAccount.balance -= amount;
+    try {
 
-    kcbLoan.amount -= amount;
+        await apiPut(
 
-    if (kcbLoan.amount <= 0) {
+            LOAN_API +
 
-        kcbLoan.amount = 0;
+            "/repay/" +
 
-        kcbLoan.active = false;
+            kcbLoan.id,
+
+            {
+
+                amount
+
+            }
+
+        );
+
+        /* -------------------------
+           UPDATE LOCAL DATA
+        ------------------------- */
+
+        kcbAccount.balance -= amount;
+
+        kcbLoan.balance -= amount;
+
+        if (kcbLoan.balance <= 0) {
+
+            kcbLoan.balance = 0;
+
+            kcbLoan.active = false;
+
+            kcbLoan.status = "COMPLETED";
+
+        }
+
+        updateKCBBalance();
+
+        updateLoanDashboard();
+
+        /* -------------------------
+           CREATE TRANSACTION
+        ------------------------- */
+
+        const transaction = createTransaction({
+
+            bank: "KCB",
+
+            service: "LOAN REPAYMENT",
+
+            sender:
+
+                kcbAccount.accountNumber,
+
+            recipient: "KCB Loan",
+
+            amount,
+
+            fee: 0,
+
+            total: amount,
+
+            balance:
+
+                kcbAccount.balance
+
+        });
+
+        saveBankTransaction(
+
+            transaction
+
+        );
+
+        addStatement(
+
+            transaction
+
+        );
+
+        generateReceipt(
+
+            transaction
+
+        );
+
+        addBankNotification(
+
+            "Loan Repayment",
+
+            `${formatMoney(amount)} loan repayment received.`
+
+        );
+
+        loadKCBRecentTransactions();
+
+        document.getElementById(
+
+            "loanRepaymentAmount"
+
+        ).value = "";
+
+        document.getElementById(
+
+            "loanRepaymentPIN"
+
+        ).value = "";
+
+        await loadLoanHistory();
+
+        showScreen("kcbReceipt");
 
     }
 
-    updateKCBBalance();
+    catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
+}
+
+/* ==========================================
+   LOAN HISTORY
+========================================== */
+
+function renderLoanHistory() {
+
+    const container =
+
+        document.getElementById(
+
+            "loanHistory"
+
+        );
+
+    if (!container) return;
+
+    if (
+
+        loanHistory.length === 0
+
+    ) {
+
+        container.innerHTML =
+
+            "<p>No loan history available.</p>";
+
+        return;
+
+    }
+
+    container.innerHTML =
+
+        loanHistory.map(
+
+            loan =>
+
+                `
+
+            <div class="history-card">
+
+                <h3>
+
+                    ${loan.loanType}
+
+                </h3>
+
+                <p>
+
+                    Amount:
+
+                    ${formatMoney(loan.amount)}
+
+                </p>
+
+                <p>
+
+                    Balance:
+
+                    ${formatMoney(loan.balance)}
+
+                </p>
+
+                <p>
+
+                    Monthly:
+
+                    ${formatMoney(loan.monthlyPayment)}
+
+                </p>
+
+                <p>
+
+                    Status:
+
+                    ${loan.status}
+
+                </p>
+
+                <p>
+
+                    Duration:
+
+                    ${loan.duration} Month(s)
+
+                </p>
+
+            </div>
+
+            `
+
+        ).join("");
+
+}
+
+/* ==========================================
+   REFRESH DASHBOARD
+========================================== */
+
+async function refreshLoanDashboard() {
+
+    await loadLoanHistory();
 
     updateLoanDashboard();
 
-    const transaction = createTransaction({
+}
 
-        bank: "KCB",
+/* ==========================================
+   ACTIVE LOAN
+========================================== */
 
-        service: "LOAN REPAYMENT",
+function hasActiveLoan() {
 
-        sender: kcbAccount.accountNumber,
+    return kcbLoan.active;
 
-        recipient: "KCB Loan",
+}
+/* ==========================================
+   UPDATE LOAN LIMIT
+========================================== */
 
-        amount: amount,
+function updateLoanLimit(newLimit) {
 
-        fee: 0,
+    kcbLoan.limit = Number(newLimit) || 0;
 
-        total: amount,
+    const limit = document.getElementById("loanLimit");
 
-        balance: kcbAccount.balance
+    if (limit) {
 
-    });
+        limit.textContent = formatMoney(kcbLoan.limit);
 
-    saveBankTransaction(transaction);
+    }
 
-    addStatement(transaction);
+}
 
-    generateReceipt(transaction);
+/* ==========================================
+   RESET LOAN FORM
+========================================== */
 
-    addBankNotification(
+function resetLoanForm() {
 
-        "Loan Repayment",
+    const amount = document.getElementById("loanAmount");
 
-        `${formatMoney(amount)} loan repayment received.`
+    const months = document.getElementById("loanMonths");
+
+    const pin = document.getElementById("loanPIN");
+
+    const purpose = document.getElementById("loanPurpose");
+
+    if (amount) amount.value = "";
+
+    if (months) months.selectedIndex = 0;
+
+    if (pin) pin.value = "";
+
+    if (purpose) purpose.value = "";
+
+}
+
+/* ==========================================
+   CLEAR REPAYMENT FORM
+========================================== */
+
+function resetRepaymentForm() {
+
+    const amount = document.getElementById("loanRepaymentAmount");
+
+    const pin = document.getElementById("loanRepaymentPIN");
+
+    if (amount) amount.value = "";
+
+    if (pin) pin.value = "";
+
+}
+
+/* ==========================================
+   GET ACTIVE LOAN
+========================================== */
+
+function getActiveLoan() {
+
+    return kcbLoan.active ? kcbLoan : null;
+
+}
+
+/* ==========================================
+   EXPORTS
+========================================== */
+
+window.applyLoan = applyLoan;
+
+window.repayLoan = repayLoan;
+
+window.calculateLoan = calculateLoan;
+
+window.refreshLoanDashboard = refreshLoanDashboard;
+
+window.updateLoanLimit = updateLoanLimit;
+
+window.getActiveLoan = getActiveLoan;
+
+window.initializeLoans = initializeLoans;
+
+/* ==========================================
+   AUTO INITIALIZE
+========================================== */
+
+if (document.readyState === "loading") {
+
+    document.addEventListener(
+
+        "DOMContentLoaded",
+
+        initializeLoans
 
     );
 
-    loadKCBRecentTransactions();
+} else {
 
-    document.getElementById("loanRepaymentAmount").value = "";
-
-    document.getElementById("loanRepaymentPIN").value = "";
-
-    showScreen("kcbReceipt");
+    initializeLoans();
 
 }
+
+console.log("✅ KCB Loans Module Loaded");

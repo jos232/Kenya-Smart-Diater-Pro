@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KCB Loans</title>
+
+    <link rel="stylesheet" href="loans.css">
+
+</head>
+
+<body>
+
+    <div class="loan-container">
+
+        <header class="loan-header">
+
+            <h1>KCB Loans</h1>
+
+            <p>Fast & Secure Mobile Loans</p>
+
+        </header>
+
+        <!-- Loan Summary -->
+
+        <section class="loan-summary">
+
+            <div class="summary-card">
+
+                <h3>Loan Limit</h3>
+
+                <span id="loanLimit">
+
+                    KSh 100,000
+
+                </span>
+
+            </div>
+
+            <div class="summary-card">
+
+                <h3>Outstanding</h3>
+
+                <span id="loanOutstanding">
+
+                    KSh 0
+
+                </span>
+
+            </div>
+
+            <div class="summary-card">
+
+                <h3>Status</h3>
+
+                <span id="loanStatus">
+
+                    No Active Loan
+
+                </span>
+
+            </div>
+
+        </section>
+
+        <!-- Apply -->
+
+        <section class="loan-card">
+
+            <h2>Apply for Loan</h2>
+
+            <label>Loan Type</label>
+
+            <select id="loanType">
+
+                <option value="Personal">
+
+                    Personal Loan
+
+                </option>
+
+                <option value="Business">
+
+                    Business Loan
+
+                </option>
+
+                <option value="Emergency">
+
+                    Emergency Loan
+
+                </option>
+
+                <option value="Salary Advance">
+
+                    Salary Advance
+
+                </option>
+
+            </select>
+
+            <label>Loan Amount</label>
+
+            <input id="loanAmount" type="number" placeholder="Enter amount" oninput="calculateLoan()">
+
+            <label>Repayment Period</label>
+
+            <select id="loanDuration" onchange="calculateLoan()">
+
+                <option value="1">1 Month</option>
+
+                <option value="3">3 Months</option>
+
+                <option value="6">6 Months</option>
+
+                <option value="12">12 Months</option>
+
+            </select>
+
+            <label>Purpose</label>
+
+            <textarea id="loanPurpose" placeholder="Loan purpose"></textarea>
+
+            <button onclick="applyKCBLoan()">
+
+                Apply Loan
+
+            </button>
+
+        </section>
+
+        <!-- Calculator -->
+
+        <section class="loan-card">
+
+            <h2>Loan Calculator</h2>
+
+            <div class="calculator-row">
+
+                <span>Interest</span>
+
+                <strong id="loanInterest">
+
+                    KSh 0
+
+                </strong>
+
+            </div>
+
+            <div class="calculator-row">
+
+                <span>Monthly Payment</span>
+
+                <strong id="loanMonthly">
+
+                    KSh 0
+
+                </strong>
+
+            </div>
+
+            <div class="calculator-row">
+
+                <span>Total Repayment</span>
+
+                <strong id="loanTotal">
+
+                    KSh 0
+
+                </strong>
+
+            </div>
+
+        </section>
+
+        <!-- Repayment -->
+
+        <section class="loan-card">
+
+            <h2>Repay Loan</h2>
+
+            <input id="loanRepaymentAmount" type="number" placeholder="Repayment Amount">
+
+            <button onclick="repayCurrentLoan()">
+
+                Repay Loan
+
+            </button>
+
+        </section>
+
+        <!-- Loan History -->
+
+        <section class="loan-card">
+
+            <h2>Loan History</h2>
+
+            <div id="loanHistory">
+
+                <p>No Loans Found</p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="../../js/api.js"></script>
+    <script src="./loans.js"></script>
+
+</body>
+
+</html>
