@@ -17,7 +17,7 @@ const BUNDLE_API = API_BASE + "/bundles";
 const VOICE_API = API_BASE + "/voice";
 const SMS_API = API_BASE + "/sms";
 const FINANCIAL_API = API_BASE + "/financial";
-const AUTH_API = API_BASE + "/auth";
+
 
 /* ==========================================
    TOKEN
@@ -152,7 +152,7 @@ window.BUNDLE_API = BUNDLE_API;
 window.VOICE_API = VOICE_API;
 window.SMS_API = SMS_API;
 window.FINANCIAL_API = FINANCIAL_API;
-window.AUTH_API = AUTH_API;
+
 
 window.apiGet = apiGet;
 window.apiPost = apiPost;

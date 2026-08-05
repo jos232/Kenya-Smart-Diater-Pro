@@ -33,19 +33,68 @@ let kcbCard = {
 };
 
 /* ==========================================
-   LOAD CARD
+   LOAD KCB CARD FROM BACKEND
 ========================================== */
 
 async function loadKCBCard() {
 
     try {
 
-        const response = await fetch("/api/kcb/cards");
+        /* -------------------------
+           GET TOKEN
+        ------------------------- */
 
-        if (!response.ok)
-            throw new Error("Failed to fetch");
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+
+            console.warn("No authentication token found.");
+
+            updateCardDashboard();
+
+            return;
+
+        }
+
+        /* -------------------------
+           FETCH CARD
+        ------------------------- */
+        const response = await fetch(
+
+            API.BASE_URL + API.ENDPOINTS.cards,
+
+            {
+
+                method: "GET",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    "Authorization": `Bearer ${token}`
+
+                }
+
+            }
+
+        );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+
+                `Server Error ${response.status}`
+
+            );
+
+        }
 
         const data = await response.json();
+
+        /* -------------------------
+           UPDATE LOCAL OBJECT
+        ------------------------- */
 
         if (data) {
 
@@ -59,13 +108,25 @@ async function loadKCBCard() {
 
         }
 
+        console.log("✅ Card Loaded From Backend");
+
     }
 
     catch (error) {
 
-        console.warn("Using local card.");
+        console.warn(
+
+            "Using Local Card:",
+
+            error.message
+
+        );
 
     }
+
+    /* -------------------------
+       REFRESH UI
+    ------------------------- */
 
     updateCardDashboard();
 

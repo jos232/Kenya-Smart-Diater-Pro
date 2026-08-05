@@ -1,6 +1,6 @@
 "use strict";
 
-const API = "http://localhost:3000/api/auth";
+const AUTH_API = API.BASE_URL + API.ENDPOINTS.auth;
 
 const loginScreen = document.getElementById("loginScreen");
 const appContainer = document.getElementById("appContainer");
@@ -63,7 +63,7 @@ loginBtn.addEventListener("click", async () => {
 
     try {
 
-        const response = await fetch(`${API}/login`, {
+        const response = await fetch(`${AUTH_API}/login`, {
 
             method: "POST",
 
@@ -113,7 +113,7 @@ registerBtn.addEventListener("click", async () => {
 
     try {
 
-        const response = await fetch(`${API}/register`, {
+        const response = await fetch(`${AUTH_API}/register`, {
 
             method: "POST",
 

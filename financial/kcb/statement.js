@@ -15,16 +15,34 @@ let kcbStatements = [];
 let currentStatement = null;
 
 /* ==========================================
-   LOAD STATEMENTS
+   FETCH KCB STATEMENTS
 ========================================== */
 
 async function fetchKCBStatements() {
 
     try {
 
+        const token = localStorage.getItem("token");
+
         const response = await fetch(
 
-            "/api/statements/KCB"
+            API.BASE_URL +
+            API.ENDPOINTS.statements +
+            "/KCB",
+
+            {
+
+                method: "GET",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    "Authorization": `Bearer ${token}`
+
+                }
+
+            }
 
         );
 
@@ -32,13 +50,15 @@ async function fetchKCBStatements() {
 
             throw new Error(
 
-                "Unable to load statements."
+                `Server Error ${response.status}`
 
             );
 
         }
 
         kcbStatements = await response.json();
+
+        console.log("✅ Statements Loaded");
 
         return kcbStatements;
 
@@ -50,7 +70,7 @@ async function fetchKCBStatements() {
 
             "Statement Error:",
 
-            error
+            error.message
 
         );
 
