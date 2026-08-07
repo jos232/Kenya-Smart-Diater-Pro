@@ -120,6 +120,7 @@ function updateNetwork() {
     }
 
 }
+
 /* ==========================================================
    DETECT NETWORK
 ========================================================== */
@@ -127,7 +128,7 @@ function detectNetwork(number) {
 
     if (!number) {
 
-        return "Unknown Network";
+        return "Unknown";
 
     }
 
@@ -135,7 +136,7 @@ function detectNetwork(number) {
 
     if (number.length < 3) {
 
-        return "Unknown Network";
+        return "Unknown";
 
     }
 
@@ -157,17 +158,17 @@ function detectNetwork(number) {
 
     if (NETWORK_PREFIXES.Airtel.includes(prefix3)) {
 
-        return "Airtel Kenya";
+        return "Airtel";
 
     }
 
     if (NETWORK_PREFIXES.Telkom.includes(prefix3)) {
 
-        return "Telkom Kenya";
+        return "Telkom";
 
     }
 
-    return "Unknown Network";
+    return "Unknown";
 
 }
 /* ==========================================================
@@ -195,12 +196,20 @@ function normalizeNumber(number) {
 }
 /************************************************
  VALIDATE KENYAN NUMBER
-************************************************/
+***********************************************/
 
 function isValidKenyanNumber(number) {
 
+    console.log("Original:", number);
+
     number = normalizeNumber(number);
 
-    return /^0(1|7)[0-9]{8}$/.test(number);
+    console.log("Normalized:", number);
 
+    const valid = /^0(1|7)\d{8}$/.test(number);
+
+    console.log("Valid:", valid);
+
+    return valid;
 }
+

@@ -252,13 +252,20 @@ async function addContact() {
         return;
 
     }
+    console.log("Phone before validation:", phone);
 
-    if (!isValidKenyanNumber(phone)) {
+    const normalizedPhone = normalizeNumber(phone);
 
-        alert("Enter a valid Kenyan phone number.");
+    console.log("Phone after normalization:", normalizedPhone);
+
+    if (!isValidKenyanNumber(normalizedPhone)) {
+
+        alert("Invalid phone: " + normalizedPhone);
+
         return;
 
     }
+
 
     let photo = "";
 
@@ -282,7 +289,7 @@ async function addContact() {
 
             name,
             phone,
-            network: detectNetworkName(phone),
+            network: detectNetwork(phone),
             favorite: false,
             photo
 
@@ -308,354 +315,360 @@ async function addContact() {
         alert(error.message || "Unable to save contact.");
 
     }
+}
 
-    /* ==========================================
-       EDIT CONTACT
-    ========================================== */
-
-    async function editContact(id) {
-
-        const contact = contacts.find(c => c._id === id);
-
-        if (!contact) return;
-
-        const newName = prompt("Edit Name", contact.name);
-
-        if (newName === null) return;
-
-        const newPhone = prompt("Edit Phone", contact.phone);
-
-        if (newPhone === null) return;
-
-        const phone = normalizeNumber(newPhone);
-
-        if (!isValidKenyanNumber(phone)) {
-
-            alert("Invalid phone number.");
-
-            return;
-
-        }
-        try {
-
-            await apiPut("/contacts/" + id, {
-
-                name: newName.trim(),
-                phone,
-                network: detectNetworkName(phone)
-
-            });
-
-            await loadContacts();
-
-            showToast("✏ Contact Updated");
-
-        }
-
-        catch (error) {
-
-            console.error(error);
-
-            alert(error.message || "Unable to update contact.");
-
-        }
-
-    }
-    /* ==========================================
-   DELETE CONTACT
+/* ==========================================
+   EDIT CONTACT
 ========================================== */
 
-    async function deleteContact(id) {
+async function editContact(id) {
 
-        if (!confirm("Delete this contact?")) {
-            return;
-        }
+    const contact = contacts.find(c => c._id === id);
 
-        try {
+    if (!contact) return;
 
-            await apiDelete("/contacts/" + id);
+    const newName = prompt("Edit Name", contact.name);
 
-            await loadContacts();
+    if (newName === null) return;
 
-            showToast("🗑 Contact Deleted");
+    const newPhone = prompt("Edit Phone", contact.phone);
 
-        }
+    if (newPhone === null) return;
 
-        catch (error) {
+    const phone = normalizeNumber(newPhone);
 
-            console.error(error);
+    console.log("Phone before validation:", phone);
 
-            alert(error.message || "Unable to delete contact.");
+    const normalizedPhone = normalizeNumber(phone);
 
-        }
+    console.log("Phone after normalization:", normalizedPhone);
 
-    }
-    /* ==========================================
-   TOGGLE FAVORITE
-========================================== */
+    if (!isValidKenyanNumber(normalizedPhone)) {
 
-    async function toggleFavorite(id) {
+        alert("Invalid phone: " + normalizedPhone);
 
-        const contact = contacts.find(c => c._id === id);
-
-        if (!contact) return;
-
-        try {
-
-            await apiPut("/contacts/" + id, {
-
-                favorite: !contact.favorite
-
-            });
-
-            await loadContacts();
-
-            showToast("⭐ Favorite Updated");
-
-        }
-
-        catch (error) {
-
-            console.error(error);
-
-            alert(error.message || "Unable to update favorite.");
-
-        }
+        return;
 
     }
+    try {
 
-    /* ==========================================
-       CALL CONTACT
-    ========================================== */
+        await apiPut("/contacts/" + id, {
 
-    function callContact(id) {
-
-        const contact = contacts.find(c => c._id === id);
-
-        if (!contact) return;
-
-        const input = document.getElementById("phoneNumber");
-
-        if (input) {
-
-            input.value = contact.phone;
-
-        }
-
-        if (typeof detectNetwork === "function") {
-
-            detectNetwork();
-
-        }
-
-        showScreen("dialer");
-
-    }
-    /* ==========================================
-       CONTACT DETAILS
-    ========================================== */
-
-    function openContactDetails(id) {
-
-        const contact = contacts.find(c => c._id === id);
-
-        if (!contact) return;
-
-        selectedContact = contact;
-
-        const avatar = document.getElementById("detailAvatar");
-
-        if (avatar) {
-
-            if (contact.photo) {
-
-                avatar.innerHTML = `<img src="${contact.photo}" class="contact-photo-large">`;
-
-            } else {
-
-                avatar.textContent = contact.name
-                    .split(" ")
-                    .map(word => word[0])
-                    .join("")
-                    .substring(0, 2)
-                    .toUpperCase();
-
-            }
-
-        }
-
-        document.getElementById("detailName").textContent =
-            contact.name;
-
-        document.getElementById("detailNumber").textContent =
-            contact.phone;
-
-        document.getElementById("detailNetwork").textContent =
-            contact.network;
-
-        showScreen("contactDetails");
-
-    }
-
-    /* ==========================================
-       DETAILS ACTIONS
-    ========================================== */
-
-    function callDetailContact() {
-
-        if (!selectedContact) return;
-
-        const input = document.getElementById("phoneNumber");
-
-        if (input) {
-
-            input.value = selectedContact.phone;
-
-        }
-
-        showScreen("dialer");
-
-        if (typeof detectNetwork === "function") {
-
-            detectNetwork();
-
-        }
-
-    }
-
-    function smsDetailContact() {
-
-        if (!selectedContact) return;
-
-        showToast("SMS feature coming soon.");
-
-    }
-
-    function editDetailContact() {
-
-        if (!selectedContact) return;
-
-        editContact(selectedContact._id);
-
-    }
-
-    function deleteDetailContact() {
-
-        if (!selectedContact) return;
-
-        deleteContact(selectedContact._id);
-
-        showScreen("contacts");
-
-    }
-
-    function toggleFavoriteDetail() {
-
-        if (!selectedContact) return;
-
-        toggleFavorite(selectedContact._id);
-
-    }
-
-    /* ==========================================
-       DIALER LIVE SEARCH
-    ========================================== */
-
-    function searchDialerContact() {
-
-        const input = document.getElementById("phoneNumber");
-
-        const preview = document.getElementById("contactPreview");
-
-        if (!input || !preview) return;
-
-        const number = input.value.replace(/\s+/g, "");
-
-        if (number.length < 3) {
-
-            preview.style.display = "none";
-
-            return;
-
-        }
-
-        const contact = contacts.find(c => {
-
-            return (c.phone || "").replace(/\s+/g, "")
-                .startsWith(number);
+            name: newName.trim(),
+            phone,
+            network: detectNetwork(phone)
 
         });
 
-        if (!contact) {
+        await loadContacts();
 
-            preview.style.display = "none";
+        showToast("✏ Contact Updated");
 
-            return;
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(error.message || "Unable to update contact.");
+
+    }
+
+}
+/* ==========================================
+DELETE CONTACT
+========================================== */
+
+async function deleteContact(id) {
+
+    if (!confirm("Delete this contact?")) {
+        return;
+    }
+
+    try {
+
+        await apiDelete("/contacts/" + id);
+
+        await loadContacts();
+
+        showToast("🗑 Contact Deleted");
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(error.message || "Unable to delete contact.");
+
+    }
+
+}
+/* ==========================================
+TOGGLE FAVORITE
+========================================== */
+
+async function toggleFavorite(id) {
+
+    const contact = contacts.find(c => c._id === id);
+
+    if (!contact) return;
+
+    try {
+
+        await apiPut("/contacts/" + id, {
+
+            favorite: !contact.favorite
+
+        });
+
+        await loadContacts();
+
+        showToast("⭐ Favorite Updated");
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(error.message || "Unable to update favorite.");
+
+    }
+
+}
+
+/* ==========================================
+   CALL CONTACT
+========================================== */
+
+function callContact(id) {
+
+    const contact = contacts.find(c => c._id === id);
+
+    if (!contact) return;
+
+    const input = document.getElementById("phoneNumber");
+
+    if (input) {
+
+        input.value = contact.phone;
+
+    }
+
+    if (typeof detectNetwork === "function") {
+
+        detectNetwork();
+
+    }
+
+    showScreen("dialer");
+
+}
+/* ==========================================
+   CONTACT DETAILS
+========================================== */
+
+function openContactDetails(id) {
+
+    const contact = contacts.find(c => c._id === id);
+
+    if (!contact) return;
+
+    selectedContact = contact;
+
+    const avatar = document.getElementById("detailAvatar");
+
+    if (avatar) {
+
+        if (contact.photo) {
+
+            avatar.innerHTML = `<img src="${contact.photo}" class="contact-photo-large">`;
+
+        } else {
+
+            avatar.textContent = contact.name
+                .split(" ")
+                .map(word => word[0])
+                .join("")
+                .substring(0, 2)
+                .toUpperCase();
 
         }
 
-        preview.style.display = "flex";
+    }
 
-        document.getElementById("contactPreviewName").textContent =
-            contact.name;
+    document.getElementById("detailName").textContent =
+        contact.name;
 
-        document.getElementById("contactPreviewNetwork").textContent =
-            contact.network;
+    document.getElementById("detailNumber").textContent =
+        contact.phone;
+
+    document.getElementById("detailNetwork").textContent =
+        contact.network;
+
+    showScreen("contactDetails");
+
+}
+
+/* ==========================================
+   DETAILS ACTIONS
+========================================== */
+
+function callDetailContact() {
+
+    if (!selectedContact) return;
+
+    const input = document.getElementById("phoneNumber");
+
+    if (input) {
+
+        input.value = selectedContact.phone;
 
     }
 
-    /* ==========================================
-       CONTACT MENU
-    ========================================== */
+    showScreen("dialer");
 
-    function toggleContactMenu(id) {
+    if (typeof detectNetwork === "function") {
 
-        document.querySelectorAll(".contact-menu")
-
-            .forEach(menu => {
-
-                if (menu.id !== `menu-${id}`) {
-
-                    menu.style.display = "none";
-
-                }
-
-            });
-
-        const menu = document.getElementById(`menu-${id}`);
-
-        if (!menu) return;
-
-        menu.style.display =
-            menu.style.display === "flex"
-                ? "none"
-                : "flex";
+        detectNetwork();
 
     }
 
-    /* ==========================================
-       CLOSE MENUS
-    ========================================== */
+}
 
-    document.addEventListener("click", () => {
+function smsDetailContact() {
 
-        document.querySelectorAll(".contact-menu")
+    if (!selectedContact) return;
 
-            .forEach(menu => {
+    showToast("SMS feature coming soon.");
+
+}
+
+function editDetailContact() {
+
+    if (!selectedContact) return;
+
+    editContact(selectedContact._id);
+
+}
+
+function deleteDetailContact() {
+
+    if (!selectedContact) return;
+
+    deleteContact(selectedContact._id);
+
+    showScreen("contacts");
+
+}
+
+function toggleFavoriteDetail() {
+
+    if (!selectedContact) return;
+
+    toggleFavorite(selectedContact._id);
+
+}
+
+/* ==========================================
+   DIALER LIVE SEARCH
+========================================== */
+
+function searchDialerContact() {
+
+    const input = document.getElementById("phoneNumber");
+
+    const preview = document.getElementById("contactPreview");
+
+    if (!input || !preview) return;
+
+    const number = input.value.replace(/\s+/g, "");
+
+    if (number.length < 3) {
+
+        preview.style.display = "none";
+
+        return;
+
+    }
+
+    const contact = contacts.find(c => {
+
+        return (c.phone || "").replace(/\s+/g, "")
+            .startsWith(number);
+
+    });
+
+    if (!contact) {
+
+        preview.style.display = "none";
+
+        return;
+
+    }
+
+    preview.style.display = "flex";
+
+    document.getElementById("contactPreviewName").textContent =
+        contact.name;
+
+    document.getElementById("contactPreviewNetwork").textContent =
+        contact.network;
+
+}
+
+/* ==========================================
+   CONTACT MENU
+========================================== */
+
+function toggleContactMenu(id) {
+
+    document.querySelectorAll(".contact-menu")
+
+        .forEach(menu => {
+
+            if (menu.id !== `menu-${id}`) {
 
                 menu.style.display = "none";
 
-            });
+            }
 
-    });
+        });
 
-    /* ==========================================
-       INITIALIZE
-    ========================================== */
+    const menu = document.getElementById(`menu-${id}`);
 
-    document.addEventListener("DOMContentLoaded", () => {
+    if (!menu) return;
 
-        loadContacts();
+    menu.style.display =
+        menu.style.display === "flex"
+            ? "none"
+            : "flex";
 
-    });
 }
+
+/* ==========================================
+   CLOSE MENUS
+========================================== */
+
+document.addEventListener("click", () => {
+
+    document.querySelectorAll(".contact-menu")
+
+        .forEach(menu => {
+
+            menu.style.display = "none";
+
+        });
+
+});
+
+/* ==========================================
+   INITIALIZE
+========================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    loadContacts();
+
+});

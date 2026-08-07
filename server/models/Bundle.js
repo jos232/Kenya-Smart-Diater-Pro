@@ -18,23 +18,25 @@ const BundleSchema = new mongoose.Schema({
 
     bundleType: {
         type: String,
-        enum: ["Data", "Voice", "SMS"],
-        required: true
+        default: "Data"
     },
 
     packageName: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
 
     amount: {
         type: Number,
-        required: true
+        required: true,
+        min: 0
     },
 
     quantity: {
         type: Number,
-        required: true
+        required: true,
+        min: 0
     },
 
     expiry: {
@@ -42,39 +44,15 @@ const BundleSchema = new mongoose.Schema({
         required: true
     },
 
-    paymentMethod: {
-        type: String,
-        default: "Wallet"
-    },
-
     status: {
         type: String,
-        default: "SUCCESS"
-    },
-
-    receiptNumber: {
-        type: String,
-        unique: true
+        enum: ["ACTIVE", "EXPIRED"],
+        default: "ACTIVE"
     }
 
 }, {
 
     timestamps: true
-
-});
-
-BundleSchema.pre("save", function (next) {
-
-    if (!this.receiptNumber) {
-
-        this.receiptNumber =
-            "BND" +
-            Date.now() +
-            Math.floor(Math.random() * 1000);
-
-    }
-
-    next();
 
 });
 

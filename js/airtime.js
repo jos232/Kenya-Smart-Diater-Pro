@@ -91,17 +91,37 @@ function updateAirtimeSummary() {
 /* ==========================
    Buy Airtime
 ========================== */
-
 async function buyAirtime() {
 
-    const phone = normalizeNumber(
-        document.getElementById("airtimeNumber").value.trim()
-    );
+    /* -------------------------
+       GET PHONE NUMBER
+    ------------------------- */
 
-    if (!isValidKenyanNumber(phone)) {
-        alert("Please enter a valid Kenyan phone number.");
+    const phone = document
+        .getElementById("airtimeNumber")
+        .value
+        .trim();
+
+    const normalizedPhone = normalizeNumber(phone);
+
+    console.log("Original:", phone);
+    console.log("Normalized:", normalizedPhone);
+
+    /* -------------------------
+       VALIDATE PHONE
+    ------------------------- */
+
+    if (!isValidKenyanNumber(normalizedPhone)) {
+
+        alert("Enter a valid Kenyan phone number.");
+
         return;
+
     }
+
+    /* -------------------------
+       GET AMOUNT
+    ------------------------- */
 
     let amount = selectedAmount;
 
@@ -109,21 +129,34 @@ async function buyAirtime() {
         document.getElementById("customAmount");
 
     if (customInput && customInput.value) {
+
         amount = Number(customInput.value);
+
     }
 
     if (amount <= 0) {
+
         alert("Please select or enter an amount.");
+
         return;
+
     }
 
-    const network = detectNetwork(phone);
+    /* -------------------------
+       DETECT NETWORK
+    ------------------------- */
+
+    const network = detectNetwork(normalizedPhone);
 
     try {
 
+        /* -------------------------
+           SEND TO BACKEND
+        ------------------------- */
+
         const result = await apiPost("/airtime", {
 
-            phone,
+            phone: normalizedPhone,
             network,
             amount
 
@@ -137,6 +170,10 @@ async function buyAirtime() {
 
         }
 
+        /* -------------------------
+           UPDATE LOCAL DATA
+        ------------------------- */
+
         Telecom.airtime += amount;
 
         updateAirtimeDisplay();
@@ -145,10 +182,16 @@ async function buyAirtime() {
 
         showToast("✅ Airtime Purchased Successfully");
 
+        /* -------------------------
+           RESET FORM
+        ------------------------- */
+
         document.getElementById("airtimeNumber").value = "";
 
         if (customInput) {
+
             customInput.value = "";
+
         }
 
         selectedAmount = 0;

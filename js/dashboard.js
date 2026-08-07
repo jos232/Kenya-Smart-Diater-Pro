@@ -92,7 +92,7 @@ async function loadBundleDashboard() {
 
         const result = await apiGet("/bundles");
 
-        const history = result.history || result || [];
+        const history = result.history || [];
 
         let totalMB = 0;
 
@@ -100,19 +100,7 @@ async function loadBundleDashboard() {
 
             history.forEach(bundle => {
 
-                const amount = String(bundle.dataAmount || "");
-
-                if (amount.includes("GB")) {
-
-                    totalMB += parseFloat(amount) * 1024;
-
-                }
-
-                else if (amount.includes("MB")) {
-
-                    totalMB += parseFloat(amount);
-
-                }
+                totalMB += Number(bundle.quantity || 0);
 
             });
 
@@ -122,7 +110,7 @@ async function loadBundleDashboard() {
 
         if (card) {
 
-            card.textContent = `${totalMB} MB`;
+            card.textContent = totalMB + " MB";
 
         }
 
@@ -135,8 +123,9 @@ async function loadBundleDashboard() {
     }
 
 }
+
 /* ==========================================
-   VOICE CARD
+   LOAD VOICE DASHBOARD
 ========================================== */
 
 async function loadVoiceDashboard() {
@@ -145,19 +134,23 @@ async function loadVoiceDashboard() {
 
         const result = await apiGet("/voice");
 
-        const history = result.history || result || [];
+        console.log("VOICE API RESULT:", result);
+
+        const history = result.history || [];
+
+        console.log("VOICE HISTORY:", history);
 
         let totalMinutes = 0;
 
-        if (Array.isArray(history)) {
+        history.forEach(item => {
 
-            history.forEach(item => {
+            console.log("VOICE ITEM:", item);
 
-                totalMinutes += Number(item.minutes || 0);
+            totalMinutes += Number(item.minutes || 0);
 
-            });
+        });
 
-        }
+        console.log("TOTAL MINUTES:", totalMinutes);
 
         const card = document.getElementById("dashboardVoice");
 
@@ -171,7 +164,7 @@ async function loadVoiceDashboard() {
 
     catch (error) {
 
-        console.error("Voice:", error);
+        console.error("Voice Dashboard:", error);
 
     }
 

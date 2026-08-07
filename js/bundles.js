@@ -214,11 +214,12 @@ document.addEventListener("DOMContentLoaded", () => {
     renderBundles("Daily");
 
 });
+
 /* ==========================================
    BUY BUNDLE
 ========================================== */
 
-function buyBundle() {
+async function buyBundle() {
 
     if (!selectedBundle) {
 
@@ -228,31 +229,107 @@ function buyBundle() {
 
     }
 
-    // Add bundle to Telecom Engine
-    addData(selectedBundle.mb);
-    refreshApp();
+    try {
 
-    // Save bundle purchase
-    saveBundlePurchase(selectedBundle);
+        /* -------------------------
+           SAVE TO BACKEND
+        ------------------------- */
 
-    // Update dashboard
-    if (typeof updateBundleDisplay === "function") {
+        const result = await apiPost("/bundles", {
 
-        updateBundleDisplay();
+            bundleType: "Data",
+
+            packageName: selectedBundle.name,
+
+            amount: selectedBundle.price,
+
+            quantity: selectedBundle.mb,
+
+            expiry: selectedBundle.expiry,
+
+            paymentMethod: "Wallet"
+
+        });
+
+        if (!result.success) {
+
+            alert(result.message || "Unable to purchase bundle.");
+
+            return;
+
+        }
+
+        /* -------------------------
+           UPDATE LOCAL TELECOM ENGINE
+        ------------------------- */
+
+        Telecom.data = Number(Telecom.data || 0) + Number(selectedBundle.mb);
+
+        if (typeof addData === "function") {
+
+            addData(selectedBundle.mb);
+
+        }
+
+        /* -------------------------
+           SAVE LOCAL HISTORY
+        ------------------------- */
+
+        saveBundlePurchase(selectedBundle);
+
+        /* -------------------------
+           REFRESH EVERYTHING
+        ------------------------- */
+
+        if (typeof loadBundleDashboard === "function") {
+
+            await loadBundleDashboard();
+
+        }
+
+        if (typeof refreshDashboardCards === "function") {
+
+            await refreshDashboardCards();
+
+        }
+
+        if (typeof updateTelecomDashboard === "function") {
+
+            updateTelecomDashboard();
+
+        }
+
+        if (typeof renderBundleHistory === "function") {
+
+            renderBundleHistory();
+
+        }
+
+        /* -------------------------
+           RESET SELECTION
+        ------------------------- */
+
+        selectedBundle = null;
+
+        document.getElementById("bundleSummaryName").textContent = "-";
+        document.getElementById("bundleSummarySize").textContent = "-";
+        document.getElementById("bundleSummaryPrice").textContent = "-";
+
+        /* -------------------------
+           SUCCESS MESSAGE
+        ------------------------- */
+
+        showToast("📶 Bundle activated successfully!");
 
     }
 
-    if (typeof updateTelecomDashboard === "function") {
+    catch (error) {
 
-        updateTelecomDashboard();
+        console.error("Bundle Purchase Error:", error);
+
+        alert("Unable to purchase bundle. Please try again.");
 
     }
-
-    // Success message
-    showToast("📶 " + selectedBundle.name + " Activated");
-
-    // Refresh history
-    renderBundleHistory();
 
 }
 /* ==========================================
@@ -270,6 +347,8 @@ function saveBundlePurchase(bundle) {
     history.unshift({
 
         name: bundle.name,
+
+        dataAmount: bundle.mb + "MB",
 
         mb: bundle.mb,
 
@@ -301,6 +380,7 @@ function renderBundleHistory() {
         document.getElementById("bundleHistory");
 
     if (!container) return;
+
 
     const history = JSON.parse(
 
@@ -373,5 +453,28 @@ function updateBundleProgress() {
     );
 
     progress.style.width = percentage + "%";
+
+}
+/* ==========================================
+   DETECT BUNDLE NETWORK
+========================================== */
+
+function detectBundleNetwork() {
+
+    const input = document.getElementById("bundleNumber");
+
+    if (!input) return;
+
+    const number = normalizeNumber(input.value);
+
+    const network = detectNetwork(number);
+
+    const label = document.getElementById("bundleNetwork");
+
+    if (label) {
+
+        label.textContent = network || "Unknown";
+
+    }
 
 }

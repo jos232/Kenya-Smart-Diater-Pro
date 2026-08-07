@@ -1,187 +1,153 @@
 /* ==========================================
-   KENYA SMART DIALER PRO
-   VOICE MODEL
+   BUY VOICE PACKAGE
 ========================================== */
 
-"use strict";
+async function buyVoicePackage() {
 
-const mongoose = require("mongoose");
+    /* -------------------------
+       CHECK PACKAGE
+    ------------------------- */
 
-const VoiceSchema = new mongoose.Schema({
+    if (!selectedVoicePackage) {
 
-    /* Owner */
+        alert("Please select a voice package.");
 
-    user: {
-
-        type: mongoose.Schema.Types.ObjectId,
-
-        ref: "User",
-
-        required: true,
-
-        index: true
-
-    },
-
-    /* Phone Number */
-
-    phone: {
-
-        type: String,
-
-        required: true,
-
-        trim: true
-
-    },
-
-    /* Network */
-
-    network: {
-
-        type: String,
-
-        enum: [
-
-            "Safaricom",
-
-            "Airtel",
-
-            "Telkom",
-
-            "Faiba",
-
-            "Unknown"
-
-        ],
-
-        required: true
-
-    },
-
-    /* Package */
-
-    packageName: {
-
-        type: String,
-
-        required: true
-
-    },
-
-    /* Minutes */
-
-    minutes: {
-
-        type: Number,
-
-        required: true,
-
-        min: 1
-
-    },
-
-    /* Price */
-
-    price: {
-
-        type: Number,
-
-        required: true,
-
-        min: 1
-
-    },
-
-    /* Payment Method */
-
-    paymentMethod: {
-
-        type: String,
-
-        enum: [
-
-            "Wallet",
-
-            "KCB",
-
-            "EQUITY",
-
-            "CO-OP",
-
-            "M-PESA"
-
-        ],
-
-        default: "Wallet"
-
-    },
-
-    /* Status */
-
-    status: {
-
-        type: String,
-
-        enum: [
-
-            "SUCCESS",
-
-            "PENDING",
-
-            "FAILED"
-
-        ],
-
-        default: "SUCCESS"
-
-    },
-
-    /* Receipt */
-
-    receiptNumber: {
-
-        type: String,
-
-        unique: true
+        return;
 
     }
 
-},
+    /* -------------------------
+       GET PHONE NUMBER
+    ------------------------- */
 
-    {
+    const phoneInput = document.getElementById("voiceNumber");
 
-        timestamps: true
+    if (!phoneInput) {
 
-    });
+        showToast("Voice number field not found.", "error");
 
-/* ==========================================
-   AUTO RECEIPT NUMBER
-========================================== */
-
-VoiceSchema.pre("save", function (next) {
-
-    if (!this.receiptNumber) {
-
-        this.receiptNumber =
-            "VOC" +
-            Date.now() +
-            Math.floor(Math.random() * 1000);
+        return;
 
     }
 
-    next();
+    const phone = normalizeNumber(phoneInput.value.trim());
 
-});
+    if (!isValidKenyanNumber(phone)) {
 
-/* ==========================================
-   EXPORT
-========================================== */
+        alert("Please enter a valid Kenyan phone number.");
 
-module.exports = mongoose.model(
+        return;
 
-    "Voice",
+    }
 
-    VoiceSchema
+    /* -------------------------
+       DETECT NETWORK
+    ------------------------- */
 
-);
+    const network = detectNetwork(phone);
+
+    try {
+
+        /* -------------------------
+           SAVE TO BACKEND
+        ------------------------- */
+
+        const result = await apiPost("/voice", {
+
+            phone: phone,
+
+            network: network,
+
+            packageName: selectedVoicePackage.name,
+
+            minutes: selectedVoicePackage.minutes,
+
+            price: selectedVoicePackage.price,
+
+            paymentMethod: "Wallet"
+
+        });
+
+        if (!result.success) {
+
+            alert(result.message || "Voice purchase failed.");
+
+            return;
+
+        }
+
+        /* -------------------------
+           UPDATE LOCAL TELECOM
+        ------------------------- */
+
+        Telecom.voice =
+            (Telecom.voice || 0) +
+            selectedVoicePackage.minutes;
+
+        Telecom.save();
+
+        /* -------------------------
+           SAVE HISTORY
+        ------------------------- */
+
+        saveVoicePurchase(selectedVoicePackage);
+
+        /* -------------------------
+           REFRESH DASHBOARD
+        ------------------------- */
+
+        if (typeof refreshDashboardCards === "function") {
+
+            await refreshDashboardCards();
+
+        }
+
+        if (typeof updateTelecomDashboard === "function") {
+
+            updateTelecomDashboard();
+
+        }
+
+        /* -------------------------
+           REFRESH HISTORY
+        ------------------------- */
+
+        renderVoiceHistory();
+
+        /* -------------------------
+           RESET FORM
+        ------------------------- */
+
+        phoneInput.value = "";
+
+        selectedVoicePackage = null;
+
+        document.getElementById("voiceSummaryPackage").textContent = "--";
+
+        document.getElementById("voiceSummaryMinutes").textContent = "--";
+
+        document.getElementById("voiceSummaryPrice").textContent = "--";
+
+        /* -------------------------
+           SUCCESS
+        ------------------------- */
+
+        showToast("🎤 Voice package activated successfully.");
+
+    }
+
+    catch (error) {
+
+        console.error("Voice Purchase:", error);
+
+        showToast(
+
+            error.message || "Unable to activate voice package.",
+
+            "error"
+
+        );
+
+    }
+
+}

@@ -37,14 +37,20 @@ function submitCoopAirtime() {
         return;
 
     }
+    console.log("Phone before validation:", phone);
 
-    if (!isValidKenyanNumber(phone)) {
+    const normalizedPhone = normalizeNumber(phone);
 
-        alert("Enter a valid Kenyan phone number.");
+    console.log("Phone after normalization:", normalizedPhone);
+
+    if (!isValidKenyanNumber(normalizedPhone)) {
+
+        alert("Invalid phone: " + normalizedPhone);
 
         return;
 
     }
+
 
     if (amount <= 0) {
 

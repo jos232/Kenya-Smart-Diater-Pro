@@ -16,6 +16,11 @@ exports.buyVoice = async (req, res) => {
 
     try {
 
+        console.log("================================");
+        console.log("VOICE REQUEST BODY");
+        console.log(req.body);
+        console.log("================================");
+
         const {
 
             phone,
@@ -26,6 +31,13 @@ exports.buyVoice = async (req, res) => {
             paymentMethod
 
         } = req.body;
+
+        console.log("phone:", phone);
+        console.log("network:", network);
+        console.log("packageName:", packageName);
+        console.log("minutes:", minutes);
+        console.log("price:", price);
+        console.log("paymentMethod:", paymentMethod);
 
         if (
             !phone ||

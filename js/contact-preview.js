@@ -45,12 +45,12 @@ function updateContactPreview() {
     }
 
     Dialer.currentContact = contact;
-
-    document.getElementById("contactName").textContent =
+    document.getElementById("detailContactName").textContent =
         contact.name;
 
-    document.getElementById("contactNetwork").textContent =
-        contact.network || Dialer.currentNetwork;
+    document.getElementById("detailContactNetwork").textContent =
+        contact.network;
+
 
     const avatar = document.getElementById("contactAvatar");
 

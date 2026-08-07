@@ -139,7 +139,7 @@ function chooseVoicePackage(name, minutes, price, expiry) {
    BUY PACKAGE
 ========================================== */
 
-function buyVoicePackage() {
+async function buyVoicePackage() {
 
     if (!selectedVoicePackage) {
 
@@ -148,8 +148,44 @@ function buyVoicePackage() {
         return;
 
     }
+    console.log("Sending Voice Request:", {
+        phone,
+        network,
+        packageName: selectedVoicePackage?.name,
+        minutes: selectedVoicePackage?.minutes,
+        price: selectedVoicePackage?.price,
+        paymentMethod: "Wallet"
+    });
 
-    if (typeof Telecom !== "undefined") {
+    try {
+
+        /* -------------------------
+           SAVE TO BACKEND
+        ------------------------- */
+
+        const result = await apiPost("/voice", {
+
+            packageName: selectedVoicePackage.name,
+
+            minutes: selectedVoicePackage.minutes,
+
+            amount: selectedVoicePackage.price,
+
+            expiry: selectedVoicePackage.expiry
+
+        });
+
+        if (result.success === false) {
+
+            alert(result.message || "Voice purchase failed.");
+
+            return;
+
+        }
+
+        /* -------------------------
+           UPDATE LOCAL TELECOM
+        ------------------------- */
 
         Telecom.voice =
             (Telecom.voice || 0) +
@@ -161,37 +197,43 @@ function buyVoicePackage() {
 
         }
 
+        saveVoicePurchase(selectedVoicePackage);
+
+        /* -------------------------
+           REFRESH DASHBOARD
+        ------------------------- */
+
+        if (typeof refreshDashboardCards === "function") {
+
+            await refreshDashboardCards();
+
+        }
+
+        if (typeof updateVoiceDisplay === "function") {
+
+            updateVoiceDisplay();
+
+        }
+
+        if (typeof updateTelecomDashboard === "function") {
+
+            updateTelecomDashboard();
+
+        }
+
+        showToast("🎤 " + selectedVoicePackage.name + " Activated");
+
+        renderVoiceHistory();
+
     }
 
-    saveVoicePurchase(selectedVoicePackage);
+    catch (error) {
 
-    if (typeof refreshDashboard === "function") {
+        console.error(error);
 
-        refreshDashboard();
-
-    }
-
-    if (typeof loadDashboard === "function") {
-
-        loadDashboard();
+        showToast("Voice purchase failed", "error");
 
     }
-
-    if (typeof showToast === "function") {
-
-        showToast(
-            "🎤 " +
-            selectedVoicePackage.name +
-            " Activated"
-        );
-
-    } else {
-
-        alert("Voice package activated.");
-
-    }
-
-    renderVoiceHistory();
 
 }
 
@@ -302,6 +344,24 @@ document.addEventListener("DOMContentLoaded", () => {
     renderVoiceHistory();
 
 });
+
+function detectVoiceNetwork() {
+
+    const input = document.getElementById("voiceNumber");
+
+    if (!input) return;
+
+    const network = detectNetwork(input.value);
+
+    const label = document.getElementById("voiceNetwork");
+
+    if (label) {
+
+        label.textContent = network;
+
+    }
+
+}
 
 /* ==========================================
    EXPORTS

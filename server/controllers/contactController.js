@@ -28,9 +28,7 @@ exports.getContacts = async (req, res) => {
         res.status(200).json({
 
             success: true,
-
             count: contacts.length,
-
             contacts
 
         });
@@ -39,17 +37,19 @@ exports.getContacts = async (req, res) => {
 
     catch (error) {
 
+        console.error(error);
+
         res.status(500).json({
 
             success: false,
-
-            message: error.message
+            message: "Unable to load your contacts. Please try again."
 
         });
 
     }
 
 };
+
 
 /* ==========================================
    CREATE CONTACT
@@ -70,7 +70,7 @@ exports.createContact = async (req, res) => {
         res.status(201).json({
 
             success: true,
-
+            message: "Contact saved successfully.",
             contact
 
         });
@@ -79,17 +79,43 @@ exports.createContact = async (req, res) => {
 
     catch (error) {
 
-        res.status(400).json({
+        console.error(error);
+
+        // Duplicate phone number
+        if (error.code === 11000) {
+
+            return res.status(400).json({
+
+                success: false,
+                message: "This phone number already exists in your contacts."
+
+            });
+
+        }
+
+        // Validation errors
+        if (error.name === "ValidationError") {
+
+            return res.status(400).json({
+
+                success: false,
+                message: "Please fill in all required contact information."
+
+            });
+
+        }
+
+        res.status(500).json({
 
             success: false,
-
-            message: error.message
+            message: "Unable to save contact. Please try again."
 
         });
 
     }
 
 };
+
 
 /* ==========================================
    UPDATE CONTACT
@@ -126,7 +152,6 @@ exports.updateContact = async (req, res) => {
             return res.status(404).json({
 
                 success: false,
-
                 message: "Contact not found."
 
             });
@@ -136,7 +161,7 @@ exports.updateContact = async (req, res) => {
         res.json({
 
             success: true,
-
+            message: "Contact updated successfully.",
             contact
 
         });
@@ -145,17 +170,30 @@ exports.updateContact = async (req, res) => {
 
     catch (error) {
 
-        res.status(400).json({
+        console.error(error);
+
+        if (error.code === 11000) {
+
+            return res.status(400).json({
+
+                success: false,
+                message: "Another contact already uses this phone number."
+
+            });
+
+        }
+
+        res.status(500).json({
 
             success: false,
-
-            message: error.message
+            message: "Unable to update contact."
 
         });
 
     }
 
 };
+
 
 /* ==========================================
    DELETE CONTACT
@@ -178,7 +216,6 @@ exports.deleteContact = async (req, res) => {
             return res.status(404).json({
 
                 success: false,
-
                 message: "Contact not found."
 
             });
@@ -188,7 +225,6 @@ exports.deleteContact = async (req, res) => {
         res.json({
 
             success: true,
-
             message: "Contact deleted successfully."
 
         });
@@ -197,11 +233,12 @@ exports.deleteContact = async (req, res) => {
 
     catch (error) {
 
-        res.status(400).json({
+        console.error(error);
+
+        res.status(500).json({
 
             success: false,
-
-            message: error.message
+            message: "Unable to delete contact."
 
         });
 

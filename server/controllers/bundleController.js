@@ -18,9 +18,21 @@ exports.buyBundle = async (req, res) => {
 
         const bundle = await Bundle.create({
 
-            ...req.body,
+            user: req.user.userId,
 
-            user: req.user.userId
+            bundleType: req.body.bundleType,
+
+            packageName: req.body.packageName,
+
+            amount: Number(req.body.amount),
+
+            quantity: Number(req.body.quantity),
+
+            expiry: req.body.expiry,
+
+            paymentMethod: req.body.paymentMethod || "WALLET",
+
+            status: "SUCCESS"
 
         });
 
@@ -28,21 +40,33 @@ exports.buyBundle = async (req, res) => {
 
             user: req.user.userId,
 
-            bank: req.body.paymentMethod || "Wallet",
+            bank: "WALLET",
 
             service: "BUNDLE",
 
-            sender: req.body.paymentMethod || "Wallet",
+            sender: "Wallet",
 
-            recipient: req.body.bundleType,
+            recipient: req.body.packageName,
 
-            amount: req.body.amount,
+            amount: Number(req.body.amount),
 
             fee: 0,
 
-            total: req.body.amount,
+            total: Number(req.body.amount),
 
-            status: "SUCCESS"
+            balance: 0,
+
+            status: "SUCCESS",
+
+            metadata: {
+
+                packageName: req.body.packageName,
+
+                quantity: req.body.quantity,
+
+                expiry: req.body.expiry
+
+            }
 
         });
 
@@ -58,6 +82,8 @@ exports.buyBundle = async (req, res) => {
 
     catch (error) {
 
+        console.error(error);
+
         res.status(500).json({
 
             success: false,
@@ -71,7 +97,7 @@ exports.buyBundle = async (req, res) => {
 };
 
 /* ==========================================
-   HISTORY
+   GET BUNDLE HISTORY
 ========================================== */
 
 exports.getHistory = async (req, res) => {
@@ -82,13 +108,15 @@ exports.getHistory = async (req, res) => {
 
             user: req.user.userId
 
-        }).sort({
+        })
 
-            createdAt: -1
+            .sort({
 
-        });
+                createdAt: -1
 
-        res.json({
+            });
+
+        res.status(200).json({
 
             success: true,
 
@@ -99,6 +127,8 @@ exports.getHistory = async (req, res) => {
     }
 
     catch (error) {
+
+        console.error(error);
 
         res.status(500).json({
 
