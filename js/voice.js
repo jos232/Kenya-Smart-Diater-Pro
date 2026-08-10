@@ -136,50 +136,117 @@ function chooseVoicePackage(name, minutes, price, expiry) {
 }
 
 /* ==========================================
-   BUY PACKAGE
+   BUY VOICE PACKAGE
 ========================================== */
 
 async function buyVoicePackage() {
 
+    /* -------------------------
+       CHECK PACKAGE
+    ------------------------- */
+
     if (!selectedVoicePackage) {
 
-        alert("Please select a voice package.");
+        showToast(
+            "Please select a voice package.",
+            "error"
+        );
 
         return;
-
     }
-    console.log("Sending Voice Request:", {
-        phone,
-        network,
-        packageName: selectedVoicePackage?.name,
-        minutes: selectedVoicePackage?.minutes,
-        price: selectedVoicePackage?.price,
-        paymentMethod: "Wallet"
-    });
+
+    /* -------------------------
+       GET PHONE INPUT
+    ------------------------- */
+
+    const phoneInput =
+        document.getElementById("voiceNumber");
+
+    if (!phoneInput) {
+
+        showToast(
+            "Voice phone number field was not found.",
+            "error"
+        );
+
+        return;
+    }
+
+    /* -------------------------
+       NORMALIZE PHONE
+    ------------------------- */
+
+    const phone =
+        normalizeNumber(
+            phoneInput.value.trim()
+        );
+
+    /* -------------------------
+       VALIDATE PHONE
+    ------------------------- */
+
+    if (!isValidKenyanNumber(phone)) {
+
+        showToast(
+            "Please enter a valid Kenyan phone number.",
+            "error"
+        );
+
+        return;
+    }
+
+    /* -------------------------
+       DETECT NETWORK
+    ------------------------- */
+
+    const network = detectNetwork(phone);
+
+    if (!network || network === "Unknown Network") {
+
+        showToast(
+            "We could not identify the phone network.",
+            "error"
+        );
+
+        return;
+    }
 
     try {
 
         /* -------------------------
-           SAVE TO BACKEND
+           SEND TO BACKEND
         ------------------------- */
 
-        const result = await apiPost("/voice", {
+        const result = await apiPost(
+            "/voice",
+            {
+                phone: phone,
 
-            packageName: selectedVoicePackage.name,
+                network: network,
 
-            minutes: selectedVoicePackage.minutes,
+                packageName:
+                    selectedVoicePackage.name,
 
-            amount: selectedVoicePackage.price,
+                minutes:
+                    selectedVoicePackage.minutes,
 
-            expiry: selectedVoicePackage.expiry
+                price:
+                    selectedVoicePackage.price,
 
-        });
+                paymentMethod: "Wallet"
+            }
+        );
 
-        if (result.success === false) {
+        /* -------------------------
+           CHECK RESPONSE
+        ------------------------- */
 
-            alert(result.message || "Voice purchase failed.");
+        if (!result || !result.success) {
 
-            return;
+            throw new Error(
+                result?.message ||
+                "Voice package activation failed."
+            );
 
         }
 
@@ -187,51 +254,134 @@ async function buyVoicePackage() {
            UPDATE LOCAL TELECOM
         ------------------------- */
 
-        Telecom.voice =
-            (Telecom.voice || 0) +
-            selectedVoicePackage.minutes;
+        if (typeof Telecom !== "undefined") {
 
-        if (typeof Telecom.save === "function") {
+            Telecom.voice =
+                (Telecom.voice || 0) +
+                Number(selectedVoicePackage.minutes);
 
-            Telecom.save();
+            if (typeof Telecom.save === "function") {
+
+                Telecom.save();
+
+            }
 
         }
 
-        saveVoicePurchase(selectedVoicePackage);
+        /* -------------------------
+           SAVE LOCAL HISTORY
+        ------------------------- */
+
+        saveVoicePurchase(
+            selectedVoicePackage
+        );
 
         /* -------------------------
            REFRESH DASHBOARD
         ------------------------- */
 
-        if (typeof refreshDashboardCards === "function") {
+        if (
+            typeof refreshDashboardCards ===
+            "function"
+        ) {
 
             await refreshDashboardCards();
 
         }
 
-        if (typeof updateVoiceDisplay === "function") {
-
-            updateVoiceDisplay();
-
-        }
-
-        if (typeof updateTelecomDashboard === "function") {
+        if (
+            typeof updateTelecomDashboard ===
+            "function"
+        ) {
 
             updateTelecomDashboard();
 
         }
 
-        showToast("🎤 " + selectedVoicePackage.name + " Activated");
+        /* -------------------------
+           REFRESH HISTORY
+        ------------------------- */
 
-        renderVoiceHistory();
+        if (
+            typeof renderVoiceHistory ===
+            "function"
+        ) {
+
+            renderVoiceHistory();
+
+        }
+
+        /* -------------------------
+           RESET
+        ------------------------- */
+
+        const activatedPackage =
+            selectedVoicePackage.name;
+
+        phoneInput.value = "";
+
+        selectedVoicePackage = null;
+
+        const packageElement =
+            document.getElementById(
+                "voiceSummaryPackage"
+            );
+
+        const minutesElement =
+            document.getElementById(
+                "voiceSummaryMinutes"
+            );
+
+        const priceElement =
+            document.getElementById(
+                "voiceSummaryPrice"
+            );
+
+        if (packageElement) {
+
+            packageElement.textContent = "--";
+
+        }
+
+        if (minutesElement) {
+
+            minutesElement.textContent = "--";
+
+        }
+
+        if (priceElement) {
+
+            priceElement.textContent = "--";
+
+        }
+
+        /* -------------------------
+           SUCCESS
+        ------------------------- */
+
+        showToast(
+            "🎤 " +
+            selectedVoicePackage?.name +
+            " activated successfully."
+        );
 
     }
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "Voice Purchase:",
+            error
+        );
 
-        showToast("Voice purchase failed", "error");
+        showToast(
+
+            error.message ||
+            "Unable to activate voice package.",
+
+            "error"
+
+        );
 
     }
 

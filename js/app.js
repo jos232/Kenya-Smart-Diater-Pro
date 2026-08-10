@@ -307,5 +307,61 @@ function importBackup(file) {
     reader.readAsText(file);
 
 }
+/* ==========================================
+   LOGOUT
+========================================== */
+
+function logout() {
+
+    console.log("🚪 Logging out...");
+
+    // Remove authentication information only
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("authUser");
+
+    // Redirect to login screen
+    const appContainer = document.getElementById("appContainer");
+    const loginScreen = document.getElementById("loginScreen");
+
+    if (appContainer) {
+        appContainer.style.display = "none";
+    }
+
+    if (loginScreen) {
+        loginScreen.style.display = "flex";
+    }
+
+    // Clear login fields
+    const email = document.getElementById("loginEmail");
+    const password = document.getElementById("loginPassword");
+
+    if (email) email.value = "";
+    if (password) password.value = "";
+
+    console.log("✅ Logged out successfully.");
+}
+
+
+/* ==========================================
+   LOGOUT BUTTON
+========================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (logoutBtn) {
+
+        logoutBtn.addEventListener("click", logout);
+
+        console.log("✅ Logout button ready.");
+
+    }
+
+});
+
+
+window.logout = logout;
 
 window.importBackup = importBackup;

@@ -16,46 +16,57 @@ exports.buyVoice = async (req, res) => {
 
     try {
 
-        console.log("================================");
-        console.log("VOICE REQUEST BODY");
-        console.log(req.body);
-        console.log("================================");
-
         const {
-
             phone,
             network,
             packageName,
             minutes,
             price,
             paymentMethod
-
         } = req.body;
 
-        console.log("phone:", phone);
-        console.log("network:", network);
-        console.log("packageName:", packageName);
-        console.log("minutes:", minutes);
-        console.log("price:", price);
-        console.log("paymentMethod:", paymentMethod);
+        /* ==========================
+           VALIDATION
+        ========================== */
 
-        if (
-            !phone ||
-            !network ||
-            !packageName ||
-            !minutes ||
-            !price
-        ) {
-
+        if (!phone) {
             return res.status(400).json({
-
                 success: false,
-
-                message: "Missing required fields."
-
+                message: "Please enter a phone number."
             });
-
         }
+
+        if (!network) {
+            return res.status(400).json({
+                success: false,
+                message: "We could not detect the phone network."
+            });
+        }
+
+        if (!packageName) {
+            return res.status(400).json({
+                success: false,
+                message: "Please select a voice package."
+            });
+        }
+
+        if (!minutes || Number(minutes) <= 0) {
+            return res.status(400).json({
+                success: false,
+                message: "The selected voice package has no valid minutes."
+            });
+        }
+
+        if (!price || Number(price) <= 0) {
+            return res.status(400).json({
+                success: false,
+                message: "The selected voice package has an invalid price."
+            });
+        }
+
+        /* ==========================
+           CREATE VOICE PURCHASE
+        ========================== */
 
         const voicePurchase = await Voice.create({
 
@@ -67,13 +78,19 @@ exports.buyVoice = async (req, res) => {
 
             packageName,
 
-            minutes,
+            minutes: Number(minutes),
 
-            price,
+            price: Number(price),
 
-            paymentMethod
+            paymentMethod: paymentMethod || "Wallet",
+
+            status: "SUCCESS"
 
         });
+
+        /* ==========================
+           TRANSACTION
+        ========================== */
 
         await Transaction.create({
 
@@ -87,21 +104,26 @@ exports.buyVoice = async (req, res) => {
 
             recipient: phone,
 
-            amount: price,
+            amount: Number(price),
 
             fee: 0,
 
-            total: price,
+            total: Number(price),
 
             status: "SUCCESS"
 
         });
 
-        res.status(201).json({
+        /* ==========================
+           SUCCESS
+        ========================== */
+
+        return res.status(201).json({
 
             success: true,
 
-            message: "Voice package activated successfully.",
+            message:
+                `${packageName} activated successfully.`,
 
             voice: voicePurchase
 
@@ -111,13 +133,17 @@ exports.buyVoice = async (req, res) => {
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "VOICE PURCHASE ERROR:",
+            error
+        );
 
-        res.status(500).json({
+        return res.status(500).json({
 
             success: false,
 
-            message: error.message
+            message:
+                "We could not activate the voice package. Please try again."
 
         });
 
@@ -125,8 +151,9 @@ exports.buyVoice = async (req, res) => {
 
 };
 
+
 /* ==========================================
-   VOICE HISTORY
+   GET VOICE HISTORY
 ========================================== */
 
 exports.getHistory = async (req, res) => {
@@ -143,7 +170,7 @@ exports.getHistory = async (req, res) => {
 
         });
 
-        res.status(200).json({
+        return res.status(200).json({
 
             success: true,
 
@@ -157,13 +184,17 @@ exports.getHistory = async (req, res) => {
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "VOICE HISTORY ERROR:",
+            error
+        );
 
-        res.status(500).json({
+        return res.status(500).json({
 
             success: false,
 
-            message: error.message
+            message:
+                "We could not load your voice history."
 
         });
 
@@ -171,8 +202,9 @@ exports.getHistory = async (req, res) => {
 
 };
 
+
 /* ==========================================
-   GET SINGLE PURCHASE
+   GET SINGLE VOICE PURCHASE
 ========================================== */
 
 exports.getVoiceById = async (req, res) => {
@@ -193,13 +225,14 @@ exports.getVoiceById = async (req, res) => {
 
                 success: false,
 
-                message: "Voice purchase not found."
+                message:
+                    "Voice purchase not found."
 
             });
 
         }
 
-        res.json({
+        return res.json({
 
             success: true,
 
@@ -211,11 +244,17 @@ exports.getVoiceById = async (req, res) => {
 
     catch (error) {
 
-        res.status(500).json({
+        console.error(
+            "VOICE LOOKUP ERROR:",
+            error
+        );
+
+        return res.status(500).json({
 
             success: false,
 
-            message: error.message
+            message:
+                "We could not load this voice purchase."
 
         });
 
@@ -223,8 +262,9 @@ exports.getVoiceById = async (req, res) => {
 
 };
 
+
 /* ==========================================
-   DELETE HISTORY ITEM
+   DELETE VOICE PURCHASE
 ========================================== */
 
 exports.deleteVoice = async (req, res) => {
@@ -245,17 +285,19 @@ exports.deleteVoice = async (req, res) => {
 
                 success: false,
 
-                message: "Voice purchase not found."
+                message:
+                    "Voice purchase not found."
 
             });
 
         }
 
-        res.json({
+        return res.json({
 
             success: true,
 
-            message: "Voice history deleted successfully."
+            message:
+                "Voice purchase removed successfully."
 
         });
 
@@ -263,11 +305,17 @@ exports.deleteVoice = async (req, res) => {
 
     catch (error) {
 
-        res.status(500).json({
+        console.error(
+            "VOICE DELETE ERROR:",
+            error
+        );
+
+        return res.status(500).json({
 
             success: false,
 
-            message: error.message
+            message:
+                "We could not remove this voice purchase."
 
         });
 

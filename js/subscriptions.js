@@ -149,11 +149,16 @@ function selectSubscription(name) {
     ).textContent = selectedSubscription.validity;
 
 }
+
 /* ==========================================
    ACTIVATE SUBSCRIPTION
 ========================================== */
 
-function activateSubscription() {
+async function activateSubscription() {
+
+    /* -------------------------
+       CHECK PLAN
+    ------------------------- */
 
     if (!selectedSubscription) {
 
@@ -163,45 +168,138 @@ function activateSubscription() {
 
     }
 
-    // Credit Telecom Balances
+    try {
 
-    Telecom.data += selectedSubscription.data;
+        /* -------------------------
+           SAVE TO BACKEND
+        ------------------------- */
 
-    Telecom.voice += selectedSubscription.voice;
-
-    Telecom.sms += selectedSubscription.sms;
-
-    Telecom.save();
-
-    // Save Active Subscription
-
-    localStorage.setItem(
-
-        "activeSubscription",
-
-        JSON.stringify({
+        const result = await apiPost("/subscriptions", {
 
             name: selectedSubscription.name,
 
-            expiry: selectedSubscription.validity,
+            price: selectedSubscription.price,
 
-            activated: new Date().toLocaleString()
+            validity: selectedSubscription.validity,
 
-        })
+            data: selectedSubscription.data,
 
-    );
+            voice: selectedSubscription.voice,
 
-    // Save History
+            sms: selectedSubscription.sms,
 
-    saveSubscriptionHistory(selectedSubscription);
+            airtime: selectedSubscription.airtime || 0,
 
-    refreshApp();
+            paymentMethod: "Wallet"
 
-    renderSubscriptionHistory();
+        });
 
-    loadActiveSubscription();
+        console.log(
+            "SUBSCRIPTION PURCHASE RESULT:",
+            result
+        );
 
-    showToast("⭐ Subscription Activated");
+        if (!result.success) {
+
+            showToast(
+                result.message || "Subscription failed.",
+                "error"
+            );
+
+            return;
+
+        }
+
+        /* -------------------------
+           UPDATE TELECOM BALANCES
+        ------------------------- */
+
+        Telecom.data =
+            (Telecom.data || 0) +
+            Number(selectedSubscription.data || 0);
+
+        Telecom.voice =
+            (Telecom.voice || 0) +
+            Number(selectedSubscription.voice || 0);
+
+        Telecom.sms =
+            (Telecom.sms || 0) +
+            Number(selectedSubscription.sms || 0);
+
+        Telecom.save();
+
+        /* -------------------------
+           LOCAL ACTIVE SUBSCRIPTION
+        ------------------------- */
+
+        localStorage.setItem(
+            "activeSubscription",
+            JSON.stringify({
+
+                name: selectedSubscription.name,
+
+                expiry: selectedSubscription.validity,
+
+                activated:
+                    new Date().toLocaleString()
+
+            })
+        );
+
+        /* -------------------------
+           LOCAL HISTORY
+        ------------------------- */
+
+        saveSubscriptionHistory(
+            selectedSubscription
+        );
+
+        /* -------------------------
+           REFRESH DASHBOARD
+        ------------------------- */
+
+        await refreshApp();
+
+        /* -------------------------
+           REFRESH SUBSCRIPTION UI
+        ------------------------- */
+
+        renderSubscriptionHistory();
+
+        loadActiveSubscription();
+
+        /* -------------------------
+           SUCCESS
+        ------------------------- */
+
+        showToast(
+            "⭐ " +
+            selectedSubscription.name +
+            " Activated"
+        );
+
+        /* -------------------------
+           RESET
+        ------------------------- */
+
+        selectedSubscription = null;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Subscription Purchase:",
+            error
+        );
+
+        showToast(
+            error.message ||
+            "Unable to activate subscription.",
+            "error"
+        );
+
+    }
 
 }
 /* ==========================================
@@ -342,3 +440,206 @@ document.addEventListener("DOMContentLoaded", () => {
     loadActiveSubscription();
 
 });
+/* ==========================================
+   LOAD SUBSCRIPTION DASHBOARD
+========================================== */
+
+async function loadSubscriptionDashboard() {
+
+    try {
+
+        /* ==========================
+           LOAD HISTORY
+        ========================== */
+
+        const historyResult =
+            await apiGet("/subscriptions");
+
+        console.log(
+            "SUBSCRIPTION HISTORY API:",
+            historyResult
+        );
+
+        const history =
+            historyResult.history || [];
+
+
+        /* ==========================
+           LOAD ACTIVE SUBSCRIPTION
+        ========================== */
+
+        const activeResult =
+            await apiGet("/subscriptions/active");
+
+        console.log(
+            "ACTIVE SUBSCRIPTION API:",
+            activeResult
+        );
+
+        const active =
+            activeResult.active
+                ? activeResult.subscription
+                : null;
+
+
+        /* ==========================
+           ACTIVE PLAN
+        ========================== */
+
+        const activeName =
+            document.getElementById(
+                "activeSubscription"
+            );
+
+        const expiry =
+            document.getElementById(
+                "subscriptionExpiry"
+            );
+
+
+        if (active) {
+
+            if (activeName) {
+
+                activeName.textContent =
+                    active.name;
+
+            }
+
+            if (expiry) {
+
+                expiry.textContent =
+                    "Valid until " +
+                    new Date(
+                        active.expiresAt
+                    ).toLocaleString();
+
+            }
+
+        }
+
+        else {
+
+            if (activeName) {
+
+                activeName.textContent =
+                    "No Active Subscription";
+
+            }
+
+            if (expiry) {
+
+                expiry.textContent =
+                    "No active plan";
+
+            }
+
+        }
+
+
+        /* ==========================
+           RENDER HISTORY
+        ========================== */
+
+        renderSubscriptionHistoryFromBackend(
+            history
+        );
+
+
+        /* ==========================
+           UPDATE ACTIVE COUNT
+        ========================== */
+
+        const dashboardSubscriptions =
+            document.getElementById(
+                "dashboardSubscriptions"
+            );
+
+        const activeCount =
+            active ? 1 : 0;
+
+        console.log(
+            "ACTIVE SUBSCRIPTION COUNT:",
+            activeCount
+        );
+
+        if (dashboardSubscriptions) {
+
+            dashboardSubscriptions.textContent =
+                activeCount + " Active";
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Subscription Dashboard:",
+            error
+        );
+
+    }
+
+}
+/* ==========================================
+   RENDER BACKEND SUBSCRIPTION HISTORY
+========================================== */
+
+function renderSubscriptionHistoryFromBackend(
+    history = []
+) {
+
+    const container =
+        document.getElementById(
+            "subscriptionHistory"
+        );
+
+    if (!container) return;
+
+    if (!history.length) {
+
+        container.innerHTML =
+            "<p class='empty-text'>No subscriptions yet.</p>";
+
+        return;
+
+    }
+
+    container.innerHTML = "";
+
+    history.forEach(item => {
+
+        const date = item.createdAt
+            ? new Date(
+                item.createdAt
+            ).toLocaleString()
+            : "--";
+
+        container.innerHTML += `
+
+            <div class="history-item">
+
+                <strong>
+                    ${item.planName || item.name}
+                </strong>
+
+                <span>
+                    KSh ${item.price}
+                </span>
+
+                <small>
+                    ${item.validity || "--"}
+                </small>
+
+                <small>
+                    ${date}
+                </small>
+
+            </div>
+
+        `;
+
+    });
+
+}

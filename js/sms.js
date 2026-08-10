@@ -176,36 +176,245 @@ function chooseSMSPackage(
     document.getElementById("smsSummaryPrice").textContent = "KSh " + price;
 
 }
+
 /* ==========================================
    BUY SMS PACKAGE
 ========================================== */
 
-function buySMSPackage() {
+async function buySMSPackage() {
+
+    /* -------------------------
+       CHECK PACKAGE
+    ------------------------- */
 
     if (!selectedSMSPackage) {
 
-        alert("Please select an SMS package.");
+        showToast(
+            "Please select an SMS package.",
+            "error"
+        );
 
         return;
 
     }
 
-    // Add SMS Balance
-    Telecom.sms += selectedSMSPackage.sms;
+    /* -------------------------
+       GET PHONE NUMBER
+    ------------------------- */
 
-    Telecom.save();
+    const phoneInput =
+        document.getElementById("smsNumber");
 
-    // Save Purchase
-    saveSMSPurchase(selectedSMSPackage);
+    if (!phoneInput) {
 
-    // Refresh Dashboard
-    refreshApp();
+        showToast(
+            "SMS phone number field not found.",
+            "error"
+        );
 
-    // Notification
-    showToast("💬 " + selectedSMSPackage.name + " Activated");
+        return;
 
-    // Refresh History
-    renderSMSHistory();
+    }
+
+    const phone =
+        normalizeNumber(
+            phoneInput.value.trim()
+        );
+
+    /* -------------------------
+       VALIDATE PHONE
+    ------------------------- */
+
+    if (!isValidKenyanNumber(phone)) {
+
+        showToast(
+            "Please enter a valid Kenyan phone number.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    /* -------------------------
+       DETECT NETWORK
+    ------------------------- */
+
+    const network = detectNetwork(phone);
+
+    if (
+        !network ||
+        network === "Unknown Network" ||
+        network === "Unknown"
+    ) {
+
+        showToast(
+            "Unable to detect the mobile network.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    try {
+
+        /* -------------------------
+           SAVE TO BACKEND
+        ------------------------- */
+
+        const result = await apiPost("/sms", {
+
+            phone: phone,
+
+            network: network,
+
+            packageName:
+                selectedSMSPackage.name,
+
+            sms:
+                selectedSMSPackage.sms,
+
+            price:
+                selectedSMSPackage.price,
+
+            paymentMethod: "Wallet"
+
+        });
+
+        /* -------------------------
+           CHECK RESPONSE
+        ------------------------- */
+
+        if (!result.success) {
+
+            showToast(
+                result.message ||
+                "SMS package purchase failed.",
+                "error"
+            );
+
+            return;
+
+        }
+
+        /* -------------------------
+           UPDATE LOCAL BALANCE
+        ------------------------- */
+
+        Telecom.sms =
+            (Telecom.sms || 0) +
+            Number(selectedSMSPackage.sms);
+
+        Telecom.save();
+
+        /* -------------------------
+           SAVE LOCAL HISTORY
+        ------------------------- */
+
+        saveSMSPurchase(
+            selectedSMSPackage
+        );
+
+        /* -------------------------
+           REFRESH APP
+        ------------------------- */
+
+        if (
+            typeof refreshApp === "function"
+        ) {
+
+            await refreshApp();
+
+        }
+
+        /* -------------------------
+           REFRESH DASHBOARD
+        ------------------------- */
+
+        if (
+            typeof refreshDashboardCards === "function"
+        ) {
+
+            await refreshDashboardCards();
+
+        }
+
+        if (
+            typeof updateTelecomDashboard === "function"
+        ) {
+
+            updateTelecomDashboard();
+
+        }
+
+        /* -------------------------
+           REFRESH HISTORY
+        ------------------------- */
+
+        renderSMSHistory();
+
+        /* -------------------------
+           RESET
+        ------------------------- */
+
+        phoneInput.value = "";
+
+        selectedSMSPackage = null;
+
+        const summaryPackage =
+            document.getElementById(
+                "smsSummaryPackage"
+            );
+
+        const summaryCount =
+            document.getElementById(
+                "smsSummaryCount"
+            );
+
+        const summaryPrice =
+            document.getElementById(
+                "smsSummaryPrice"
+            );
+
+        if (summaryPackage)
+            summaryPackage.textContent = "--";
+
+        if (summaryCount)
+            summaryCount.textContent = "--";
+
+        if (summaryPrice)
+            summaryPrice.textContent = "--";
+
+        /* -------------------------
+           SUCCESS
+        ------------------------- */
+
+        showToast(
+            "💬 " +
+            result.purchase.packageName +
+            " activated successfully."
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "SMS Purchase:",
+            error
+        );
+
+        showToast(
+
+            error.message ||
+            "Unable to activate SMS package.",
+
+            "error"
+
+        );
+
+    }
 
 }
 /* ==========================================

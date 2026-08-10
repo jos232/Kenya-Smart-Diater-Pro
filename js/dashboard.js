@@ -16,11 +16,32 @@ async function loadDashboard() {
         const contacts = getContacts() || [];
         const recentCalls = getRecentCalls() || [];
 
-        updateStatistics(contacts, recentCalls);
+        /* -------------------------
+           BASIC STATISTICS
+        ------------------------- */
 
-        updateDashboardActivity(recentCalls);
+        updateStatistics(
+            contacts,
+            recentCalls
+        );
+
+        /* -------------------------
+           RECENT ACTIVITY
+        ------------------------- */
+
+        updateDashboardActivity(
+            recentCalls
+        );
+
+        /* -------------------------
+           FAVORITES
+        ------------------------- */
 
         renderFavoriteContacts();
+
+        /* -------------------------
+           TELECOM SERVICES
+        ------------------------- */
 
         await loadAirtimeDashboard();
 
@@ -30,13 +51,32 @@ async function loadDashboard() {
 
         await loadSMSDashboard();
 
+        /* -------------------------
+           SUBSCRIPTIONS
+        ------------------------- */
+
+        if (
+            typeof loadSubscriptionDashboard === "function"
+        ) {
+
+            await loadSubscriptionDashboard();
+
+        }
+
+        /* -------------------------
+           UPDATE TELECOM UI
+        ------------------------- */
+
         updateTelecomDashboard();
 
     }
 
     catch (error) {
 
-        console.error("Dashboard:", error);
+        console.error(
+            "Dashboard:",
+            error
+        );
 
     }
 
@@ -171,34 +211,37 @@ async function loadVoiceDashboard() {
 }
 
 /* ==========================================
-   SMS CARD
+   LOAD SMS DASHBOARD
 ========================================== */
 
 async function loadSMSDashboard() {
 
     try {
 
-        const result = await apiGet("/sms");
+        const result =
+            await apiGet("/sms");
 
-        const history = result.history || result || [];
+        const history =
+            result.history || [];
 
         let totalSMS = 0;
 
-        if (Array.isArray(history)) {
+        history.forEach(item => {
 
-            history.forEach(item => {
+            totalSMS +=
+                Number(item.sms || 0);
 
-                totalSMS += Number(item.sms || 0);
+        });
 
-            });
-
-        }
-
-        const card = document.getElementById("dashboardSMS");
+        const card =
+            document.getElementById(
+                "dashboardSMS"
+            );
 
         if (card) {
 
-            card.textContent = totalSMS + " SMS";
+            card.textContent =
+                totalSMS + " SMS";
 
         }
 
@@ -206,7 +249,10 @@ async function loadSMSDashboard() {
 
     catch (error) {
 
-        console.error("SMS:", error);
+        console.error(
+            "SMS Dashboard:",
+            error
+        );
 
     }
 

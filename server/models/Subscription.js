@@ -1,13 +1,15 @@
-/* ==========================================
-   KENYA SMART DIALER PRO
-   VOICE MODEL
-========================================== */
+/*
+==========================================
+KENYA SMART DIALER PRO
+SUBSCRIPTION MODEL
+==========================================
+*/
 
 "use strict";
 
 const mongoose = require("mongoose");
 
-const VoiceSchema = new mongoose.Schema(
+const SubscriptionSchema = new mongoose.Schema(
     {
         /* ==========================
            OWNER
@@ -21,59 +23,80 @@ const VoiceSchema = new mongoose.Schema(
         },
 
         /* ==========================
-           PHONE
+           PLAN
         ========================== */
 
-        phone: {
+        name: {
             type: String,
             required: true,
             trim: true
         },
-
-        /* ==========================
-           NETWORK
-        ========================== */
-
-        network: {
-            type: String,
-            enum: [
-                "Safaricom",
-                "Airtel",
-                "Telkom",
-                "Faiba",
-                "Unknown"
-            ],
-            default: "Unknown"
-        },
-
-        /* ==========================
-           PACKAGE
-        ========================== */
-
-        packageName: {
-            type: String,
-            required: true,
-            trim: true
-        },
-
-        /* ==========================
-           MINUTES
-        ========================== */
-
-        minutes: {
-            type: Number,
-            required: true,
-            min: 1
-        },
-
-        /* ==========================
-           PRICE
-        ========================== */
 
         price: {
             type: Number,
             required: true,
-            min: 1
+            min: 0
+        },
+
+        validity: {
+            type: String,
+            required: true
+        },
+
+        /* ==========================
+           INCLUDED RESOURCES
+        ========================== */
+
+        data: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        voice: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        sms: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        airtime: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        /* ==========================
+           ACTIVATION
+        ========================== */
+
+        activatedAt: {
+            type: Date,
+            default: Date.now
+        },
+
+        expiresAt: {
+            type: Date,
+            required: true
+        },
+
+        /* ==========================
+           STATUS
+        ========================== */
+
+        status: {
+            type: String,
+            enum: [
+                "ACTIVE",
+                "EXPIRED",
+                "CANCELLED"
+            ],
+            default: "ACTIVE"
         },
 
         /* ==========================
@@ -93,20 +116,6 @@ const VoiceSchema = new mongoose.Schema(
         },
 
         /* ==========================
-           STATUS
-        ========================== */
-
-        status: {
-            type: String,
-            enum: [
-                "SUCCESS",
-                "PENDING",
-                "FAILED"
-            ],
-            default: "SUCCESS"
-        },
-
-        /* ==========================
            RECEIPT
         ========================== */
 
@@ -121,37 +130,32 @@ const VoiceSchema = new mongoose.Schema(
     }
 );
 
-/* ==========================================
-   INDEX
-========================================== */
-
-VoiceSchema.index({
-    user: 1,
-    createdAt: -1
-});
 
 /* ==========================================
-   RECEIPT
+AUTO RECEIPT NUMBER
 ========================================== */
 
-VoiceSchema.pre("save", function (next) {
+SubscriptionSchema.pre("save", function (next) {
 
     if (!this.receiptNumber) {
 
         this.receiptNumber =
-            "VOC" +
+            "SUB" +
             Date.now() +
             Math.floor(Math.random() * 1000);
 
     }
 
     next();
+
 });
 
+
 /* ==========================================
-   EXPORT MODEL
+EXPORT
 ========================================== */
 
-module.exports =
-    mongoose.models.Voice ||
-    mongoose.model("Voice", VoiceSchema);
+module.exports = mongoose.model(
+    "Subscription",
+    SubscriptionSchema
+);

@@ -1,8 +1,3 @@
-/* ==========================================
-   KENYA SMART DIALER PRO
-   SMS CONTROLLER
-========================================== */
-
 "use strict";
 
 const SMS = require("../models/SMS");
@@ -17,33 +12,56 @@ exports.buySMS = async (req, res) => {
     try {
 
         const {
-
             phone,
             network,
             packageName,
             sms,
             price,
             paymentMethod
-
         } = req.body;
 
-        if (
-            !phone ||
-            !network ||
-            !packageName ||
-            !sms ||
-            !price
-        ) {
+        /* -------------------------
+           VALIDATION
+        ------------------------- */
 
+        if (!phone) {
             return res.status(400).json({
-
                 success: false,
-
-                message: "Missing required fields."
-
+                message: "Please enter a phone number."
             });
-
         }
+
+        if (!network) {
+            return res.status(400).json({
+                success: false,
+                message: "Unable to detect the mobile network."
+            });
+        }
+
+        if (!packageName) {
+            return res.status(400).json({
+                success: false,
+                message: "Please select an SMS package."
+            });
+        }
+
+        if (!sms || Number(sms) <= 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid SMS package quantity."
+            });
+        }
+
+        if (!price || Number(price) <= 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid SMS package price."
+            });
+        }
+
+        /* -------------------------
+           CREATE SMS PURCHASE
+        ------------------------- */
 
         const purchase = await SMS.create({
 
@@ -55,19 +73,25 @@ exports.buySMS = async (req, res) => {
 
             packageName,
 
-            sms,
+            sms: Number(sms),
 
-            price,
+            price: Number(price),
 
-            paymentMethod
+            paymentMethod: paymentMethod || "Wallet",
+
+            status: "SUCCESS"
 
         });
+
+        /* -------------------------
+           SAVE TRANSACTION
+        ------------------------- */
 
         await Transaction.create({
 
             user: req.user.userId,
 
-            bank: paymentMethod || "Wallet",
+            bank: paymentMethod || "WALLET",
 
             service: "SMS",
 
@@ -75,19 +99,25 @@ exports.buySMS = async (req, res) => {
 
             recipient: phone,
 
-            amount: price,
+            amount: Number(price),
 
             fee: 0,
 
-            total: price,
+            total: Number(price),
 
             status: "SUCCESS"
 
         });
 
-        res.status(201).json({
+        /* -------------------------
+           SUCCESS
+        ------------------------- */
+
+        return res.status(201).json({
 
             success: true,
+
+            message: "SMS package activated successfully.",
 
             purchase
 
@@ -97,17 +127,20 @@ exports.buySMS = async (req, res) => {
 
     catch (error) {
 
-        res.status(500).json({
+        console.error("SMS Purchase Error:", error);
+
+        return res.status(500).json({
 
             success: false,
 
-            message: error.message
+            message: "We could not activate the SMS package. Please try again."
 
         });
 
     }
 
 };
+
 
 /* ==========================================
    SMS HISTORY
@@ -118,18 +151,16 @@ exports.getHistory = async (req, res) => {
     try {
 
         const history = await SMS.find({
-
             user: req.user.userId
-
         }).sort({
-
             createdAt: -1
-
         });
 
-        res.json({
+        return res.status(200).json({
 
             success: true,
+
+            count: history.length,
 
             history
 
@@ -139,11 +170,13 @@ exports.getHistory = async (req, res) => {
 
     catch (error) {
 
-        res.status(500).json({
+        console.error("SMS History Error:", error);
+
+        return res.status(500).json({
 
             success: false,
 
-            message: error.message
+            message: "Unable to load SMS history."
 
         });
 
@@ -151,15 +184,16 @@ exports.getHistory = async (req, res) => {
 
 };
 
+
 /* ==========================================
-   DELETE SMS PURCHASE
+   DELETE SMS HISTORY
 ========================================== */
 
 exports.deleteSMS = async (req, res) => {
 
     try {
 
-        await SMS.findOneAndDelete({
+        const purchase = await SMS.findOneAndDelete({
 
             _id: req.params.id,
 
@@ -167,11 +201,23 @@ exports.deleteSMS = async (req, res) => {
 
         });
 
-        res.json({
+        if (!purchase) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message: "SMS purchase was not found."
+
+            });
+
+        }
+
+        return res.json({
 
             success: true,
 
-            message: "SMS history deleted."
+            message: "SMS history item deleted successfully."
 
         });
 
@@ -179,11 +225,13 @@ exports.deleteSMS = async (req, res) => {
 
     catch (error) {
 
-        res.status(500).json({
+        console.error("Delete SMS Error:", error);
+
+        return res.status(500).json({
 
             success: false,
 
-            message: error.message
+            message: "Unable to delete SMS history."
 
         });
 

@@ -18,12 +18,21 @@ const financialRoutes = require("./routes/financialRoutes");
 const loanRoutes = require("./routes/loanRoutes");
 const cardRoutes = require("./routes/cardRoutes");
 const statementRoutes = require("./routes/statementRoutes");
+const subscriptionRoutes = require("./routes/subscription");
+const startSubscriptionExpiryJob =
+   require("./jobs/subscriptionExpiry");
 
 
 const app = express();
 
 // Connect Database
 connectDB();
+
+/* ==========================================
+   START AUTOMATIC SUBSCRIPTION EXPIRY
+========================================== */
+
+startSubscriptionExpiryJob();
 
 // Middleware
 app.use(cors());
@@ -42,6 +51,7 @@ app.use("/api/financial", financialRoutes);
 app.use("/api/loans", loanRoutes);
 app.use("/api/cards", cardRoutes);
 app.use("/api/statements", statementRoutes);
+app.use("/api/subscriptions", subscriptionRoutes);
 
 // Test Route
 app.get("/", (req, res) => {
