@@ -88,6 +88,44 @@ function updateAirtimeSummary() {
     }
 
 }
+/* ==========================================
+   UPDATE AIRTIME DISPLAY
+========================================== */
+
+function updateAirtimeDisplay() {
+
+    const airtime =
+        Number(Telecom?.airtime || 0);
+
+    /* Dashboard airtime */
+
+    const dashboardAirtime =
+        document.getElementById(
+            "dashboardAirtime"
+        );
+
+    if (dashboardAirtime) {
+
+        dashboardAirtime.textContent =
+            `KSh ${airtime.toFixed(2)}`;
+
+    }
+
+    /* Airtime balance */
+
+    const airtimeBalance =
+        document.getElementById(
+            "airtimeBalance"
+        );
+
+    if (airtimeBalance) {
+
+        airtimeBalance.textContent =
+            `KSh ${airtime.toFixed(2)}`;
+
+    }
+
+}
 /* ==========================
    Buy Airtime
 ========================== */
@@ -433,3 +471,5 @@ window.buyAirtime = buyAirtime;
 window.renderAirtimeHistory = renderAirtimeHistory;
 window.clearAirtimeHistory = clearAirtimeHistory;
 window.openAirtime = openAirtime;
+window.updateAirtimeDisplay =
+    updateAirtimeDisplay;
