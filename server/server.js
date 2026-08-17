@@ -1,11 +1,36 @@
-require("dotenv").config();
+"use strict";
+
+/* ==========================================
+   ENVIRONMENT
+========================================== */
+
+const path = require("path");
+
+require("dotenv").config({
+   path: path.join(__dirname, ".env")
+});
 
 console.log("Environment Loaded");
+
+
+/* ==========================================
+   DEPENDENCIES
+========================================== */
 
 const express = require("express");
 const cors = require("cors");
 
+
+/* ==========================================
+   DATABASE
+========================================== */
+
 const connectDB = require("./config/database");
+
+
+/* ==========================================
+   ROUTES
+========================================== */
 
 const contactRoutes = require("./routes/contactRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
@@ -19,97 +44,248 @@ const loanRoutes = require("./routes/loanRoutes");
 const cardRoutes = require("./routes/cardRoutes");
 const statementRoutes = require("./routes/statementRoutes");
 const subscriptionRoutes = require("./routes/subscription");
+
+
+/* ==========================================
+   SUBSCRIPTION EXPIRY JOB
+========================================== */
+
 const startSubscriptionExpiryJob =
    require("./jobs/subscriptionExpiry");
 
 
+/* ==========================================
+   EXPRESS APP
+========================================== */
+
 const app = express();
 
-// Connect Database
-connectDB();
 
 /* ==========================================
-   START AUTOMATIC SUBSCRIPTION EXPIRY
+   DATABASE CONNECTION
+========================================== */
+
+connectDB();
+
+
+/* ==========================================
+   AUTOMATIC SUBSCRIPTION EXPIRY
 ========================================== */
 
 startSubscriptionExpiryJob();
 
-// Middleware
+
+/* ==========================================
+   MIDDLEWARE
+========================================== */
+
 app.use(cors());
+
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// Routes
-app.use("/api/contacts", contactRoutes);
-app.use("/api/transactions", transactionRoutes);
-app.use("/api/airtime", airtimeRoutes);
-app.use("/api/bundles", bundleRoutes);
-app.use("/api/voice", voiceRoutes);
-app.use("/api/sms", smsRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/financial", financialRoutes);
-app.use("/api/loans", loanRoutes);
-app.use("/api/cards", cardRoutes);
-app.use("/api/statements", statementRoutes);
-app.use("/api/subscriptions", subscriptionRoutes);
+app.use(
+   express.urlencoded({
+      extended: true
+   })
+);
 
-// Test Route
-app.get("/", (req, res) => {
 
-   res.json({
-      success: true,
-      app: "Kenya Smart Dialer Pro API",
-      version: "1.0.0",
-      status: "Running"
-   });
+/* ==========================================
+   FRONTEND STATIC FILES
+========================================== */
 
-});
-app.get("/health", (req, res) => {
+/*
+   Frontend is located in the project root:
 
-   res.status(200).json({
+   Kenya-Smart-Diater-Pro/
+   ├── index.html
+   ├── style.css
+   ├── css/
+   ├── js/
+   ├── assets/
+   └── financial/
 
-      status: "OK",
+   server.js is inside:
 
-      database: "Connected",
+   Kenya-Smart-Diater-Pro/server/
 
-      uptime: process.uptime()
+   Therefore ".." points to the frontend root.
+*/
 
-   });
+const frontendPath =
+   path.join(__dirname, "..");
 
-});
+app.use(
+   express.static(frontendPath)
+);
 
-const PORT = process.env.PORT || 3000;
 
-app.use((req, res) => {
+/* ==========================================
+   API ROUTES
+========================================== */
 
-   res.status(404).json({
+app.use(
+   "/api/contacts",
+   contactRoutes
+);
 
-      success: false,
+app.use(
+   "/api/transactions",
+   transactionRoutes
+);
 
-      message: "API Route Not Found"
+app.use(
+   "/api/airtime",
+   airtimeRoutes
+);
 
-   });
+app.use(
+   "/api/bundles",
+   bundleRoutes
+);
 
-});
+app.use(
+   "/api/voice",
+   voiceRoutes
+);
 
-app.use((err, req, res, next) => {
+app.use(
+   "/api/sms",
+   smsRoutes
+);
 
-   console.error(err.stack);
+app.use(
+   "/api/auth",
+   authRoutes
+);
 
-   res.status(500).json({
+app.use(
+   "/api/financial",
+   financialRoutes
+);
 
-      success: false,
+app.use(
+   "/api/loans",
+   loanRoutes
+);
 
-      message: "Internal Server Error"
+app.use(
+   "/api/cards",
+   cardRoutes
+);
 
-   });
+app.use(
+   "/api/statements",
+   statementRoutes
+);
 
-});
+app.use(
+   "/api/subscriptions",
+   subscriptionRoutes
+);
 
-app.listen(PORT, "0.0.0.0", () => {
 
-   console.log(
-      `🚀 Server running on 0.0.0.0:${PORT}`
-   );
+/* ==========================================
+   HEALTH CHECK
+========================================== */
 
-});
+app.get(
+   "/health",
+   (req, res) => {
+
+      res.status(200).json({
+
+         status: "OK",
+
+         database: "Connected",
+
+         uptime: process.uptime()
+
+      });
+
+   }
+);
+
+
+/* ==========================================
+   FRONTEND ENTRY
+========================================== */
+
+app.get(
+   "/",
+   (req, res) => {
+
+      res.sendFile(
+         path.join(
+            frontendPath,
+            "index.html"
+         )
+      );
+
+   }
+);
+
+
+/* ==========================================
+   404 HANDLER
+========================================== */
+
+app.use(
+   (req, res) => {
+
+      res.status(404).json({
+
+         success: false,
+
+         message:
+            "API Route Not Found"
+
+      });
+
+   }
+);
+
+
+/* ==========================================
+   ERROR HANDLER
+========================================== */
+
+app.use(
+   (err, req, res, next) => {
+
+      console.error(
+         "Server Error:",
+         err.stack
+      );
+
+      res.status(500).json({
+
+         success: false,
+
+         message:
+            "Internal Server Error"
+
+      });
+
+   }
+);
+
+
+/* ==========================================
+   SERVER
+========================================== */
+
+const PORT =
+   process.env.PORT || 3000;
+
+app.listen(
+   PORT,
+   "0.0.0.0",
+   () => {
+
+      console.log(
+         `🚀 Server running on 0.0.0.0:${PORT}`
+      );
+
+   }
+);
