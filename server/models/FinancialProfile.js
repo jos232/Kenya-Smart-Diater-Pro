@@ -257,15 +257,7 @@ const FinancialProfileSchema = new mongoose.Schema({
 
     });
 
-/* ==========================================
-   INDEXES
-========================================== */
 
-FinancialProfileSchema.index({
-
-    user: 1
-
-});
 
 /* ==========================================
    EXPORT
