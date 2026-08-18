@@ -23,6 +23,7 @@
 
    "/api" works correctly in BOTH environments.
 */
+const API_BASE = "https://kenya-smart-diater-pro.onrender.com/api";
 
 const API_BASE = "/api";
 
