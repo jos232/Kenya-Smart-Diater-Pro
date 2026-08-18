@@ -358,10 +358,9 @@ async function buyVoicePackage() {
         /* -------------------------
            SUCCESS
         ------------------------- */
-
         showToast(
             "🎤 " +
-            selectedVoicePackage?.name +
+            activatedPackage +
             " activated successfully."
         );
 

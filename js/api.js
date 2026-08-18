@@ -9,7 +9,22 @@
    API CONFIGURATION
 ========================================== */
 
-const API_BASE = "http://localhost:3000/api";
+/*
+   IMPORTANT:
+   Use a relative path because the frontend
+   and backend are served by the same Render
+   application.
+
+   Local:
+   http://localhost:3000/api
+
+   Render:
+   https://your-render-domain.onrender.com/api
+
+   "/api" works correctly in BOTH environments.
+*/
+
+const API_BASE = "/api";
 
 const CONTACT_API = API_BASE + "/contacts";
 const AIRTIME_API = API_BASE + "/airtime";
@@ -24,8 +39,11 @@ const FINANCIAL_API = API_BASE + "/financial";
 ========================================== */
 
 function getToken() {
+
     return localStorage.getItem("token") || "";
+
 }
+
 
 /* ==========================================
    COMMON HEADERS
@@ -40,11 +58,60 @@ function getHeaders() {
     const token = getToken();
 
     if (token) {
+
         headers.Authorization = `Bearer ${token}`;
+
     }
 
     return headers;
+
 }
+
+
+/* ==========================================
+   RESPONSE HANDLER
+========================================== */
+
+async function parseResponse(response) {
+
+    const contentType =
+        response.headers.get("content-type") || "";
+
+    let data;
+
+    if (contentType.includes("application/json")) {
+
+        data = await response.json();
+
+    } else {
+
+        const text = await response.text();
+
+        data = {
+            success: false,
+            message: text || "Server returned an invalid response."
+        };
+
+    }
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.message ||
+            data.error ||
+            `Request failed with status ${response.status}.`
+        );
+
+    }
+
+    return data;
+
+}
+
+
+/* ==========================================
+   GET
+========================================== */
 
 async function apiGet(endpoint) {
 
@@ -52,19 +119,20 @@ async function apiGet(endpoint) {
         ? endpoint
         : API_BASE + endpoint;
 
+    console.log("API GET:", url);
+
     const response = await fetch(url, {
+
         method: "GET",
+
         headers: getHeaders()
+
     });
 
-    const data = await response.json();
+    return await parseResponse(response);
 
-    if (!response.ok) {
-        throw new Error(data.message || "GET request failed.");
-    }
-
-    return data;
 }
+
 
 /* ==========================================
    POST
@@ -76,20 +144,23 @@ async function apiPost(endpoint, body = {}) {
         ? endpoint
         : API_BASE + endpoint;
 
+    console.log("API POST:", url);
+    console.log("API POST BODY:", body);
+
     const response = await fetch(url, {
+
         method: "POST",
+
         headers: getHeaders(),
+
         body: JSON.stringify(body)
+
     });
 
-    const data = await response.json();
+    return await parseResponse(response);
 
-    if (!response.ok) {
-        throw new Error(data.message || "POST request failed.");
-    }
-
-    return data;
 }
+
 
 /* ==========================================
    PUT
@@ -101,20 +172,23 @@ async function apiPut(endpoint, body = {}) {
         ? endpoint
         : API_BASE + endpoint;
 
+    console.log("API PUT:", url);
+    console.log("API PUT BODY:", body);
+
     const response = await fetch(url, {
+
         method: "PUT",
+
         headers: getHeaders(),
+
         body: JSON.stringify(body)
+
     });
 
-    const data = await response.json();
+    return await parseResponse(response);
 
-    if (!response.ok) {
-        throw new Error(data.message || "PUT request failed.");
-    }
-
-    return data;
 }
+
 
 /* ==========================================
    DELETE
@@ -126,19 +200,20 @@ async function apiDelete(endpoint) {
         ? endpoint
         : API_BASE + endpoint;
 
+    console.log("API DELETE:", url);
+
     const response = await fetch(url, {
+
         method: "DELETE",
+
         headers: getHeaders()
+
     });
 
-    const data = await response.json();
+    return await parseResponse(response);
 
-    if (!response.ok) {
-        throw new Error(data.message || "DELETE request failed.");
-    }
-
-    return data;
 }
+
 
 /* ==========================================
    GLOBAL EXPORTS
@@ -153,7 +228,6 @@ window.VOICE_API = VOICE_API;
 window.SMS_API = SMS_API;
 window.FINANCIAL_API = FINANCIAL_API;
 
-
 window.apiGet = apiGet;
 window.apiPost = apiPost;
 window.apiPut = apiPut;
@@ -161,3 +235,4 @@ window.apiDelete = apiDelete;
 window.getToken = getToken;
 
 console.log("✅ API Helper Loaded");
+console.log("🌐 API BASE:", API_BASE);

@@ -32,7 +32,7 @@ exports.buyBundle = async (req, res) => {
 
             paymentMethod: req.body.paymentMethod || "WALLET",
 
-            status: "SUCCESS"
+            status: "ACTIVE"
 
         });
 
