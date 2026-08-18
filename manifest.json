@@ -1,0 +1,19 @@
+{
+    "name": "Kenya Smart Dialer Pro",
+    "short_name": "Smart Dialer",
+    "description": "Kenya Smart Dialer Pro - Contacts, Airtime, Bundles, Voice, SMS and Financial Services",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#0F172A",
+    "theme_color": "#00C853",
+    "icons": [
+        {
+            "src": "/assets/logo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
