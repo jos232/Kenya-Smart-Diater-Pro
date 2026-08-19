@@ -2,118 +2,152 @@
 
 console.log("✅ financial.js loaded");
 
-const API_URL = "http://localhost:3000/api";
 
-/* ==========================
-   TOKEN
-========================== */
-
-/* ==========================
+/* ==========================================
    NAVIGATION
-========================== */
+========================================== */
 
 function hideFinancialTabs() {
-    document.querySelectorAll("#financial .financial-content").forEach(screen => {
-        screen.style.display = "none";
-    });
+
+    document
+        .querySelectorAll("#financial .financial-content")
+        .forEach(screen => {
+
+            screen.style.display = "none";
+
+        });
+
 }
 
+
 function showFinancialTab(screenId) {
+
     hideFinancialTabs();
 
     const screen = document.getElementById(screenId);
 
     if (screen) {
+
         screen.style.display = "block";
+
     }
+
 }
 
-/* ==========================
+
+/* ==========================================
    TRANSACTIONS
-========================== */
+========================================== */
 
 function finishTransaction() {
 
-    if (typeof updateKCBBalance === "function")
+    if (typeof updateKCBBalance === "function") {
         updateKCBBalance();
+    }
 
-    if (typeof updateKCBAccount === "function")
+    if (typeof updateKCBAccount === "function") {
         updateKCBAccount();
+    }
 
-    if (typeof loadKCBRecentTransactions === "function")
+    if (typeof loadKCBRecentTransactions === "function") {
         loadKCBRecentTransactions();
+    }
 
-    if (typeof showScreen === "function")
+    if (typeof showScreen === "function") {
         showScreen("kcbDashboard");
+    }
+
 }
+
 
 function openStatement() {
 
-    if (typeof loadStatement === "function")
+    if (typeof loadStatement === "function") {
         loadStatement("KCB");
+    }
 
-    if (typeof showScreen === "function")
+    if (typeof showScreen === "function") {
         showScreen("kcbStatement");
+    }
+
 }
 
-/* ==========================
+
+/* ==========================================
    LOANS
-========================== */
+========================================== */
 
 function openLoans() {
 
-    if (typeof updateLoanDashboard === "function")
+    if (typeof updateLoanDashboard === "function") {
         updateLoanDashboard();
+    }
 
-    if (typeof showScreen === "function")
+    if (typeof showScreen === "function") {
         showScreen("kcbLoans");
+    }
+
 }
+
 
 function updateLoanDashboard() {
 
-    if (typeof kcbLoan === "undefined")
+    if (typeof kcbLoan === "undefined") {
         return;
+    }
 
     const limit = document.getElementById("loanLimit");
     const status = document.getElementById("loanStatus");
     const outstanding = document.getElementById("loanOutstanding");
 
-    if (limit)
+    if (limit) {
         limit.textContent = formatMoney(kcbLoan.limit);
+    }
 
-    if (!status || !outstanding)
+    if (!status || !outstanding) {
         return;
+    }
 
     if (kcbLoan.active) {
 
         status.textContent = "Active Loan";
 
         outstanding.textContent =
-            "Outstanding Loan: " + formatMoney(kcbLoan.amount);
+            "Outstanding Loan: " +
+            formatMoney(kcbLoan.amount);
 
     } else {
 
         status.textContent = "No Active Loan";
 
-        outstanding.textContent = "Outstanding Loan: KSh 0.00";
+        outstanding.textContent =
+            "Outstanding Loan: KSh 0.00";
+
     }
+
 }
 
-/* ==========================
+
+/* ==========================================
    EQUITY
-========================== */
+========================================== */
 
 function showEquityDashboard() {
 
-    if (typeof loadEquityDashboard === "function")
+    if (typeof loadEquityDashboard === "function") {
         loadEquityDashboard();
+    }
 
-    if (typeof showScreen === "function")
+    if (typeof showScreen === "function") {
         showScreen("equityDashboard");
+    }
+
 }
-/* ==========================
-   LOAD PROFILE
-========================== */
+
+
+/* ==========================================
+   LOAD FINANCIAL PROFILE
+========================================== */
 
 async function loadFinancialProfile() {
 
@@ -123,7 +157,10 @@ async function loadFinancialProfile() {
 
         if (!data.success) {
 
-            console.error(data.message);
+            console.error(
+                "Financial Profile:",
+                data.message
+            );
 
             return;
 
@@ -135,73 +172,167 @@ async function loadFinancialProfile() {
 
     catch (err) {
 
-        console.error(err);
+        console.error(
+            "Financial Profile Error:",
+            err
+        );
 
     }
 
 }
 
-/* ==========================
-   UPDATE DASHBOARD
-========================== */
+
+/* ==========================================
+   UPDATE FINANCIAL DASHBOARD
+========================================== */
 
 function updateFinancialDashboard(profile) {
 
-    const kcbBalance = document.getElementById("kcbBalance");
+    if (!profile || !profile.banks) {
+        return;
+    }
 
-    if (kcbBalance)
+
+    /* ==========================
+       KCB
+    ========================== */
+
+    const kcbBalance =
+        document.getElementById("kcbBalance");
+
+    if (
+        kcbBalance &&
+        profile.banks.kcb
+    ) {
+
         kcbBalance.textContent =
-            "KSh " + profile.banks.kcb.balance.toLocaleString();
+            "KSh " +
+            profile.banks.kcb.balance.toLocaleString();
 
-    const acc = document.getElementById("kcbAccountNumber");
+    }
 
-    if (acc)
-        acc.textContent = profile.banks.kcb.accountNumber;
 
-    const equity = document.getElementById("equityBalance");
+    const accountNumber =
+        document.getElementById("kcbAccountNumber");
 
-    if (equity)
-        equity.textContent =
-            "KSh " + profile.banks.equity.balance.toLocaleString();
+    if (
+        accountNumber &&
+        profile.banks.kcb
+    ) {
 
-    const coop = document.getElementById("coopBalance");
+        accountNumber.textContent =
+            profile.banks.kcb.accountNumber;
 
-    if (coop)
-        coop.textContent =
-            "KSh " + profile.banks.coop.balance.toLocaleString();
+    }
 
-    const wallet = document.getElementById("walletBalance");
 
-    if (wallet)
-        wallet.textContent =
-            "KSh " + profile.wallet.balance.toLocaleString();
+    /* ==========================
+       EQUITY
+    ========================== */
+
+    const equityBalance =
+        document.getElementById("equityBalance");
+
+    if (
+        equityBalance &&
+        profile.banks.equity
+    ) {
+
+        equityBalance.textContent =
+            "KSh " +
+            profile.banks.equity.balance.toLocaleString();
+
+    }
+
+
+    /* ==========================
+       CO-OP
+    ========================== */
+
+    const coopBalance =
+        document.getElementById("coopBalance");
+
+    if (
+        coopBalance &&
+        profile.banks.coop
+    ) {
+
+        coopBalance.textContent =
+            "KSh " +
+            profile.banks.coop.balance.toLocaleString();
+
+    }
+
+
+    /* ==========================
+       WALLET
+    ========================== */
+
+    const walletBalance =
+        document.getElementById("walletBalance");
+
+    if (
+        walletBalance &&
+        profile.wallet
+    ) {
+
+        walletBalance.textContent =
+            "KSh " +
+            profile.wallet.balance.toLocaleString();
+
+    }
+
 }
 
-/* ==========================
+
+/* ==========================================
    KCB DASHBOARD
-========================== */
+========================================== */
 
 function showKCBDashboard() {
 
-    if (typeof showScreen === "function")
+    if (typeof showScreen === "function") {
         showScreen("kcbDashboard");
+    }
 
     loadFinancialProfile();
+
 }
 
-/* ==========================
-   GLOBAL EXPORTS
-========================== */
 
-window.hideFinancialTabs = hideFinancialTabs;
-window.showFinancialTab = showFinancialTab;
-window.finishTransaction = finishTransaction;
-window.openStatement = openStatement;
-window.openLoans = openLoans;
-window.updateLoanDashboard = updateLoanDashboard;
-window.showEquityDashboard = showEquityDashboard;
-window.loadFinancialProfile = loadFinancialProfile;
-window.updateFinancialDashboard = updateFinancialDashboard;
-window.showKCBDashboard = showKCBDashboard;
+/* ==========================================
+   GLOBAL EXPORTS
+========================================== */
+
+window.hideFinancialTabs =
+    hideFinancialTabs;
+
+window.showFinancialTab =
+    showFinancialTab;
+
+window.finishTransaction =
+    finishTransaction;
+
+window.openStatement =
+    openStatement;
+
+window.openLoans =
+    openLoans;
+
+window.updateLoanDashboard =
+    updateLoanDashboard;
+
+window.showEquityDashboard =
+    showEquityDashboard;
+
+window.loadFinancialProfile =
+    loadFinancialProfile;
+
+window.updateFinancialDashboard =
+    updateFinancialDashboard;
+
+window.showKCBDashboard =
+    showKCBDashboard;
+
 
 console.log("✅ Financial functions exported");

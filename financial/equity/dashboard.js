@@ -158,7 +158,6 @@ function showEquityDashboard() {
     loadUserEquityProfile();
 
 }
-
 /* ==========================================
    LOAD USER PROFILE
 ========================================== */
@@ -167,23 +166,15 @@ async function loadUserEquityProfile() {
 
     try {
 
-        const token = localStorage.getItem("token");
-
-        const response = await fetch("http://localhost:3000/api/financial/profile", {
-
-            headers: {
-
-                Authorization: `Bearer ${token}`
-
-            }
-
-        });
-
-        const data = await response.json();
+        const data =
+            await apiGet("/financial/profile");
 
         if (!data.success) {
 
-            console.error(data.message);
+            console.error(
+                "Equity Profile:",
+                data.message
+            );
 
             return;
 
@@ -203,7 +194,10 @@ async function loadUserEquityProfile() {
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "Equity Profile Error:",
+            error
+        );
 
     }
 

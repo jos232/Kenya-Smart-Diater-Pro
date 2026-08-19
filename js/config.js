@@ -6,18 +6,18 @@
 
 const API = {
 
-    BASE_URL: "http://localhost:3000",
+    BASE_URL: "/api",
 
     ENDPOINTS: {
 
-        cards: "/api/cards",
-        loans: "/api/loans",
-        statements: "/api/statements",
-        financial: "/api/financial",
-        contacts: "/api/contacts",
-        airtime: "/api/airtime",
-        bundles: "/api/bundles",
-        auth: "/api/auth"
+        cards: "/cards",
+        loans: "/loans",
+        statements: "/statements",
+        financial: "/financial",
+        contacts: "/contacts",
+        airtime: "/airtime",
+        bundles: "/bundles",
+        auth: "/auth"
 
     }
 
