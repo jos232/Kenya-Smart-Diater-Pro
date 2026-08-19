@@ -44,6 +44,7 @@ const loanRoutes = require("./routes/loanRoutes");
 const cardRoutes = require("./routes/cardRoutes");
 const statementRoutes = require("./routes/statementRoutes");
 const subscriptionRoutes = require("./routes/subscription");
+const mpesaRoutes = require("./routes/mpesaRoutes");
 
 
 /* ==========================================
@@ -133,6 +134,7 @@ app.use(
    "/api/transactions",
    transactionRoutes
 );
+app.use("/api/mpesa", mpesaRoutes);
 
 app.use(
    "/api/airtime",
