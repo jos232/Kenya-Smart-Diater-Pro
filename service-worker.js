@@ -1,14 +1,16 @@
 "use strict";
 
-const CACHE_NAME = "kenya-smart-dialer-v1";
+const CACHE_NAME = "kenya-smart-dialer-v2";
 
 const APP_SHELL = [
     "/",
     "/index.html",
     "/manifest.json",
+
     "/css/style.css",
     "/css/pages.css",
     "/css/responsive.css",
+
     "/js/api.js",
     "/js/app.js",
     "/js/dashboard.js",
@@ -25,15 +27,64 @@ const APP_SHELL = [
     "/js/statement.js",
     "/js/networks.js",
     "/js/storage.js",
-    "/assets/logo.png"
+
+    "/assets/logo.png",
+    "/assets/pwa-icon-512.png",
+    "/assets/pwa-desktop.png",
+    "/assets/pwa-mobile.png"
 ];
+
+/* ==========================================
+   INSTALL
+========================================== */
 
 self.addEventListener("install", event => {
 
     event.waitUntil(
 
         caches.open(CACHE_NAME)
-            .then(cache => cache.addAll(APP_SHELL))
+
+            .then(async cache => {
+
+                for (const file of APP_SHELL) {
+
+                    try {
+
+                        const response = await fetch(file);
+
+                        if (response.ok) {
+
+                            await cache.put(file, response);
+
+                            console.log(
+                                "✅ Cached:",
+                                file
+                            );
+
+                        } else {
+
+                            console.warn(
+                                "⚠️ Could not cache:",
+                                file,
+                                response.status
+                            );
+
+                        }
+
+                    } catch (error) {
+
+                        console.warn(
+                            "⚠️ Cache failed:",
+                            file,
+                            error
+                        );
+
+                    }
+
+                }
+
+            })
+
             .then(() => self.skipWaiting())
 
     );
@@ -41,28 +92,40 @@ self.addEventListener("install", event => {
 });
 
 
+/* ==========================================
+   ACTIVATE
+========================================== */
+
 self.addEventListener("activate", event => {
 
     event.waitUntil(
 
         caches.keys()
+
             .then(cacheNames => {
 
                 return Promise.all(
 
                     cacheNames
+
                         .filter(name => name !== CACHE_NAME)
+
                         .map(name => caches.delete(name))
 
                 );
 
             })
+
             .then(() => self.clients.claim())
 
     );
 
 });
 
+
+/* ==========================================
+   FETCH
+========================================== */
 
 self.addEventListener("fetch", event => {
 
@@ -81,18 +144,29 @@ self.addEventListener("fetch", event => {
     event.respondWith(
 
         fetch(request)
+
             .then(response => {
 
-                const responseClone = response.clone();
+                if (response && response.ok) {
 
-                caches.open(CACHE_NAME)
-                    .then(cache => {
-                        cache.put(request, responseClone);
-                    });
+                    const responseClone = response.clone();
+
+                    caches.open(CACHE_NAME)
+                        .then(cache => {
+
+                            cache.put(
+                                request,
+                                responseClone
+                            );
+
+                        });
+
+                }
 
                 return response;
 
             })
+
             .catch(() => {
 
                 return caches.match(request);
