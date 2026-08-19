@@ -75,19 +75,19 @@ const VoiceSchema = new mongoose.Schema(
         },
 
         /* ==========================
-           PAYMENT
-        ========================== */
+   PAYMENT
+========================== */
 
         paymentMethod: {
             type: String,
             enum: [
-                "Wallet",
+                "WALLET",
                 "KCB",
                 "EQUITY",
                 "CO-OP",
-                "M-PESA"
+                "MPESA"
             ],
-            default: "Wallet"
+            default: "WALLET"
         },
 
         /* ==========================

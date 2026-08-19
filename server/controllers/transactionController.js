@@ -39,6 +39,8 @@ exports.getTransactions = async (req, res) => {
 
     catch (error) {
 
+        console.error("GET TRANSACTIONS ERROR:", error);
+
         res.status(500).json({
 
             success: false,
@@ -91,6 +93,8 @@ exports.getTransaction = async (req, res) => {
 
     catch (error) {
 
+        console.error("GET TRANSACTION ERROR:", error);
+
         res.status(500).json({
 
             success: false,
@@ -111,11 +115,57 @@ exports.createTransaction = async (req, res) => {
 
     try {
 
+        const {
+
+            bank,
+
+            service,
+
+            sender,
+
+            recipient,
+
+            reference,
+
+            amount,
+
+            fee,
+
+            total,
+
+            balance,
+
+            status,
+
+            metadata
+
+        } = req.body;
+
         const transaction = await Transaction.create({
 
-            ...req.body,
+            user: req.user.userId,
 
-            user: req.user.userId
+            bank,
+
+            service,
+
+            sender,
+
+            recipient,
+
+            reference,
+
+            amount,
+
+            fee,
+
+            total,
+
+            balance,
+
+            status,
+
+            metadata
 
         });
 
@@ -130,6 +180,8 @@ exports.createTransaction = async (req, res) => {
     }
 
     catch (error) {
+
+        console.error("CREATE TRANSACTION ERROR:", error);
 
         res.status(400).json({
 
@@ -151,6 +203,44 @@ exports.updateTransaction = async (req, res) => {
 
     try {
 
+        const allowedFields = [
+
+            "bank",
+
+            "service",
+
+            "sender",
+
+            "recipient",
+
+            "reference",
+
+            "amount",
+
+            "fee",
+
+            "total",
+
+            "balance",
+
+            "status",
+
+            "metadata"
+
+        ];
+
+        const updates = {};
+
+        allowedFields.forEach(field => {
+
+            if (req.body[field] !== undefined) {
+
+                updates[field] = req.body[field];
+
+            }
+
+        });
+
         const transaction = await Transaction.findOneAndUpdate(
 
             {
@@ -161,7 +251,7 @@ exports.updateTransaction = async (req, res) => {
 
             },
 
-            req.body,
+            updates,
 
             {
 
@@ -196,6 +286,8 @@ exports.updateTransaction = async (req, res) => {
     }
 
     catch (error) {
+
+        console.error("UPDATE TRANSACTION ERROR:", error);
 
         res.status(400).json({
 
@@ -248,6 +340,8 @@ exports.deleteTransaction = async (req, res) => {
     }
 
     catch (error) {
+
+        console.error("DELETE TRANSACTION ERROR:", error);
 
         res.status(400).json({
 
