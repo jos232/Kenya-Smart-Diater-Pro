@@ -8,38 +8,62 @@ const APP_SHELL = [
     "/manifest.json",
 
     /* =========================
-       MAIN STYLES
+       CSS
     ========================= */
 
-    "/style.css",
-    "/css/pages.css",
+    "/css/theme.css",
+    "/css/dashboard.css",
+    "/css/history.css",
+    "/css/dialer.css",
+    "/css/contacts.css",
+    "/css/airtime.css",
+    "/css/bundles.css",
+    "/css/subscriptions.css",
+    "/css/animations.css",
     "/css/responsive.css",
+    "/css/splash.css",
+    "/css/toast.css",
+    "/css/call.css",
+    "/css/financial.css",
+    "/css/bank.css",
+    "/css/kcb.css",
+    "/css/equity.css",
+    "/css/offers.css",
 
     /* =========================
-       MAIN JAVASCRIPT
+       JAVASCRIPT
     ========================= */
 
+    "/js/storage.js",
+    "/js/networks.js",
+    "/js/telecom-engine.js",
+    "/js/config.js",
     "/js/api.js",
-    "/js/app.js",
+    "/js/auth.js",
+    "/js/utils.js",
+    "/js/toast.js",
+    "/js/splash.js",
     "/js/dashboard.js",
     "/js/contacts.js",
     "/js/dialer.js",
+    "/js/dialpad.js",
+    "/js/contact-preview.js",
+    "/js/callscreen.js",
+    "/js/call-controls.js",
+    "/js/incoming-call.js",
+    "/js/call-history.js",
+    "/js/speed-dial.js",
     "/js/airtime.js",
     "/js/bundles.js",
     "/js/voice.js",
     "/js/sms.js",
     "/js/subscriptions.js",
+    "/js/offers.js",
+    "/js/services.js",
     "/js/financial.js",
-    "/js/networks.js",
-    "/js/storage.js",
-
-    /* =========================
-       KCB FINANCIAL MODULES
-    ========================= */
-
-    "/financial/kcb/loans.js",
-    "/financial/kcb/cards.js",
-    "/financial/kcb/statement.js",
+    "/js/history.js",
+    "/js/app.js",
+    "/js/bank.js",
 
     /* =========================
        PWA ASSETS
@@ -48,7 +72,8 @@ const APP_SHELL = [
     "/assets/logo.png",
     "/assets/pwa-icon-512.png",
     "/assets/pwa-desktop.png",
-    "/assets/pwa-mobile.png"
+    "/assets/pwa-mobile.png",
+    "/assets/favicon.png"
 ];
 
 
@@ -74,10 +99,7 @@ self.addEventListener("install", event => {
 
                             await cache.put(file, response);
 
-                            console.log(
-                                "✅ Cached:",
-                                file
-                            );
+                            console.log("✅ Cached:", file);
 
                         } else {
 
