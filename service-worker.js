@@ -1,15 +1,23 @@
 "use strict";
 
-const CACHE_NAME = "kenya-smart-dialer-v2";
+const CACHE_NAME = "kenya-smart-dialer-v3";
 
 const APP_SHELL = [
     "/",
     "/index.html",
     "/manifest.json",
 
-    "/css/style.css",
+    /* =========================
+       MAIN STYLES
+    ========================= */
+
+    "/style.css",
     "/css/pages.css",
     "/css/responsive.css",
+
+    /* =========================
+       MAIN JAVASCRIPT
+    ========================= */
 
     "/js/api.js",
     "/js/app.js",
@@ -22,17 +30,27 @@ const APP_SHELL = [
     "/js/sms.js",
     "/js/subscriptions.js",
     "/js/financial.js",
-    "/js/loans.js",
-    "/js/cards.js",
-    "/js/statement.js",
     "/js/networks.js",
     "/js/storage.js",
+
+    /* =========================
+       KCB FINANCIAL MODULES
+    ========================= */
+
+    "/financial/kcb/loans.js",
+    "/financial/kcb/cards.js",
+    "/financial/kcb/statement.js",
+
+    /* =========================
+       PWA ASSETS
+    ========================= */
 
     "/assets/logo.png",
     "/assets/pwa-icon-512.png",
     "/assets/pwa-desktop.png",
     "/assets/pwa-mobile.png"
 ];
+
 
 /* ==========================================
    INSTALL
