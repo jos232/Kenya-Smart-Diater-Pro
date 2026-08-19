@@ -13,7 +13,9 @@ const mongoose = require("mongoose");
 
 const TransactionSchema = new mongoose.Schema({
 
-    /* Owner */
+    /* ==========================================
+       OWNER
+    ========================================== */
 
     user: {
 
@@ -27,11 +29,23 @@ const TransactionSchema = new mongoose.Schema({
 
     },
 
-    /* Bank */
+    /* ==========================================
+       TRANSACTION SOURCE
+    ========================================== */
 
     bank: {
 
         type: String,
+
+        set: value => {
+
+            if (!value) return value;
+
+            return String(value)
+                .trim()
+                .toUpperCase();
+
+        },
 
         enum: [
 
@@ -41,7 +55,9 @@ const TransactionSchema = new mongoose.Schema({
 
             "CO-OP",
 
-            "WALLET"
+            "WALLET",
+
+            "M-PESA"
 
         ],
 
@@ -49,7 +65,9 @@ const TransactionSchema = new mongoose.Schema({
 
     },
 
-    /* Transaction Type */
+    /* ==========================================
+       TRANSACTION TYPE / SERVICE
+    ========================================== */
 
     service: {
 
@@ -59,7 +77,9 @@ const TransactionSchema = new mongoose.Schema({
 
     },
 
-    /* Sender */
+    /* ==========================================
+       SENDER
+    ========================================== */
 
     sender: {
 
@@ -69,7 +89,9 @@ const TransactionSchema = new mongoose.Schema({
 
     },
 
-    /* Recipient */
+    /* ==========================================
+       RECIPIENT
+    ========================================== */
 
     recipient: {
 
@@ -79,7 +101,9 @@ const TransactionSchema = new mongoose.Schema({
 
     },
 
-    /* Reference */
+    /* ==========================================
+       REFERENCE
+    ========================================== */
 
     reference: {
 
@@ -89,7 +113,9 @@ const TransactionSchema = new mongoose.Schema({
 
     },
 
-    /* Amount */
+    /* ==========================================
+       AMOUNT
+    ========================================== */
 
     amount: {
 
@@ -101,7 +127,9 @@ const TransactionSchema = new mongoose.Schema({
 
     },
 
-    /* Fee */
+    /* ==========================================
+       FEE
+    ========================================== */
 
     fee: {
 
@@ -113,7 +141,9 @@ const TransactionSchema = new mongoose.Schema({
 
     },
 
-    /* Total */
+    /* ==========================================
+       TOTAL
+    ========================================== */
 
     total: {
 
@@ -125,7 +155,9 @@ const TransactionSchema = new mongoose.Schema({
 
     },
 
-    /* Balance After Transaction */
+    /* ==========================================
+       BALANCE AFTER TRANSACTION
+    ========================================== */
 
     balance: {
 
@@ -135,7 +167,9 @@ const TransactionSchema = new mongoose.Schema({
 
     },
 
-    /* Status */
+    /* ==========================================
+       STATUS
+    ========================================== */
 
     status: {
 
@@ -155,7 +189,9 @@ const TransactionSchema = new mongoose.Schema({
 
     },
 
-    /* Receipt Number */
+    /* ==========================================
+       RECEIPT NUMBER
+    ========================================== */
 
     receiptNumber: {
 
@@ -165,7 +201,9 @@ const TransactionSchema = new mongoose.Schema({
 
     },
 
-    /* Extra Metadata */
+    /* ==========================================
+       EXTRA METADATA
+    ========================================== */
 
     metadata: {
 

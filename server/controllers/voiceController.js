@@ -26,6 +26,48 @@ exports.buyVoice = async (req, res) => {
         } = req.body;
 
         /* ==========================
+   NORMALIZE PAYMENT METHOD
+========================== */
+
+        let transactionBank = "WALLET";
+
+        if (paymentMethod) {
+
+            const method = paymentMethod
+                .toString()
+                .trim()
+                .toUpperCase();
+
+            if (method === "KCB") {
+                transactionBank = "KCB";
+            }
+
+            else if (method === "EQUITY") {
+                transactionBank = "EQUITY";
+            }
+
+            else if (
+                method === "CO-OP" ||
+                method === "COOP"
+            ) {
+                transactionBank = "CO-OP";
+            }
+
+            else if (
+                method === "MPESA" ||
+                method === "M-PESA" ||
+                method === "M PESA"
+            ) {
+                transactionBank = "MPESA";
+            }
+
+            else if (method === "WALLET") {
+                transactionBank = "WALLET";
+            }
+
+        }
+
+        /* ==========================
            VALIDATION
         ========================== */
 
@@ -82,7 +124,7 @@ exports.buyVoice = async (req, res) => {
 
             price: Number(price),
 
-            paymentMethod: paymentMethod || "Wallet",
+            paymentMethod: transactionBank,
 
             status: "SUCCESS"
 
@@ -96,11 +138,12 @@ exports.buyVoice = async (req, res) => {
 
             user: req.user.userId,
 
-            bank: paymentMethod || "Wallet",
+            bank: transactionBank,
 
             service: "VOICE",
 
-            sender: paymentMethod || "Wallet",
+            sender: transactionBank,
+
 
             recipient: phone,
 
