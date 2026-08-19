@@ -15,5 +15,13 @@
             "type": "image/png",
             "purpose": "any maskable"
         }
+    ],
+    "screenshots": [
+        {
+            "src": "/assets/pwa-desktop.png",
+            "sizes": "1664x934",
+            "type": "image/png",
+            "form_factor": "wide"
+        }
     ]
 }
