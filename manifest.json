@@ -10,22 +10,22 @@
     "theme_color": "#00C853",
     "icons": [
         {
-            "src": "/assets/logo.png",
+            "src": "/assets/pwa-icon-512.png",
             "sizes": "512x512",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
         }
     ],
     "screenshots": [
         {
             "src": "/assets/pwa-desktop.png",
-            "sizes": "1664x934",
+            "sizes": "1672x941",
             "type": "image/png",
             "form_factor": "wide"
         },
         {
             "src": "/assets/pwa-mobile.png",
-            "sizes": "390x844",
+            "sizes": "800x1800",
             "type": "image/png"
         }
     ]
