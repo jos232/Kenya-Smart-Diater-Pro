@@ -22,6 +22,11 @@
             "sizes": "1664x934",
             "type": "image/png",
             "form_factor": "wide"
+        },
+        {
+            "src": "/assets/pwa-mobile.png",
+            "sizes": "390x844",
+            "type": "image/png"
         }
     ]
 }
