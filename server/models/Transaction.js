@@ -57,7 +57,7 @@ const TransactionSchema = new mongoose.Schema({
 
             "WALLET",
 
-            "MPESA"
+            "M-PESA"
 
         ],
 
