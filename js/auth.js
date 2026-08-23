@@ -1,153 +1,473 @@
 "use strict";
 
-const AUTH_API = API.BASE_URL + API.ENDPOINTS.auth;
+/* ==========================================
+   AUTH API
+========================================== */
 
-const loginScreen = document.getElementById("loginScreen");
-const appContainer = document.getElementById("appContainer");
+const AUTH_API =
+    API.BASE_URL + API.ENDPOINTS.auth;
 
-const loginBtn = document.getElementById("loginBtn");
-const loginMessage = document.getElementById("loginMessage");
 
-const registerScreen = document.getElementById("registerScreen");
+/* ==========================================
+   ELEMENTS
+========================================== */
 
-const registerBtn = document.getElementById("registerBtn");
+const loginScreen =
+    document.getElementById("loginScreen");
 
-const registerMessage = document.getElementById("registerMessage");
+const appContainer =
+    document.getElementById("appContainer");
 
-const showRegisterBtn = document.getElementById("showRegisterBtn");
+const loginBtn =
+    document.getElementById("loginBtn");
 
-const backToLoginBtn = document.getElementById("backToLoginBtn");
+const loginMessage =
+    document.getElementById("loginMessage");
 
-showRegisterBtn.addEventListener("click", () => {
+const registerScreen =
+    document.getElementById("registerScreen");
 
-    loginScreen.style.display = "none";
-    registerScreen.style.display = "flex";
+const registerBtn =
+    document.getElementById("registerBtn");
 
-});
+const registerMessage =
+    document.getElementById("registerMessage");
 
-backToLoginBtn.addEventListener("click", () => {
+const showRegisterBtn =
+    document.getElementById("showRegisterBtn");
 
-    registerScreen.style.display = "none";
-    loginScreen.style.display = "flex";
+const backToLoginBtn =
+    document.getElementById("backToLoginBtn");
 
-});
+
+/* ==========================================
+   SHOW REGISTER
+========================================== */
+
+showRegisterBtn.addEventListener(
+    "click",
+    () => {
+
+        loginScreen.style.display = "none";
+
+        registerScreen.style.display =
+            "flex";
+
+    }
+);
+
+
+/* ==========================================
+   BACK TO LOGIN
+========================================== */
+
+backToLoginBtn.addEventListener(
+    "click",
+    () => {
+
+        registerScreen.style.display =
+            "none";
+
+        loginScreen.style.display =
+            "flex";
+
+    }
+);
+
+
+/* ==========================================
+   SHOW APP
+========================================== */
 
 function showApp() {
-    loginScreen.style.display = "none";
-    appContainer.style.display = "block";
+
+    loginScreen.style.display =
+        "none";
+
+    registerScreen.style.display =
+        "none";
+
+    appContainer.style.display =
+        "block";
+
 }
+
+
+/* ==========================================
+   SHOW LOGIN
+========================================== */
 
 function showLogin() {
-    loginScreen.style.display = "flex";
-    appContainer.style.display = "none";
+
+    loginScreen.style.display =
+        "flex";
+
+    registerScreen.style.display =
+        "none";
+
+    appContainer.style.display =
+        "none";
+
 }
 
-window.addEventListener("DOMContentLoaded", () => {
 
-    const token = localStorage.getItem("token");
+/* ==========================================
+   LOAD USER FINANCIAL DATA
+========================================== */
 
-    if (token) {
-        showApp();
-    } else {
-        showLogin();
-    }
-
-});
-
-loginBtn.addEventListener("click", async () => {
-
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value;
-
-    loginMessage.textContent = "";
+async function loadUserFinancialData() {
 
     try {
 
-        const response = await fetch(`${AUTH_API}/login`, {
+        console.log(
+            "Loading user's financial profile..."
+        );
 
-            method: "POST",
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+        /*
+           financial.js already contains
+           initializeFinancialData().
+        */
 
-            body: JSON.stringify({
-                email,
-                password
-            })
+        if (
+            typeof initializeFinancialData ===
+            "function"
+        ) {
 
-        });
+            await initializeFinancialData();
 
-        const data = await response.json();
+            console.log(
+                "✅ User financial data loaded."
+            );
 
-        if (!response.ok) {
-            loginMessage.textContent = data.message || "Login failed.";
-            return;
+        } else {
+
+            console.warn(
+                "initializeFinancialData() is not available yet."
+            );
+
         }
 
-        localStorage.setItem("token", data.token);
+    }
 
-        showApp();
+    catch (error) {
 
-    } catch (err) {
-
-        console.error(err);
-
-        loginMessage.textContent = "Unable to connect to the server.";
+        console.error(
+            "Financial data loading error:",
+            error
+        );
 
     }
 
-});
+}
 
-registerBtn.addEventListener("click", async () => {
 
-    const fullName = document.getElementById("registerName").value.trim();
+/* ==========================================
+   RESTORE SESSION
+========================================== */
 
-    const email = document.getElementById("registerEmail").value.trim();
+window.addEventListener(
+    "DOMContentLoaded",
+    async () => {
 
-    const phone = document.getElementById("registerPhone").value.trim();
+        const token =
+            localStorage.getItem("token");
 
-    const password = document.getElementById("registerPassword").value;
 
-    registerMessage.textContent = "";
-
-    try {
-
-        const response = await fetch(`${AUTH_API}/register`, {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                fullName,
-                email,
-                phone,
-                password
-            })
-
-        });
-
-        const data = await response.json();
-
-        registerMessage.textContent = data.message;
-
-        if (data.success) {
-
-            localStorage.setItem("token", data.token);
+        if (token) {
 
             showApp();
 
+            /*
+               Give the application a moment
+               to finish loading its scripts.
+            */
+
+            setTimeout(
+                loadUserFinancialData,
+                300
+            );
+
+        } else {
+
+            showLogin();
+
         }
 
-    } catch (err) {
+    }
+);
 
-        console.error(err);
 
-        registerMessage.textContent = "Server unavailable.";
+/* ==========================================
+   LOGIN
+========================================== */
+
+loginBtn.addEventListener(
+    "click",
+    async () => {
+
+        const email =
+            document
+                .getElementById("loginEmail")
+                .value
+                .trim();
+
+        const password =
+            document
+                .getElementById("loginPassword")
+                .value;
+
+
+        loginMessage.textContent = "";
+
+
+        if (!email || !password) {
+
+            loginMessage.textContent =
+                "Email and password are required.";
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${AUTH_API}/login`,
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                email,
+
+                                password
+
+                            })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                loginMessage.textContent =
+                    data.message ||
+                    "Login failed.";
+
+                return;
+
+            }
+
+
+            /*
+               Save authentication token
+            */
+
+            localStorage.setItem(
+                "token",
+                data.token
+            );
+
+
+            /*
+               Open application
+            */
+
+            showApp();
+
+
+            /*
+               Immediately load the
+               logged-in user's financial data.
+            */
+
+            await loadUserFinancialData();
+
+
+        }
+
+        catch (err) {
+
+            console.error(
+                "Login error:",
+                err
+            );
+
+            loginMessage.textContent =
+                "Unable to connect to the server.";
+
+        }
 
     }
+);
 
-});
+
+/* ==========================================
+   REGISTER
+========================================== */
+
+registerBtn.addEventListener(
+    "click",
+    async () => {
+
+        const fullName =
+            document
+                .getElementById("registerName")
+                .value
+                .trim();
+
+
+        const email =
+            document
+                .getElementById("registerEmail")
+                .value
+                .trim();
+
+
+        const phone =
+            document
+                .getElementById("registerPhone")
+                .value
+                .trim();
+
+
+        const password =
+            document
+                .getElementById("registerPassword")
+                .value;
+
+
+        registerMessage.textContent = "";
+
+
+        if (
+            !fullName ||
+            !email ||
+            !phone ||
+            !password
+        ) {
+
+            registerMessage.textContent =
+                "All fields are required.";
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${AUTH_API}/register`,
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                fullName,
+
+                                email,
+
+                                phone,
+
+                                password
+
+                            })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            registerMessage.textContent =
+                data.message ||
+                "";
+
+
+            if (data.success) {
+
+                /*
+                   Save the new user's token
+                */
+
+                localStorage.setItem(
+                    "token",
+                    data.token
+                );
+
+
+                /*
+                   Open the application
+                */
+
+                showApp();
+
+
+                /*
+                   Immediately load the
+                   newly created financial profile.
+                */
+
+                await loadUserFinancialData();
+
+            }
+
+        }
+
+        catch (err) {
+
+            console.error(
+                "Registration error:",
+                err
+            );
+
+            registerMessage.textContent =
+                "Server unavailable.";
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   GLOBAL EXPORTS
+========================================== */
+
+window.showApp =
+    showApp;
+
+window.showLogin =
+    showLogin;
+
+window.loadUserFinancialData =
+    loadUserFinancialData;

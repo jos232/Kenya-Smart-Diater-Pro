@@ -301,13 +301,9 @@ exports.register = async (req, res) => {
                 ------------------------------ */
 
                 loans: {
-
                     outstanding: 0,
-
-                    limit: 100000,
-
+                    limit: 0,
                     approved: false
-
                 },
 
 
