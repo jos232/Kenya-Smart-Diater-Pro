@@ -263,17 +263,3 @@ function saveIncomingHistory(type) {
     }
 
 }
-
-/* ==========================================
-   AUTO DEMO
-========================================== */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    setTimeout(() => {
-
-        simulateIncomingCall("0712345678");
-
-    }, 5000);
-
-});

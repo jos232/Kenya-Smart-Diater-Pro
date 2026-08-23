@@ -1,14 +1,14 @@
 {
   "name": "kenya-smart-diater-pro",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Kenya Smart Dialer Pro",
+  "main": "server/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Joshua Nkario",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.6",

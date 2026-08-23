@@ -2759,638 +2759,1327 @@
                      END M-PESA DASHBOARD
                 ========================================== -->
 
-
                 <!-- ==========================================
-                        KCB DASHBOARD
-                ========================================== -->
+                 KCB DASHBOARD
+                 ========================================== -->
 
                 <section id="kcbDashboard" class="screen">
 
                     <!-- ==========================================
-                        KCB DASHBOARD
+                     HEADER
                      ========================================== -->
 
-                    <section id="kcbDashboard" class="screen">
+                    <div class="screen-header">
 
-                        <div class="screen-header">
+                        <button class="back-btn" onclick="showScreen('financialServices')" type="button">
+                            ←
+                        </button>
 
-                            <button class="back-btn" onclick="showScreen('financialServices')">
+                        <img src="assets/banks/kcb.png" class="bank-header-logo" alt="KCB">
 
-                                ←
-
-                            </button>
-
-                            <img src="assets/banks/kcb.png" class="bank-header-logo" alt="KCB">
-
+                        <div>
                             <h2>KCB Mobile</h2>
-
                             <p>Kenya Commercial Bank</p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                     CUSTOMER PROFILE
+                     ========================================== -->
+
+                    <div class="customer-card">
+
+                        <div>
+
+                            <h3 id="kcbHolder">
+                                Loading...
+                            </h3>
+
+                            <small id="kcbCustomerType">
+                                Customer
+                            </small>
 
                         </div>
 
-                        <!-- ==========================================
-                         CUSTOMER PROFILE
-                         ========================================== -->
+                        <div class="customer-avatar" id="kcbCustomerAvatar">
+                            K
+                        </div>
 
-                        <div class="customer-card">
+                    </div>
+
+
+                    <!-- ==========================================
+                     MAIN BALANCE
+                     ========================================== -->
+
+                    <div class="main-balance-card">
+
+                        <small>
+                            Total Balance
+                        </small>
+
+                        <h1 id="kcbDashboardBalance">
+                            KSh 0.00
+                        </h1>
+
+                        <p>
+                            Account No.
+                            <span id="kcbAccountNumber">
+                                Loading...
+                            </span>
+                        </p>
+
+                        <p>
+                            Account Type:
+                            <span id="kcbAccountType">
+                                Loading...
+                            </span>
+                        </p>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                     ACCOUNTS
+                     ========================================== -->
+
+                    <h3 class="bank-section-title">
+                        My Accounts
+                    </h3>
+
+                    <div class="accounts-grid">
+
+                        <!-- SAVINGS -->
+
+                        <div class="account-box">
+
+                            <span>
+                                Savings
+                            </span>
+
+                            <h3 id="kcbSavingsBalance">
+                                KSh 0.00
+                            </h3>
+
+                        </div>
+
+
+                        <!-- CURRENT -->
+
+                        <div class="account-box">
+
+                            <span>
+                                Current
+                            </span>
+
+                            <h3 id="kcbCurrentBalance">
+                                KSh 0.00
+                            </h3>
+
+                        </div>
+
+
+                        <!-- LOAN -->
+
+                        <div class="account-box">
+
+                            <span>
+                                Loans
+                            </span>
+
+                            <h3 id="kcbLoanBalance">
+                                KSh 0.00
+                            </h3>
+
+                        </div>
+
+
+                        <!-- CREDIT CARD -->
+
+                        <div class="account-box">
+
+                            <span>
+                                Credit Card
+                            </span>
+
+                            <h3 id="kcbCreditCardBalance">
+                                KSh 0.00
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                     QUICK BANKING
+                    ========================================== -->
+
+                    <h3 class="bank-section-title">
+                        Quick Banking
+                    </h3>
+
+                    <div class="bank-action-grid">
+
+                        <button type="button" onclick="showScreen('kcbTransfer')">
+                            💸
+                            <span>Transfer</span>
+                        </button>
+
+
+                        <button type="button" onclick="showScreen('kcbDeposit')">
+                            📥
+                            <span>Deposit</span>
+                        </button>
+
+
+                        <button type="button" onclick="showScreen('kcbWithdraw')">
+                            📤
+                            <span>Withdraw</span>
+                        </button>
+
+
+                        <button type="button" onclick="openStatement()">
+                            📄
+                            <span>Statement</span>
+                        </button>
+
+
+                        <button type="button" onclick="showScreen('kcbBills')">
+                            💡
+                            <span>Bills</span>
+                        </button>
+
+
+                        <button type="button" onclick="openBuyGoods()">
+                            🛒
+                            <span>Buy Goods</span>
+                        </button>
+
+
+                        <button type="button" onclick="openAirtime()">
+                            📱
+                            <span>Airtime</span>
+                        </button>
+
+
+                        <button type="button" onclick="openBundles()">
+                            📶
+                            <span>Bundles</span>
+                        </button>
+
+
+                        <button type="button" onclick="openLoans()">
+                            💰
+                            <span>Loans</span>
+                        </button>
+
+
+                        <button type="button" onclick="openCards()">
+                            💳
+                            <span>Cards</span>
+                        </button>
+
+
+                        <button type="button" onclick="openSettings()">
+                            ⚙️
+                            <span>Settings</span>
+                        </button>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                     RECENT TRANSACTIONS
+                     ========================================== -->
+
+                    <h3 class="bank-section-title">
+                        Recent Transactions
+                    </h3>
+
+                    <div id="kcbRecentTransactions">
+
+                        <div class="transaction-card">
 
                             <div>
 
-                                <h3 id="kcbHolder">Joshua Nkario</h3>
+                                <strong>
+                                    Loading transactions...
+                                </strong>
 
-                                <small>Premium Customer</small>
-
-                            </div>
-
-                            <div class="customer-avatar">
-
-                                J
+                                <small>
+                                    Please wait
+                                </small>
 
                             </div>
+
+                            <span class="transaction-out">
+                                --
+                            </span>
 
                         </div>
 
-                        <!-- ==========================================
-                             MAIN BALANCE
-                         ========================================== -->
+                    </div>
 
-                        <div class="main-balance-card">
-
-                            <small>Total Balance</small>
-
-                            <h1 id="kcbDashboardBalance">
-
-                                KSh 25,430.00
-
-                            </h1>
-
-                            <p>
-
-                                Account No.
-
-                                <span id="kcbAccountNumber">
-
-                                    1234567890
-
-                                </span>
-
-                            </p>
-
-                            <p>
-
-                                Account Type:
-
-                                <span id="kcbAccountType">
-
-                                    Current Account
-
-                                </span>
-
-                            </p>
-
-                        </div>
-                        <!-- ==========================================
-                         ACCOUNTS
-                        ========================================== -->
-
-                        <h3 class="bank-section-title">
-
-                            My Accounts
-
-                        </h3>
-
-                        <div class="accounts-grid">
-
-                            <div class="account-box">
-
-                                <span>Savings</span>
-
-                                <h3>KSh 12,300</h3>
-
-                            </div>
-
-                            <div class="account-box">
-
-                                <span>Current</span>
-
-                                <h3>KSh 13,130</h3>
-
-                            </div>
-
-                            <div class="account-box">
-
-                                <span>Loans</span>
-
-                                <h3>KSh 0.00</h3>
-
-                            </div>
-
-                            <div class="account-box">
-
-                                <span>Credit Card</span>
-
-                                <h3>KSh 5,000</h3>
-
-                            </div>
-
-                        </div>
-                        <!-- ==========================================
-                         QUICK BANKING
-                        ========================================== -->
-
-                        <h3 class="bank-section-title">
-
-                            Quick Banking
-
-                        </h3>
-
-                        <div class="bank-action-grid">
-
-                            <button onclick="showScreen('kcbTransfer')">
-
-                                💸
-
-                                <span>Transfer</span>
-
-                            </button>
-
-                            <button onclick="showScreen('kcbDeposit')">
-
-                                📥
-
-                                <span>Deposit</span>
-
-                            </button>
-
-                            <button onclick="showScreen('kcbWithdraw')">
-
-                                📤
-
-                                <span>Withdraw</span>
-
-                            </button>
-
-                            <button onclick="openStatement()">
-
-                                📄
-
-                                <span>Statement</span>
-
-                            </button>
-
-                            <button onclick="showScreen('kcbBills')">
-
-                                💡
-
-                                <span>Bills</span>
-
-                            </button>
-
-                            <button onclick="openBuyGoods()">
-
-                                🛒
-
-                                <span>Buy Goods</span>
-
-                            </button>
-
-                            <button onclick="openAirtime()">
-
-                                📱
-
-                                <span>Airtime</span>
-
-                            </button>
-
-                            <button onclick="openBundles()">
-
-                                📶
-
-                                <span>Bundles</span>
-
-                            </button>
-
-                            <button onclick="openLoans()">
-
-                                💰
-
-                                <span>Loans</span>
-
-                            </button>
-
-                            <button onclick="openCards()">
-
-                                💳
-
-                                <span>Cards</span>
-
-                            </button>
-                            <button onclick="openSettings()">
-
-                                ⚙️
-
-                                <span>Settings</span>
-
-                            </button>
-
-                        </div>
-                        <!-- ==========================================
-                         RECENT TRANSACTIONS
-                         ========================================== -->
-
-                        <h3 class="bank-section-title">
-
-                            Recent Transactions
-
-                        </h3>
-
-                        <div id="kcbRecentTransactions">
-
-                            <div class="transaction-card">
-
-                                <div>
-
-                                    <strong>📱 Airtime Purchase</strong>
-
-                                    <small>Today • 09:45 AM</small>
-
-                                </div>
-
-                                <span class="transaction-out">
-
-                                    - KSh 100
-
-                                </span>
-
-                            </div>
-
-                            <div class="transaction-card">
-
-                                <div>
-
-                                    <strong>💸 Money Transfer</strong>
-
-                                    <small>Yesterday • 04:20 PM</small>
-
-                                </div>
-
-                                <span class="transaction-out">
-
-                                    - KSh 2,500
-
-                                </span>
-
-                            </div>
-
-                            <div class="transaction-card">
-
-                                <div>
-
-                                    <strong>💰 Salary Deposit</strong>
-
-                                    <small>20 Jul 2026</small>
-
-                                </div>
-
-                                <span class="transaction-in">
-
-                                    + KSh 45,000
-
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                         KCB TRANSFER
                       ========================================== -->
 
-                    <section id="kcbTransfer" class="screen">
+                <section id="kcbTransfer" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('kcbDashboard')">
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>💸 Money Transfer</h2>
+                        <h2>💸 Money Transfer</h2>
 
-                            <p>Transfer money securely</p>
+                        <p>Transfer money securely</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Recipient Name</label>
+                        <label>Recipient Name</label>
 
-                            <input id="transferName" class="form-input" type="text" placeholder="Enter recipient name">
+                        <input id="transferName" class="form-input" type="text" placeholder="Enter recipient name">
 
-                            <label>Account Number</label>
+                        <label>Account Number</label>
 
-                            <input id="transferAccount" class="form-input" type="text"
-                                placeholder="Enter account number">
+                        <input id="transferAccount" class="form-input" type="text" placeholder="Enter account number">
 
-                            <label>Bank</label>
+                        <label>Bank</label>
 
-                            <select id="transferBank" class="form-input">
+                        <select id="transferBank" class="form-input">
 
-                                <option>KCB Bank</option>
-                                <option>Equity Bank</option>
-                                <option>NCBA</option>
-                                <option>Co-operative Bank</option>
-                                <option>Absa Bank</option>
+                            <option>KCB Bank</option>
+                            <option>Equity Bank</option>
+                            <option>NCBA</option>
+                            <option>Co-operative Bank</option>
+                            <option>Absa Bank</option>
 
-                            </select>
+                        </select>
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="transferAmount" class="form-input" type="number" placeholder="Enter amount">
+                        <input id="transferAmount" class="form-input" type="number" placeholder="Enter amount">
 
-                            <label>Description</label>
+                        <label>Description</label>
 
-                            <input id="transferDescription" class="form-input" type="text" placeholder="Optional">
+                        <input id="transferDescription" class="form-input" type="text" placeholder="Optional">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="transferPIN" class="form-input" type="password" maxlength="4"
-                                placeholder="Enter 4-digit PIN">
+                        <input id="transferPIN" class="form-input" type="password" maxlength="4"
+                            placeholder="Enter 4-digit PIN">
 
-                            <button class="primary-btn" onclick="confirmTransfer()">
+                        <button class="primary-btn" onclick="confirmTransfer()">
 
-                                Continue
+                            Continue
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                         TRANSFER CONFIRMATION
             ========================================== -->
 
-                    <section id="kcbTransferConfirm" class="screen">
+                <section id="kcbTransferConfirm" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('kcbTransfer')">
+                        <button class="back-btn" onclick="showScreen('kcbTransfer')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Confirm Transfer</h2>
+                        <h2>Confirm Transfer</h2>
 
-                            <p>Please verify the details</p>
+                        <p>Please verify the details</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <div class="confirm-row">
+                        <div class="confirm-row">
 
-                                <span>Recipient</span>
+                            <span>Recipient</span>
 
-                                <strong id="confirmName"></strong>
-
-                            </div>
-
-                            <div class="confirm-row">
-
-                                <span>Account</span>
-
-                                <strong id="confirmAccount"></strong>
-
-                            </div>
-
-                            <div class="confirm-row">
-
-                                <span>Bank</span>
-
-                                <strong id="confirmBank"></strong>
-
-                            </div>
-
-                            <div class="confirm-row">
-
-                                <span>Amount</span>
-
-                                <strong id="confirmAmount"></strong>
-
-                            </div>
-
-                            <div class="confirm-row">
-
-                                <span>Transfer Fee</span>
-
-                                <strong>KSh 22.00</strong>
-
-                            </div>
-
-                            <div class="confirm-row total">
-
-                                <span>Total Debit</span>
-
-                                <strong id="confirmTotal"></strong>
-
-                            </div>
-
-                            <button class="primary-btn" onclick="processTransfer()">
-
-                                Confirm Transfer
-
-                            </button>
+                            <strong id="confirmName"></strong>
 
                         </div>
 
-                    </section>
-                    <!-- ==========================================
+                        <div class="confirm-row">
+
+                            <span>Account</span>
+
+                            <strong id="confirmAccount"></strong>
+
+                        </div>
+
+                        <div class="confirm-row">
+
+                            <span>Bank</span>
+
+                            <strong id="confirmBank"></strong>
+
+                        </div>
+
+                        <div class="confirm-row">
+
+                            <span>Amount</span>
+
+                            <strong id="confirmAmount"></strong>
+
+                        </div>
+
+                        <div class="confirm-row">
+
+                            <span>Transfer Fee</span>
+
+                            <strong>KSh 22.00</strong>
+
+                        </div>
+
+                        <div class="confirm-row total">
+
+                            <span>Total Debit</span>
+
+                            <strong id="confirmTotal"></strong>
+
+                        </div>
+
+                        <button class="primary-btn" onclick="processTransfer()">
+
+                            Confirm Transfer
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
                         PROCESSING SCREEN
             ========================================== -->
 
-                    <section id="kcbProcessing" class="screen">
+                <section id="kcbProcessing" class="screen">
 
-                        <div class="processing-container">
+                    <div class="processing-container">
 
-                            <div class="processing-loader"></div>
+                        <div class="processing-loader"></div>
 
-                            <h2>Processing Transaction...</h2>
+                        <h2>Processing Transaction...</h2>
 
-                            <p>Please wait.</p>
+                        <p>Please wait.</p>
 
-                            <small>Do not close the application.</small>
+                        <small>Do not close the application.</small>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <section id="kcbTransferSuccess" class="screen">
+                </section>
+                <section id="kcbTransferSuccess" class="screen">
 
-                        <div class="processing-container">
+                    <div class="processing-container">
 
-                            <div style="font-size:80px;">
+                        <div style="font-size:80px;">
 
-                                ✅
-
-                            </div>
-
-                            <h2>
-
-                                Transfer Successful
-
-                            </h2>
-
-                            <p>
-
-                                Your money has been transferred successfully.
-
-                            </p>
-
-                            <button class="primary-btn" onclick="showScreen('kcbReceipt')">
-
-                                View Receipt
-
-                            </button>
+                            ✅
 
                         </div>
 
-                    </section>
-                    <!-- ==========================================
+                        <h2>
+
+                            Transfer Successful
+
+                        </h2>
+
+                        <p>
+
+                            Your money has been transferred successfully.
+
+                        </p>
+
+                        <button class="primary-btn" onclick="showScreen('kcbReceipt')">
+
+                            View Receipt
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
                         KCB RECEIPT
             ========================================== -->
 
-                    <section id="kcbReceipt" class="screen">
+                <section id="kcbReceipt" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <h2>🧾 Transaction Receipt</h2>
+                        <h2>🧾 Transaction Receipt</h2>
 
-                        </div>
+                    </div>
 
-                        <div class="receipt-card">
+                    <div class="receipt-card">
 
-                            <div class="receipt-logo">
+                        <div class="receipt-logo">
 
-                                <img src="assets/banks/kcb.png" class="bank-header-logo">
+                            <img src="assets/banks/kcb.png" class="bank-header-logo">
 
-                                <h3>KCB BANK</h3>
-
-                            </div>
-
-                            <hr>
-
-                            <div class="receipt-row">
-
-                                <span>Status</span>
-
-                                <strong class="success">SUCCESSFUL</strong>
-
-                            </div>
-
-                            <div class="receipt-row">
-
-                                <span>Reference</span>
-
-                                <strong id="receiptReference">
-
-                                    KCB202607230001
-
-                                </strong>
-
-                            </div>
-
-                            <div class="receipt-row">
-
-                                <span>Recipient</span>
-
-                                <strong id="receiptRecipient">
-
-                                    John Doe
-
-                                </strong>
-
-                            </div>
-
-                            <div class="receipt-row">
-
-                                <span>Bank</span>
-
-                                <strong id="receiptBank">
-
-                                    KCB Bank
-
-                                </strong>
-
-                            </div>
-
-                            <div class="receipt-row">
-
-                                <span>Amount</span>
-
-                                <strong id="receiptAmount">
-
-                                    KSh 0.00
-
-                                </strong>
-
-                            </div>
-
-                            <div class="receipt-row">
-
-                                <span>Charges</span>
-
-                                <strong>KSh 22.00</strong>
-
-                            </div>
-
-                            <div class="receipt-row">
-
-                                <span>Date</span>
-
-                                <strong id="receiptDate"></strong>
-
-                            </div>
-
-                            <div class="receipt-row">
-
-                                <span>Time</span>
-
-                                <strong id="receiptTime"></strong>
-
-                            </div>
-
-                            <button class="primary-btn" onclick="finishTransaction()">
-
-                                Done
-
-                            </button>
+                            <h3>KCB BANK</h3>
 
                         </div>
 
-                    </section>
-                    <!-- ==========================================
+                        <hr>
+
+                        <div class="receipt-row">
+
+                            <span>Status</span>
+
+                            <strong class="success">SUCCESSFUL</strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Reference</span>
+
+                            <strong id="receiptReference">
+
+                                KCB202607230001
+
+                            </strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Recipient</span>
+
+                            <strong id="receiptRecipient">
+
+                                John Doe
+
+                            </strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Bank</span>
+
+                            <strong id="receiptBank">
+
+                                KCB Bank
+
+                            </strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Amount</span>
+
+                            <strong id="receiptAmount">
+
+                                KSh 0.00
+
+                            </strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Charges</span>
+
+                            <strong>KSh 22.00</strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Date</span>
+
+                            <strong id="receiptDate"></strong>
+
+                        </div>
+
+                        <div class="receipt-row">
+
+                            <span>Time</span>
+
+                            <strong id="receiptTime"></strong>
+
+                        </div>
+
+                        <button class="primary-btn" onclick="finishTransaction()">
+
+                            Done
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
              KCB STATEMENTS
             ========================================== -->
 
-                    <section id="kcbStatement" class="screen">
+                <section id="kcbStatement" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('kcbDashboard')">
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Mini Statement</h2>
+                        <h2>Mini Statement</h2>
 
-                            <p>Recent Transactions</p>
+                        <p>Recent Transactions</p>
+
+                    </div>
+
+                    <div id="statementList">
+
+                        <div class="transaction-empty">
+
+                            <div class="transaction-empty-icon">
+
+                                📄
+
+                            </div>
+
+                            <h3>No Transactions</h3>
 
                         </div>
 
-                        <div id="statementList">
+                    </div>
+
+                    <button class="primary-btn" onclick="downloadStatement()">
+
+                        Download Statement
+
+                    </button>
+
+                </section>
+                <!-- ==========================================
+                 KCB DEPOSIT
+            ========================================== -->
+
+                <section id="kcbDeposit" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Deposit Money</h2>
+
+                        <p>Deposit into your KCB Account</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Amount</label>
+
+                        <input id="depositAmount" class="form-input" type="number" placeholder="Enter amount">
+
+                        <label>Deposit Method</label>
+
+                        <label>Deposit Reference</label>
+
+                        <input id="depositReference" class="form-input" type="text"
+                            placeholder="Enter M-Pesa / Bank Reference">
+
+
+                        <select id="depositMethod" class="form-input">
+
+                            <option>M-Pesa</option>
+                            <option>Cash Deposit</option>
+                            <option>Bank Transfer</option>
+
+                        </select>
+
+                        <button class="primary-btn" onclick="submitDeposit()">
+
+                            Deposit Money
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 KCB WITHDRAW
+            ========================================== -->
+
+                <section id="kcbWithdraw" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Withdraw Money</h2>
+
+                        <p>Withdraw from your KCB Account</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Amount</label>
+
+                        <input id="withdrawAmount" class="form-input" type="number" placeholder="Enter amount">
+
+                        <label>Withdrawal Method</label>
+
+                        <select id="withdrawMethod" class="form-input">
+
+                            <option>ATM</option>
+                            <option>Agent</option>
+                            <option>Branch</option>
+
+                        </select>
+
+                        <label>Reference</label>
+
+                        <label>Transaction PIN</label>
+
+                        <input id="withdrawPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <input id="withdrawReference" class="form-input" type="text" placeholder="Withdrawal Reference">
+
+                        <button class="primary-btn" onclick="submitWithdraw()">
+
+                            Withdraw Money
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 KCB PAY BILLS
+            ========================================== -->
+
+                <section id="kcbBills" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+                            ←
+                        </button>
+
+                        <h2>Pay Bills</h2>
+
+                        <p>Pay your bills securely</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Business Name</label>
+
+                        <input id="billBusiness" class="form-input" type="text" placeholder="e.g. Kenya Power">
+
+                        <label>Paybill Number</label>
+
+                        <input id="billNumber" class="form-input" type="number" placeholder="Enter Paybill">
+
+                        <label>Account Number</label>
+
+                        <input id="billAccount" class="form-input" type="text" placeholder="Account Number">
+
+                        <label>Amount</label>
+
+                        <input id="billAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="billPIN" class="form-input" type="password" maxlength="4" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitBillPayment()">
+
+                            Pay Bill
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 KCB BUY GOODS
+            ========================================== -->
+
+                <section id="kcbBuyGoods" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Buy Goods</h2>
+
+                        <p>Pay Merchant Till</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Business Name</label>
+
+                        <input id="goodsBusiness" class="form-input" type="text" placeholder="Business Name">
+
+                        <label>Till Number</label>
+
+                        <input id="goodsTill" class="form-input" type="number" placeholder="Till Number">
+
+                        <label>Amount</label>
+
+                        <input id="goodsAmount" class="form-input" type="number" placeholder="Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="goodsPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitBuyGoods()">
+
+                            Buy Goods
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+             KCB AIRTIME
+        ========================================== -->
+
+                <section id="kcbAirtime" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Buy Airtime</h2>
+
+                        <p>Purchase Airtime From Your KCB Account</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Phone Number</label>
+
+                        <input id="airtimePhone" class="form-input" type="tel" maxlength="13" placeholder="07XXXXXXXX"
+                            oninput="detectNetwork()">
+
+                        <div id="networkResult" class="network-result">
+
+                            Network: Not detected
+
+                        </div>
+
+                        <label>Amount</label>
+
+                        <input id="airtimeAmount" class="form-input" type="number" placeholder="Enter Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="airtimePIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitAirtime()">
+
+                            Buy Airtime
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 KCB DATA BUNDLES
+            ========================================== -->
+
+                <section id="kcbBundles" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Buy Bundles</h2>
+
+                        <p>Purchase Mobile Data Bundles</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Phone Number</label>
+
+                        <input id="bundlePhone" class="form-input" type="tel" maxlength="13" placeholder="07XXXXXXXX"
+                            oninput="detectNetwork()">
+
+                        <div id="networkResult" class="network-result">
+
+                            Network: Not detected
+
+                        </div>
+
+                        <label>Select Bundle</label>
+
+                        <select id="bundlePackage" class="form-input">
+
+                            <option value="20">20 MB - KSh 20</option>
+                            <option value="50">100 MB - KSh 50</option>
+                            <option value="100">350 MB - KSh 100</option>
+                            <option value="200">1 GB - KSh 200</option>
+                            <option value="500">3 GB - KSh 500</option>
+                            <option value="1000">10 GB - KSh 1000</option>
+
+                        </select>
+
+                        <label>Transaction PIN</label>
+
+                        <input id="bundlePIN" class="form-input" type="password" maxlength="4" placeholder="****">
+
+                        <button class="primary-btn" onclick="submitBundles()">
+
+                            Buy Bundle
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+             KCB LOANS
+        ========================================== -->
+
+                <section id="kcbLoans" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>KCB Loans</h2>
+
+                        <p>Instant Mobile Loans</p>
+
+                    </div>
+
+                    <!-- Loan Summary -->
+
+                    <div class="balance-card">
+
+                        <h3>Available Loan Limit</h3>
+
+                        <h1 id="loanLimit">KSh 100,000</h1>
+
+                        <small id="loanStatus">
+
+                            No Active Loan
+
+                        </small>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <label>Loan Amount</label>
+
+                        <input id="loanAmount" class="form-input" type="number" placeholder="Enter Amount">
+
+                        <label>Repayment Period</label>
+
+                        <select id="loanMonths" class="form-input">
+
+                            <option value="1">1 Month</option>
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="12">12 Months</option>
+
+                        </select>
+
+                        <label>Transaction PIN</label>
+
+                        <input id="loanPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+
+                        <button class="primary-btn" onclick="applyLoan()">
+
+                            Apply Loan
+
+                        </button>
+
+                    </div>
+                    <hr>
+
+                    <div class="service-card">
+
+                        <h3>Loan Repayment</h3>
+
+                        <p id="loanOutstanding">
+
+                            Outstanding Loan:
+                            KSh 0.00
+
+                        </p>
+
+                        <label>Repayment Amount</label>
+
+                        <input id="loanRepaymentAmount" class="form-input" type="number" placeholder="Enter Amount">
+
+                        <label>Transaction PIN</label>
+
+                        <input id="loanRepaymentPIN" class="form-input" type="password" maxlength="4"
+                            placeholder="****">
+
+                        <button class="primary-btn" onclick="repayLoan()">
+
+                            Repay Loan
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 KCB CARDS
+            ========================================== -->
+
+                <section id="kcbCards" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>My Cards</h2>
+
+                        <p>Manage Your KCB Cards</p>
+
+                    </div>
+
+                    <!-- Virtual Card -->
+
+                    <div class="bank-card">
+
+                        <div class="card-type">
+
+                            KCB VISA DEBIT
+
+                        </div>
+
+                        <div class="card-number" id="cardNumber">
+
+                            •••• •••• •••• 4567
+
+                        </div>
+
+                        <div class="card-holder">
+
+                            Joshua Nkario
+
+                        </div>
+
+                        <div class="card-expiry">
+
+                            Exp: 12/30
+
+                        </div>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <button class="primary-btn" onclick="toggleCardFreeze()">
+
+                            Freeze / Unfreeze Card
+
+                        </button>
+
+                        <button class="primary-btn" onclick="viewCardDetails()">
+
+                            View Card Details
+
+                        </button>
+
+                        <button class="primary-btn danger-btn" onclick="blockCard()">
+
+                            Block Card
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 KCB SETTINGS
+            ========================================== -->
+
+                <section id="kcbSettings" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('kcbDashboard')">
+
+                            ←
+
+                        </button>
+
+                        <h2>Settings</h2>
+
+                        <p>Account & Security</p>
+
+                    </div>
+
+                    <div class="service-card">
+
+                        <button class="primary-btn" onclick="changeTransactionPIN()">
+
+                            🔐 Change Transaction PIN
+
+                        </button>
+
+                        <button class="primary-btn" onclick="toggleBiometric()">
+
+                            👆 Biometric Login
+
+                        </button>
+
+                        <button class="primary-btn" onclick="toggleDarkMode()">
+
+                            🌙 Dark Mode
+
+                        </button>
+
+                        <button class="primary-btn" onclick="toggleBankNotifications()">
+
+                            🔔 Notifications
+
+                        </button>
+
+                        <button class="danger-btn" onclick="logoutBanking()">
+
+                            🚪 Logout
+
+                        </button>
+
+                    </div>
+
+                </section>
+                <!-- ==========================================
+                 EQUITY MOBILE DASHBOARD
+            ========================================== -->
+
+                <section id="equityDashboard" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('financialServices')">
+
+                            ←
+
+                        </button>
+
+                        <img src="assets/banks/equity.png" class="bank-header-logo" alt="Equity">
+
+                        <h2>Equity Mobile</h2>
+
+                        <p>Equity Bank Kenya</p>
+
+                    </div>
+
+                    <!-- Customer -->
+
+                    <div class="customer-card">
+
+                        <div>
+
+                            <h3 id="equityHolder">
+
+                                Joshua Nkario
+
+                            </h3>
+
+                            <small>Equity Customer</small>
+
+                        </div>
+
+                        <div class="customer-avatar">
+
+                            J
+
+                        </div>
+
+                    </div>
+
+                    <!-- Balance -->
+
+                    <div class="balance-card">
+
+                        <h3>Available Balance</h3>
+
+                        <h1 id="equityBalance">
+
+                            KSh 75,000.00
+
+                        </h1>
+
+                        <small id="equityAccountNumber">
+
+                            Account No. 0123456789
+
+                        </small>
+
+                    </div>
+
+                    <!-- ==========================================
+                 QUICK BANKING
+            ========================================== -->
+
+                    <h3 class="bank-section-title">
+
+                        Quick Banking
+
+                    </h3>
+
+                    <div class="bank-action-grid">
+
+                        <button onclick="openEquityTransfer()">
+
+                            💸
+
+                            <span>Transfer</span>
+
+                        </button>
+
+                        <button onclick="openEquityDeposit()">
+
+                            📥
+
+                            <span>Deposit</span>
+
+                        </button>
+
+                        <button onclick="openEquityWithdraw()">
+
+                            📤
+
+                            <span>Withdraw</span>
+
+                        </button>
+
+                        <button onclick="openEquityStatement()">
+
+                            📄
+
+                            <span>Statement</span>
+
+                        </button>
+
+                        <button onclick="openEquityBills()">
+
+                            💡
+
+                            <span>Bills</span>
+
+                        </button>
+
+                        <button onclick="openEquityBuyGoods()">
+
+                            🛒
+
+                            <span>Buy Goods</span>
+
+                        </button>
+
+                        <button onclick="openEquityAirtime()">
+
+                            📱
+
+                            <span>Airtime</span>
+
+                        </button>
+
+                        <button onclick="openEquityBundles()">
+
+                            📶
+
+                            <span>Bundles</span>
+
+                        </button>
+
+                        <button onclick="openEquityLoans()">
+
+                            💰
+
+                            <span>Loans</span>
+
+                        </button>
+
+                        <button onclick="openEquityCards()">
+
+                            💳
+
+                            <span>Cards</span>
+
+                        </button>
+
+                        <button onclick="openEquitySettings()">
+
+                            ⚙️
+
+                            <span>Settings</span>
+
+                        </button>
+
+                    </div>
+
+                    <!-- Recent Transactions -->
+
+                    <div class="service-card">
+
+                        <h3>Recent Transactions</h3>
+
+                        <div id="equityRecentTransactions">
 
                             <div class="transaction-empty">
 
@@ -3400,2046 +4089,1301 @@
 
                                 </div>
 
-                                <h3>No Transactions</h3>
+                                <h3>No Recent Transactions</h3>
 
                             </div>
 
                         </div>
 
-                        <button class="primary-btn" onclick="downloadStatement()">
+                    </div>
 
-                            Download Statement
-
-                        </button>
-
-                    </section>
-                    <!-- ==========================================
-                 KCB DEPOSIT
-            ========================================== -->
-
-                    <section id="kcbDeposit" class="screen">
-
-                        <div class="screen-header">
-
-                            <button class="back-btn" onclick="showScreen('kcbDashboard')">
-
-                                ←
-
-                            </button>
-
-                            <h2>Deposit Money</h2>
-
-                            <p>Deposit into your KCB Account</p>
-
-                        </div>
-
-                        <div class="service-card">
-
-                            <label>Amount</label>
-
-                            <input id="depositAmount" class="form-input" type="number" placeholder="Enter amount">
-
-                            <label>Deposit Method</label>
-
-                            <label>Deposit Reference</label>
-
-                            <input id="depositReference" class="form-input" type="text"
-                                placeholder="Enter M-Pesa / Bank Reference">
-
-
-                            <select id="depositMethod" class="form-input">
-
-                                <option>M-Pesa</option>
-                                <option>Cash Deposit</option>
-                                <option>Bank Transfer</option>
-
-                            </select>
-
-                            <button class="primary-btn" onclick="submitDeposit()">
-
-                                Deposit Money
-
-                            </button>
-
-                        </div>
-
-                    </section>
-                    <!-- ==========================================
-                 KCB WITHDRAW
-            ========================================== -->
-
-                    <section id="kcbWithdraw" class="screen">
-
-                        <div class="screen-header">
-
-                            <button class="back-btn" onclick="showScreen('kcbDashboard')">
-
-                                ←
-
-                            </button>
-
-                            <h2>Withdraw Money</h2>
-
-                            <p>Withdraw from your KCB Account</p>
-
-                        </div>
-
-                        <div class="service-card">
-
-                            <label>Amount</label>
-
-                            <input id="withdrawAmount" class="form-input" type="number" placeholder="Enter amount">
-
-                            <label>Withdrawal Method</label>
-
-                            <select id="withdrawMethod" class="form-input">
-
-                                <option>ATM</option>
-                                <option>Agent</option>
-                                <option>Branch</option>
-
-                            </select>
-
-                            <label>Reference</label>
-
-                            <label>Transaction PIN</label>
-
-                            <input id="withdrawPIN" class="form-input" maxlength="4" type="password" placeholder="****">
-
-                            <input id="withdrawReference" class="form-input" type="text"
-                                placeholder="Withdrawal Reference">
-
-                            <button class="primary-btn" onclick="submitWithdraw()">
-
-                                Withdraw Money
-
-                            </button>
-
-                        </div>
-
-                    </section>
-                    <!-- ==========================================
-                 KCB PAY BILLS
-            ========================================== -->
-
-                    <section id="kcbBills" class="screen">
-
-                        <div class="screen-header">
-
-                            <button class="back-btn" onclick="showScreen('kcbDashboard')">
-                                ←
-                            </button>
-
-                            <h2>Pay Bills</h2>
-
-                            <p>Pay your bills securely</p>
-
-                        </div>
-
-                        <div class="service-card">
-
-                            <label>Business Name</label>
-
-                            <input id="billBusiness" class="form-input" type="text" placeholder="e.g. Kenya Power">
-
-                            <label>Paybill Number</label>
-
-                            <input id="billNumber" class="form-input" type="number" placeholder="Enter Paybill">
-
-                            <label>Account Number</label>
-
-                            <input id="billAccount" class="form-input" type="text" placeholder="Account Number">
-
-                            <label>Amount</label>
-
-                            <input id="billAmount" class="form-input" type="number" placeholder="Amount">
-
-                            <label>Transaction PIN</label>
-
-                            <input id="billPIN" class="form-input" type="password" maxlength="4" placeholder="****">
-
-                            <button class="primary-btn" onclick="submitBillPayment()">
-
-                                Pay Bill
-
-                            </button>
-
-                        </div>
-
-                    </section>
-                    <!-- ==========================================
-                 KCB BUY GOODS
-            ========================================== -->
-
-                    <section id="kcbBuyGoods" class="screen">
-
-                        <div class="screen-header">
-
-                            <button class="back-btn" onclick="showScreen('kcbDashboard')">
-
-                                ←
-
-                            </button>
-
-                            <h2>Buy Goods</h2>
-
-                            <p>Pay Merchant Till</p>
-
-                        </div>
-
-                        <div class="service-card">
-
-                            <label>Business Name</label>
-
-                            <input id="goodsBusiness" class="form-input" type="text" placeholder="Business Name">
-
-                            <label>Till Number</label>
-
-                            <input id="goodsTill" class="form-input" type="number" placeholder="Till Number">
-
-                            <label>Amount</label>
-
-                            <input id="goodsAmount" class="form-input" type="number" placeholder="Amount">
-
-                            <label>Transaction PIN</label>
-
-                            <input id="goodsPIN" class="form-input" maxlength="4" type="password" placeholder="****">
-
-                            <button class="primary-btn" onclick="submitBuyGoods()">
-
-                                Buy Goods
-
-                            </button>
-
-                        </div>
-
-                    </section>
-                    <!-- ==========================================
-             KCB AIRTIME
-        ========================================== -->
-
-                    <section id="kcbAirtime" class="screen">
-
-                        <div class="screen-header">
-
-                            <button class="back-btn" onclick="showScreen('kcbDashboard')">
-
-                                ←
-
-                            </button>
-
-                            <h2>Buy Airtime</h2>
-
-                            <p>Purchase Airtime From Your KCB Account</p>
-
-                        </div>
-
-                        <div class="service-card">
-
-                            <label>Phone Number</label>
-
-                            <input id="airtimePhone" class="form-input" type="tel" maxlength="13"
-                                placeholder="07XXXXXXXX" oninput="detectNetwork()">
-
-                            <div id="networkResult" class="network-result">
-
-                                Network: Not detected
-
-                            </div>
-
-                            <label>Amount</label>
-
-                            <input id="airtimeAmount" class="form-input" type="number" placeholder="Enter Amount">
-
-                            <label>Transaction PIN</label>
-
-                            <input id="airtimePIN" class="form-input" maxlength="4" type="password" placeholder="****">
-
-                            <button class="primary-btn" onclick="submitAirtime()">
-
-                                Buy Airtime
-
-                            </button>
-
-                        </div>
-
-                    </section>
-                    <!-- ==========================================
-                 KCB DATA BUNDLES
-            ========================================== -->
-
-                    <section id="kcbBundles" class="screen">
-
-                        <div class="screen-header">
-
-                            <button class="back-btn" onclick="showScreen('kcbDashboard')">
-
-                                ←
-
-                            </button>
-
-                            <h2>Buy Bundles</h2>
-
-                            <p>Purchase Mobile Data Bundles</p>
-
-                        </div>
-
-                        <div class="service-card">
-
-                            <label>Phone Number</label>
-
-                            <input id="bundlePhone" class="form-input" type="tel" maxlength="13"
-                                placeholder="07XXXXXXXX" oninput="detectNetwork()">
-
-                            <div id="networkResult" class="network-result">
-
-                                Network: Not detected
-
-                            </div>
-
-                            <label>Select Bundle</label>
-
-                            <select id="bundlePackage" class="form-input">
-
-                                <option value="20">20 MB - KSh 20</option>
-                                <option value="50">100 MB - KSh 50</option>
-                                <option value="100">350 MB - KSh 100</option>
-                                <option value="200">1 GB - KSh 200</option>
-                                <option value="500">3 GB - KSh 500</option>
-                                <option value="1000">10 GB - KSh 1000</option>
-
-                            </select>
-
-                            <label>Transaction PIN</label>
-
-                            <input id="bundlePIN" class="form-input" type="password" maxlength="4" placeholder="****">
-
-                            <button class="primary-btn" onclick="submitBundles()">
-
-                                Buy Bundle
-
-                            </button>
-
-                        </div>
-
-                    </section>
-                    <!-- ==========================================
-             KCB LOANS
-        ========================================== -->
-
-                    <section id="kcbLoans" class="screen">
-
-                        <div class="screen-header">
-
-                            <button class="back-btn" onclick="showScreen('kcbDashboard')">
-
-                                ←
-
-                            </button>
-
-                            <h2>KCB Loans</h2>
-
-                            <p>Instant Mobile Loans</p>
-
-                        </div>
-
-                        <!-- Loan Summary -->
-
-                        <div class="balance-card">
-
-                            <h3>Available Loan Limit</h3>
-
-                            <h1 id="loanLimit">KSh 100,000</h1>
-
-                            <small id="loanStatus">
-
-                                No Active Loan
-
-                            </small>
-
-                        </div>
-
-                        <div class="service-card">
-
-                            <label>Loan Amount</label>
-
-                            <input id="loanAmount" class="form-input" type="number" placeholder="Enter Amount">
-
-                            <label>Repayment Period</label>
-
-                            <select id="loanMonths" class="form-input">
-
-                                <option value="1">1 Month</option>
-                                <option value="3">3 Months</option>
-                                <option value="6">6 Months</option>
-                                <option value="12">12 Months</option>
-
-                            </select>
-
-                            <label>Transaction PIN</label>
-
-                            <input id="loanPIN" class="form-input" maxlength="4" type="password" placeholder="****">
-
-                            <button class="primary-btn" onclick="applyLoan()">
-
-                                Apply Loan
-
-                            </button>
-
-                        </div>
-                        <hr>
-
-                        <div class="service-card">
-
-                            <h3>Loan Repayment</h3>
-
-                            <p id="loanOutstanding">
-
-                                Outstanding Loan:
-                                KSh 0.00
-
-                            </p>
-
-                            <label>Repayment Amount</label>
-
-                            <input id="loanRepaymentAmount" class="form-input" type="number" placeholder="Enter Amount">
-
-                            <label>Transaction PIN</label>
-
-                            <input id="loanRepaymentPIN" class="form-input" type="password" maxlength="4"
-                                placeholder="****">
-
-                            <button class="primary-btn" onclick="repayLoan()">
-
-                                Repay Loan
-
-                            </button>
-
-                        </div>
-
-                    </section>
-                    <!-- ==========================================
-                 KCB CARDS
-            ========================================== -->
-
-                    <section id="kcbCards" class="screen">
-
-                        <div class="screen-header">
-
-                            <button class="back-btn" onclick="showScreen('kcbDashboard')">
-
-                                ←
-
-                            </button>
-
-                            <h2>My Cards</h2>
-
-                            <p>Manage Your KCB Cards</p>
-
-                        </div>
-
-                        <!-- Virtual Card -->
-
-                        <div class="bank-card">
-
-                            <div class="card-type">
-
-                                KCB VISA DEBIT
-
-                            </div>
-
-                            <div class="card-number" id="cardNumber">
-
-                                •••• •••• •••• 4567
-
-                            </div>
-
-                            <div class="card-holder">
-
-                                Joshua Nkario
-
-                            </div>
-
-                            <div class="card-expiry">
-
-                                Exp: 12/30
-
-                            </div>
-
-                        </div>
-
-                        <div class="service-card">
-
-                            <button class="primary-btn" onclick="toggleCardFreeze()">
-
-                                Freeze / Unfreeze Card
-
-                            </button>
-
-                            <button class="primary-btn" onclick="viewCardDetails()">
-
-                                View Card Details
-
-                            </button>
-
-                            <button class="primary-btn danger-btn" onclick="blockCard()">
-
-                                Block Card
-
-                            </button>
-
-                        </div>
-
-                    </section>
-                    <!-- ==========================================
-                 KCB SETTINGS
-            ========================================== -->
-
-                    <section id="kcbSettings" class="screen">
-
-                        <div class="screen-header">
-
-                            <button class="back-btn" onclick="showScreen('kcbDashboard')">
-
-                                ←
-
-                            </button>
-
-                            <h2>Settings</h2>
-
-                            <p>Account & Security</p>
-
-                        </div>
-
-                        <div class="service-card">
-
-                            <button class="primary-btn" onclick="changeTransactionPIN()">
-
-                                🔐 Change Transaction PIN
-
-                            </button>
-
-                            <button class="primary-btn" onclick="toggleBiometric()">
-
-                                👆 Biometric Login
-
-                            </button>
-
-                            <button class="primary-btn" onclick="toggleDarkMode()">
-
-                                🌙 Dark Mode
-
-                            </button>
-
-                            <button class="primary-btn" onclick="toggleBankNotifications()">
-
-                                🔔 Notifications
-
-                            </button>
-
-                            <button class="danger-btn" onclick="logoutBanking()">
-
-                                🚪 Logout
-
-                            </button>
-
-                        </div>
-
-                    </section>
-                    <!-- ==========================================
-                 EQUITY MOBILE DASHBOARD
-            ========================================== -->
-
-                    <section id="equityDashboard" class="screen">
-
-                        <div class="screen-header">
-
-                            <button class="back-btn" onclick="showScreen('financialServices')">
-
-                                ←
-
-                            </button>
-
-                            <img src="assets/banks/equity.png" class="bank-header-logo" alt="Equity">
-
-                            <h2>Equity Mobile</h2>
-
-                            <p>Equity Bank Kenya</p>
-
-                        </div>
-
-                        <!-- Customer -->
-
-                        <div class="customer-card">
-
-                            <div>
-
-                                <h3 id="equityHolder">
-
-                                    Joshua Nkario
-
-                                </h3>
-
-                                <small>Equity Customer</small>
-
-                            </div>
-
-                            <div class="customer-avatar">
-
-                                J
-
-                            </div>
-
-                        </div>
-
-                        <!-- Balance -->
-
-                        <div class="balance-card">
-
-                            <h3>Available Balance</h3>
-
-                            <h1 id="equityBalance">
-
-                                KSh 75,000.00
-
-                            </h1>
-
-                            <small id="equityAccountNumber">
-
-                                Account No. 0123456789
-
-                            </small>
-
-                        </div>
-
-                        <!-- ==========================================
-                 QUICK BANKING
-            ========================================== -->
-
-                        <h3 class="bank-section-title">
-
-                            Quick Banking
-
-                        </h3>
-
-                        <div class="bank-action-grid">
-
-                            <button onclick="openEquityTransfer()">
-
-                                💸
-
-                                <span>Transfer</span>
-
-                            </button>
-
-                            <button onclick="openEquityDeposit()">
-
-                                📥
-
-                                <span>Deposit</span>
-
-                            </button>
-
-                            <button onclick="openEquityWithdraw()">
-
-                                📤
-
-                                <span>Withdraw</span>
-
-                            </button>
-
-                            <button onclick="openEquityStatement()">
-
-                                📄
-
-                                <span>Statement</span>
-
-                            </button>
-
-                            <button onclick="openEquityBills()">
-
-                                💡
-
-                                <span>Bills</span>
-
-                            </button>
-
-                            <button onclick="openEquityBuyGoods()">
-
-                                🛒
-
-                                <span>Buy Goods</span>
-
-                            </button>
-
-                            <button onclick="openEquityAirtime()">
-
-                                📱
-
-                                <span>Airtime</span>
-
-                            </button>
-
-                            <button onclick="openEquityBundles()">
-
-                                📶
-
-                                <span>Bundles</span>
-
-                            </button>
-
-                            <button onclick="openEquityLoans()">
-
-                                💰
-
-                                <span>Loans</span>
-
-                            </button>
-
-                            <button onclick="openEquityCards()">
-
-                                💳
-
-                                <span>Cards</span>
-
-                            </button>
-
-                            <button onclick="openEquitySettings()">
-
-                                ⚙️
-
-                                <span>Settings</span>
-
-                            </button>
-
-                        </div>
-
-                        <!-- Recent Transactions -->
-
-                        <div class="service-card">
-
-                            <h3>Recent Transactions</h3>
-
-                            <div id="equityRecentTransactions">
-
-                                <div class="transaction-empty">
-
-                                    <div class="transaction-empty-icon">
-
-                                        📄
-
-                                    </div>
-
-                                    <h3>No Recent Transactions</h3>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  EQUITY TRANSFER
             ========================================== -->
 
-                    <section id="equityTransfer" class="screen">
+                <section id="equityTransfer" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('equityDashboard')">
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Money Transfer</h2>
+                        <h2>Money Transfer</h2>
 
-                            <p>Transfer Money</p>
+                        <p>Transfer Money</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Recipient Name</label>
+                        <label>Recipient Name</label>
 
-                            <input id="equityTransferRecipient" class="form-input" type="text"
-                                placeholder="Recipient Name">
+                        <input id="equityTransferRecipient" class="form-input" type="text" placeholder="Recipient Name">
 
-                            <label>Recipient Account</label>
+                        <label>Recipient Account</label>
 
-                            <input id="equityTransferAccount" class="form-input" type="text"
-                                placeholder="Account Number">
+                        <input id="equityTransferAccount" class="form-input" type="text" placeholder="Account Number">
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="equityTransferAmount" class="form-input" type="number" placeholder="Amount">
+                        <input id="equityTransferAmount" class="form-input" type="number" placeholder="Amount">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="equityTransferPIN" class="form-input" type="password" maxlength="4"
-                                placeholder="****">
+                        <input id="equityTransferPIN" class="form-input" type="password" maxlength="4"
+                            placeholder="****">
 
-                            <button class="primary-btn" onclick="submitEquityTransfer()">
+                        <button class="primary-btn" onclick="submitEquityTransfer()">
 
-                                Transfer Money
+                            Transfer Money
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  EQUITY DEPOSIT
             ========================================== -->
 
-                    <section id="equityDeposit" class="screen">
+                <section id="equityDeposit" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('equityDashboard')">
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Deposit Money</h2>
+                        <h2>Deposit Money</h2>
 
-                            <p>Deposit into your Equity Account</p>
+                        <p>Deposit into your Equity Account</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Deposit Method</label>
+                        <label>Deposit Method</label>
 
-                            <select id="equityDepositMethod" class="form-input">
+                        <select id="equityDepositMethod" class="form-input">
 
-                                <option>Cash Deposit</option>
-                                <option>Bank Transfer</option>
-                                <option>Cheque Deposit</option>
+                            <option>Cash Deposit</option>
+                            <option>Bank Transfer</option>
+                            <option>Cheque Deposit</option>
 
-                            </select>
+                        </select>
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="equityDepositAmount" class="form-input" type="number" placeholder="Enter Amount">
+                        <input id="equityDepositAmount" class="form-input" type="number" placeholder="Enter Amount">
 
-                            <label>Reference</label>
+                        <label>Reference</label>
 
-                            <input id="equityDepositReference" class="form-input" type="text"
-                                placeholder="Deposit Reference">
+                        <input id="equityDepositReference" class="form-input" type="text"
+                            placeholder="Deposit Reference">
 
-                            <button class="primary-btn" onclick="submitEquityDeposit()">
+                        <button class="primary-btn" onclick="submitEquityDeposit()">
 
-                                Deposit Money
+                            Deposit Money
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  EQUITY WITHDRAW
             ========================================== -->
 
-                    <section id="equityWithdraw" class="screen">
+                <section id="equityWithdraw" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('equityDashboard')">
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Withdraw Money</h2>
+                        <h2>Withdraw Money</h2>
 
-                            <p>Withdraw from your Equity Account</p>
+                        <p>Withdraw from your Equity Account</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Withdrawal Method</label>
+                        <label>Withdrawal Method</label>
 
-                            <select id="equityWithdrawMethod" class="form-input">
+                        <select id="equityWithdrawMethod" class="form-input">
 
-                                <option>ATM</option>
-                                <option>Agent</option>
-                                <option>Branch</option>
+                            <option>ATM</option>
+                            <option>Agent</option>
+                            <option>Branch</option>
 
-                            </select>
+                        </select>
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="equityWithdrawAmount" class="form-input" type="number"
-                                placeholder="Enter Amount">
+                        <input id="equityWithdrawAmount" class="form-input" type="number" placeholder="Enter Amount">
 
-                            <label>Reference</label>
+                        <label>Reference</label>
 
-                            <input id="equityWithdrawReference" class="form-input" type="text"
-                                placeholder="Withdrawal Reference">
+                        <input id="equityWithdrawReference" class="form-input" type="text"
+                            placeholder="Withdrawal Reference">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="equityWithdrawPIN" class="form-input" type="password" maxlength="4"
-                                placeholder="****">
+                        <input id="equityWithdrawPIN" class="form-input" type="password" maxlength="4"
+                            placeholder="****">
 
-                            <button class="primary-btn" onclick="submitEquityWithdraw()">
+                        <button class="primary-btn" onclick="submitEquityWithdraw()">
 
-                                Withdraw Money
+                            Withdraw Money
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  EQUITY BILLS
             ========================================== -->
 
-                    <section id="equityBills" class="screen">
+                <section id="equityBills" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('equityDashboard')">
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Pay Bills</h2>
+                        <h2>Pay Bills</h2>
 
-                            <p>Pay Utilities & Services</p>
+                        <p>Pay Utilities & Services</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Bill Type</label>
+                        <label>Bill Type</label>
 
-                            <select id="equityBillType" class="form-input">
+                        <select id="equityBillType" class="form-input">
 
-                                <option>Electricity</option>
-                                <option>Water</option>
-                                <option>Internet</option>
-                                <option>TV</option>
-                                <option>School Fees</option>
+                            <option>Electricity</option>
+                            <option>Water</option>
+                            <option>Internet</option>
+                            <option>TV</option>
+                            <option>School Fees</option>
 
-                            </select>
+                        </select>
 
-                            <label>Account Number</label>
+                        <label>Account Number</label>
 
-                            <input id="equityBillAccount" class="form-input" placeholder="Bill Account Number">
+                        <input id="equityBillAccount" class="form-input" placeholder="Bill Account Number">
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="equityBillAmount" class="form-input" type="number" placeholder="Amount">
+                        <input id="equityBillAmount" class="form-input" type="number" placeholder="Amount">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="equityBillPIN" class="form-input" maxlength="4" type="password"
-                                placeholder="****">
+                        <input id="equityBillPIN" class="form-input" maxlength="4" type="password" placeholder="****">
 
-                            <button class="primary-btn" onclick="submitEquityBill()">
+                        <button class="primary-btn" onclick="submitEquityBill()">
 
-                                Pay Bill
+                            Pay Bill
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  EQUITY BUY GOODS
             ========================================== -->
 
-                    <section id="equityBuyGoods" class="screen">
+                <section id="equityBuyGoods" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('equityDashboard')">
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Buy Goods</h2>
+                        <h2>Buy Goods</h2>
 
-                            <p>Pay Merchant Till</p>
+                        <p>Pay Merchant Till</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Till Number</label>
+                        <label>Till Number</label>
 
-                            <input id="equityTillNumber" class="form-input" placeholder="Enter Till Number">
+                        <input id="equityTillNumber" class="form-input" placeholder="Enter Till Number">
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="equityGoodsAmount" class="form-input" type="number" placeholder="Amount">
+                        <input id="equityGoodsAmount" class="form-input" type="number" placeholder="Amount">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="equityGoodsPIN" class="form-input" maxlength="4" type="password"
-                                placeholder="****">
+                        <input id="equityGoodsPIN" class="form-input" maxlength="4" type="password" placeholder="****">
 
-                            <button class="primary-btn" onclick="submitEquityBuyGoods()">
+                        <button class="primary-btn" onclick="submitEquityBuyGoods()">
 
-                                Pay Merchant
+                            Pay Merchant
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  EQUITY AIRTIME
             ========================================== -->
 
-                    <section id="equityAirtime" class="screen">
+                <section id="equityAirtime" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('equityDashboard')">
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Buy Airtime</h2>
+                        <h2>Buy Airtime</h2>
 
-                            <p>Purchase Airtime</p>
+                        <p>Purchase Airtime</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Phone Number</label>
+                        <label>Phone Number</label>
 
-                            <input id="equityAirtimeNumber" class="form-input" type="tel" maxlength="13"
-                                placeholder="07XXXXXXXX">
+                        <input id="equityAirtimeNumber" class="form-input" type="tel" maxlength="13"
+                            placeholder="07XXXXXXXX">
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="equityAirtimeAmount" class="form-input" type="number" placeholder="Amount">
+                        <input id="equityAirtimeAmount" class="form-input" type="number" placeholder="Amount">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="equityAirtimePIN" class="form-input" maxlength="4" type="password"
-                                placeholder="****">
+                        <input id="equityAirtimePIN" class="form-input" maxlength="4" type="password"
+                            placeholder="****">
 
-                            <button class="primary-btn" onclick="submitEquityAirtime()">
+                        <button class="primary-btn" onclick="submitEquityAirtime()">
 
-                                Buy Airtime
+                            Buy Airtime
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  EQUITY BUNDLES
             ========================================== -->
 
-                    <section id="equityBundles" class="screen">
+                <section id="equityBundles" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('equityDashboard')">
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Buy Bundles</h2>
+                        <h2>Buy Bundles</h2>
 
-                            <p>Purchase Internet Bundles</p>
+                        <p>Purchase Internet Bundles</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Phone Number</label>
+                        <label>Phone Number</label>
 
-                            <input id="equityBundleNumber" class="form-input" type="tel" maxlength="13"
-                                placeholder="07XXXXXXXX">
+                        <input id="equityBundleNumber" class="form-input" type="tel" maxlength="13"
+                            placeholder="07XXXXXXXX">
 
-                            <label>Bundle Package</label>
+                        <label>Bundle Package</label>
 
-                            <select id="equityBundlePackage" class="form-input">
+                        <select id="equityBundlePackage" class="form-input">
 
-                                <option>100 MB</option>
-                                <option>500 MB</option>
-                                <option>1 GB</option>
-                                <option>5 GB</option>
-                                <option>10 GB</option>
+                            <option>100 MB</option>
+                            <option>500 MB</option>
+                            <option>1 GB</option>
+                            <option>5 GB</option>
+                            <option>10 GB</option>
 
-                            </select>
+                        </select>
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="equityBundleAmount" class="form-input" type="number" placeholder="Amount">
+                        <input id="equityBundleAmount" class="form-input" type="number" placeholder="Amount">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="equityBundlePIN" class="form-input" maxlength="4" type="password"
-                                placeholder="****">
+                        <input id="equityBundlePIN" class="form-input" maxlength="4" type="password" placeholder="****">
 
-                            <button class="primary-btn" onclick="submitEquityBundle()">
+                        <button class="primary-btn" onclick="submitEquityBundle()">
 
-                                Buy Bundle
+                            Buy Bundle
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  EQUITY LOANS
             ========================================== -->
 
-                    <section id="equityLoans" class="screen">
+                <section id="equityLoans" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('equityDashboard')">
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Equity Loans</h2>
+                        <h2>Equity Loans</h2>
 
-                            <p>Apply for an Instant Loan</p>
+                        <p>Apply for an Instant Loan</p>
 
-                        </div>
+                    </div>
 
-                        <div class="balance-card">
+                    <div class="balance-card">
 
-                            <h3>Available Loan Limit</h3>
+                        <h3>Available Loan Limit</h3>
 
-                            <h1 id="equityLoanLimit">
+                        <h1 id="equityLoanLimit">
 
-                                KSh 100,000
+                            KSh 100,000
 
-                            </h1>
+                        </h1>
 
-                            <small id="equityLoanStatus">
+                        <small id="equityLoanStatus">
 
-                                No Active Loan
+                            No Active Loan
 
-                            </small>
+                        </small>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Loan Amount</label>
+                        <label>Loan Amount</label>
 
-                            <input id="equityLoanAmount" class="form-input" type="number" placeholder="Enter Amount">
+                        <input id="equityLoanAmount" class="form-input" type="number" placeholder="Enter Amount">
 
-                            <label>Repayment Period</label>
+                        <label>Repayment Period</label>
 
-                            <select id="equityLoanMonths" class="form-input">
+                        <select id="equityLoanMonths" class="form-input">
 
-                                <option value="1">1 Month</option>
-                                <option value="3">3 Months</option>
-                                <option value="6">6 Months</option>
-                                <option value="12">12 Months</option>
+                            <option value="1">1 Month</option>
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="12">12 Months</option>
 
-                            </select>
+                        </select>
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="equityLoanPIN" class="form-input" maxlength="4" type="password"
-                                placeholder="****">
+                        <input id="equityLoanPIN" class="form-input" maxlength="4" type="password" placeholder="****">
 
-                            <button class="primary-btn" onclick="applyEquityLoan()">
+                        <button class="primary-btn" onclick="applyEquityLoan()">
 
-                                Apply Loan
+                            Apply Loan
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  EQUITY CARDS
             ========================================== -->
 
-                    <section id="equityCards" class="screen">
+                <section id="equityCards" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('equityDashboard')">
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>My Cards</h2>
+                        <h2>My Cards</h2>
 
-                            <p>Manage your Equity Cards</p>
+                        <p>Manage your Equity Cards</p>
 
-                        </div>
+                    </div>
 
-                        <div class="balance-card">
+                    <div class="balance-card">
 
-                            <h3 id="equityCardType">
+                        <h3 id="equityCardType">
 
-                                Visa Debit
+                            Visa Debit
 
-                            </h3>
+                        </h3>
 
-                            <h2 id="equityCardNumber">
+                        <h2 id="equityCardNumber">
 
-                                **** **** **** 4587
+                            **** **** **** 4587
 
-                            </h2>
+                        </h2>
 
-                            <small>
+                        <small>
 
-                                Expiry:
-                                <span id="equityCardExpiry">
+                            Expiry:
+                            <span id="equityCardExpiry">
 
-                                    12/30
+                                12/30
 
-                                </span>
+                            </span>
 
-                            </small>
+                        </small>
 
-                            <br>
+                        <br>
 
-                            <small>
+                        <small>
 
-                                Status:
-                                <span id="equityCardStatus">
+                            Status:
+                            <span id="equityCardStatus">
 
-                                    ACTIVE
+                                ACTIVE
 
-                                </span>
+                            </span>
 
-                            </small>
+                        </small>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <button class="primary-btn" onclick="freezeEquityCard()">
+                        <button class="primary-btn" onclick="freezeEquityCard()">
 
-                                Freeze / Unfreeze Card
+                            Freeze / Unfreeze Card
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  EQUITY STATEMENT
             ========================================== -->
 
-                    <section id="equityStatement" class="screen">
+                <section id="equityStatement" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('equityDashboard')">
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Account Statement</h2>
+                        <h2>Account Statement</h2>
 
-                            <p>Recent Equity Transactions</p>
+                        <p>Recent Equity Transactions</p>
 
-                        </div>
+                    </div>
 
-                        <div id="equityStatementList" class="statement-list">
+                    <div id="equityStatementList" class="statement-list">
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  EQUITY SETTINGS
             ========================================== -->
 
-                    <section id="equitySettings" class="screen">
+                <section id="equitySettings" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('equityDashboard')">
+                        <button class="back-btn" onclick="showScreen('equityDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Settings</h2>
+                        <h2>Settings</h2>
 
-                            <p>Manage Your Equity Account</p>
+                        <p>Manage Your Equity Account</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <h3>Account Information</h3>
+                        <h3>Account Information</h3>
 
-                            <p>
+                        <p>
 
-                                <strong>Name:</strong>
+                            <strong>Name:</strong>
 
-                                <span id="equitySettingsHolder"></span>
+                            <span id="equitySettingsHolder"></span>
 
-                            </p>
+                        </p>
 
-                            <p>
+                        <p>
 
-                                <strong>Account:</strong>
+                            <strong>Account:</strong>
 
-                                <span id="equitySettingsAccount"></span>
+                            <span id="equitySettingsAccount"></span>
 
-                            </p>
+                        </p>
 
-                            <p>
+                        <p>
 
-                                <strong>Branch:</strong>
+                            <strong>Branch:</strong>
 
-                                <span id="equitySettingsBranch"></span>
+                            <span id="equitySettingsBranch"></span>
 
-                            </p>
+                        </p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <h3>Change Transaction PIN</h3>
+                        <h3>Change Transaction PIN</h3>
 
-                            <input id="equityOldPIN" class="form-input" type="password" maxlength="4"
-                                placeholder="Current PIN">
+                        <input id="equityOldPIN" class="form-input" type="password" maxlength="4"
+                            placeholder="Current PIN">
 
-                            <input id="equityNewPIN" class="form-input" type="password" maxlength="4"
-                                placeholder="New PIN">
+                        <input id="equityNewPIN" class="form-input" type="password" maxlength="4" placeholder="New PIN">
 
-                            <input id="equityConfirmPIN" class="form-input" type="password" maxlength="4"
-                                placeholder="Confirm New PIN">
+                        <input id="equityConfirmPIN" class="form-input" type="password" maxlength="4"
+                            placeholder="Confirm New PIN">
 
-                            <button class="primary-btn" onclick="changeEquityPIN()">
+                        <button class="primary-btn" onclick="changeEquityPIN()">
 
-                                Update PIN
+                            Update PIN
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  CO-OPERATIVE DASHBOARD
             ========================================== -->
 
-                    <section id="coopDashboard" class="screen">
+                <section id="coopDashboard" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('financial')">
+                        <button class="back-btn" onclick="showScreen('financial')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Co-operative Bank</h2>
+                        <h2>Co-operative Bank</h2>
 
-                            <p>Welcome <span id="coopHolder">Joshua Nkario</span></p>
+                        <p>Welcome <span id="coopHolder">Joshua Nkario</span></p>
 
-                        </div>
+                    </div>
 
-                        <!-- Account Balance -->
+                    <!-- Account Balance -->
 
-                        <div class="balance-card">
+                    <div class="balance-card">
 
-                            <h3>Available Balance</h3>
+                        <h3>Available Balance</h3>
 
-                            <h1 id="coopBalance">
+                        <h1 id="coopBalance">
 
-                                KSh 50,000.00
+                            KSh 50,000.00
 
-                            </h1>
+                        </h1>
 
-                            <small>
+                        <small>
 
-                                Account No:
-                                <span id="coopAccountNumber">
+                            Account No:
+                            <span id="coopAccountNumber">
 
-                                    011234567890
+                                011234567890
 
-                                </span>
+                            </span>
 
-                            </small>
+                        </small>
 
-                            <br>
+                        <br>
 
-                            <small>
+                        <small>
 
-                                Account Type:
-                                <span id="coopAccountType">
+                            Account Type:
+                            <span id="coopAccountType">
 
-                                    Current Account
+                                Current Account
 
-                                </span>
+                            </span>
 
-                            </small>
+                        </small>
 
-                        </div>
+                    </div>
 
-                        <!-- Quick Banking -->
+                    <!-- Quick Banking -->
 
-                        <h3 class="bank-section-title">
+                    <h3 class="bank-section-title">
 
-                            Quick Banking
+                        Quick Banking
 
-                        </h3>
+                    </h3>
 
-                        <div class="bank-action-grid">
+                    <div class="bank-action-grid">
 
-                            <button onclick="openCoopTransfer()">
-                                💸
-                                <span>Transfer</span>
-                            </button>
+                        <button onclick="openCoopTransfer()">
+                            💸
+                            <span>Transfer</span>
+                        </button>
 
-                            <button onclick="openCoopDeposit()">
-                                📥
-                                <span>Deposit</span>
-                            </button>
+                        <button onclick="openCoopDeposit()">
+                            📥
+                            <span>Deposit</span>
+                        </button>
 
-                            <button onclick="openCoopWithdraw()">
-                                📤
-                                <span>Withdraw</span>
-                            </button>
+                        <button onclick="openCoopWithdraw()">
+                            📤
+                            <span>Withdraw</span>
+                        </button>
 
-                            <button onclick="openCoopStatement()">
-                                📄
-                                <span>Statement</span>
-                            </button>
+                        <button onclick="openCoopStatement()">
+                            📄
+                            <span>Statement</span>
+                        </button>
 
-                            <button onclick="openCoopBills()">
-                                💡
-                                <span>Bills</span>
-                            </button>
+                        <button onclick="openCoopBills()">
+                            💡
+                            <span>Bills</span>
+                        </button>
 
-                            <button onclick="openCoopBuyGoods()">
-                                🛒
-                                <span>Buy Goods</span>
-                            </button>
+                        <button onclick="openCoopBuyGoods()">
+                            🛒
+                            <span>Buy Goods</span>
+                        </button>
 
-                            <button onclick="openCoopAirtime()">
-                                📱
-                                <span>Airtime</span>
-                            </button>
+                        <button onclick="openCoopAirtime()">
+                            📱
+                            <span>Airtime</span>
+                        </button>
 
-                            <button onclick="openCoopBundles()">
-                                📶
-                                <span>Bundles</span>
-                            </button>
+                        <button onclick="openCoopBundles()">
+                            📶
+                            <span>Bundles</span>
+                        </button>
 
-                            <button onclick="openCoopLoans()">
-                                💰
-                                <span>Loans</span>
-                            </button>
+                        <button onclick="openCoopLoans()">
+                            💰
+                            <span>Loans</span>
+                        </button>
 
-                            <button onclick="openCoopCards()">
-                                💳
-                                <span>Cards</span>
-                            </button>
+                        <button onclick="openCoopCards()">
+                            💳
+                            <span>Cards</span>
+                        </button>
 
-                            <button onclick="openCoopSettings()">
-                                ⚙️
-                                <span>Settings</span>
-                            </button>
+                        <button onclick="openCoopSettings()">
+                            ⚙️
+                            <span>Settings</span>
+                        </button>
 
-                        </div>
+                    </div>
 
-                        <!-- Recent Transactions -->
+                    <!-- Recent Transactions -->
 
-                        <h3 class="bank-section-title">
+                    <h3 class="bank-section-title">
 
-                            Recent Transactions
+                        Recent Transactions
 
-                        </h3>
+                    </h3>
 
-                        <div id="coopRecentTransactions">
+                    <div id="coopRecentTransactions">
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  CO-OPERATIVE TRANSFER
             ========================================== -->
 
-                    <section id="coopTransfer" class="screen">
+                <section id="coopTransfer" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('coopDashboard')">
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Money Transfer</h2>
+                        <h2>Money Transfer</h2>
 
-                            <p>Transfer Funds</p>
+                        <p>Transfer Funds</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Recipient Account</label>
+                        <label>Recipient Account</label>
 
-                            <input id="coopTransferAccount" class="form-input" placeholder="Account Number">
+                        <input id="coopTransferAccount" class="form-input" placeholder="Account Number">
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="coopTransferAmount" class="form-input" type="number" placeholder="Amount">
+                        <input id="coopTransferAmount" class="form-input" type="number" placeholder="Amount">
 
-                            <label>Reference</label>
+                        <label>Reference</label>
 
-                            <input id="coopTransferReference" class="form-input" placeholder="Payment Reference">
+                        <input id="coopTransferReference" class="form-input" placeholder="Payment Reference">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="coopTransferPIN" class="form-input" type="password" maxlength="4"
-                                placeholder="****">
+                        <input id="coopTransferPIN" class="form-input" type="password" maxlength="4" placeholder="****">
 
-                            <button class="primary-btn" onclick="submitCoopTransfer()">
+                        <button class="primary-btn" onclick="submitCoopTransfer()">
 
-                                Transfer Money
+                            Transfer Money
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  CO-OPERATIVE DEPOSIT
             ========================================== -->
 
-                    <section id="coopDeposit" class="screen">
+                <section id="coopDeposit" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('coopDashboard')">
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Deposit Money</h2>
+                        <h2>Deposit Money</h2>
 
-                            <p>Deposit into your Co-operative Account</p>
+                        <p>Deposit into your Co-operative Account</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Deposit Method</label>
+                        <label>Deposit Method</label>
 
-                            <select id="coopDepositMethod" class="form-input">
+                        <select id="coopDepositMethod" class="form-input">
 
-                                <option>Cash Deposit</option>
-                                <option>Bank Transfer</option>
-                                <option>Cheque Deposit</option>
+                            <option>Cash Deposit</option>
+                            <option>Bank Transfer</option>
+                            <option>Cheque Deposit</option>
 
-                            </select>
+                        </select>
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="coopDepositAmount" class="form-input" type="number" placeholder="Enter Amount">
+                        <input id="coopDepositAmount" class="form-input" type="number" placeholder="Enter Amount">
 
-                            <label>Reference</label>
+                        <label>Reference</label>
 
-                            <input id="coopDepositReference" class="form-input" type="text"
-                                placeholder="Deposit Reference">
+                        <input id="coopDepositReference" class="form-input" type="text" placeholder="Deposit Reference">
 
-                            <button class="primary-btn" onclick="submitCoopDeposit()">
+                        <button class="primary-btn" onclick="submitCoopDeposit()">
 
-                                Deposit Money
+                            Deposit Money
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  CO-OPERATIVE WITHDRAW
             ========================================== -->
 
-                    <section id="coopWithdraw" class="screen">
+                <section id="coopWithdraw" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('coopDashboard')">
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Withdraw Money</h2>
+                        <h2>Withdraw Money</h2>
 
-                            <p>Withdraw from your Co-operative Account</p>
+                        <p>Withdraw from your Co-operative Account</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="coopWithdrawAmount" class="form-input" type="number" placeholder="Enter Amount">
+                        <input id="coopWithdrawAmount" class="form-input" type="number" placeholder="Enter Amount">
 
-                            <label>Withdrawal Method</label>
+                        <label>Withdrawal Method</label>
 
-                            <select id="coopWithdrawMethod" class="form-input">
+                        <select id="coopWithdrawMethod" class="form-input">
 
-                                <option>ATM</option>
-                                <option>Agent</option>
-                                <option>Branch</option>
+                            <option>ATM</option>
+                            <option>Agent</option>
+                            <option>Branch</option>
 
-                            </select>
+                        </select>
 
-                            <label>Reference</label>
+                        <label>Reference</label>
 
-                            <input id="coopWithdrawReference" class="form-input" type="text"
-                                placeholder="Withdrawal Reference">
+                        <input id="coopWithdrawReference" class="form-input" type="text"
+                            placeholder="Withdrawal Reference">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="coopWithdrawPIN" class="form-input" maxlength="4" type="password"
-                                placeholder="****">
+                        <input id="coopWithdrawPIN" class="form-input" maxlength="4" type="password" placeholder="****">
 
-                            <button class="primary-btn" onclick="submitCoopWithdraw()">
+                        <button class="primary-btn" onclick="submitCoopWithdraw()">
 
-                                Withdraw Money
+                            Withdraw Money
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  CO-OPERATIVE BILLS
             ========================================== -->
 
-                    <section id="coopBills" class="screen">
+                <section id="coopBills" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('coopDashboard')">
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Pay Bills</h2>
+                        <h2>Pay Bills</h2>
 
-                            <p>Utility & Service Payments</p>
+                        <p>Utility & Service Payments</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Bill Provider</label>
+                        <label>Bill Provider</label>
 
-                            <select id="coopBillProvider" class="form-input">
+                        <select id="coopBillProvider" class="form-input">
 
-                                <option>KPLC</option>
-                                <option>NWSC</option>
-                                <option>DSTV</option>
-                                <option>GOtv</option>
-                                <option>Zuku</option>
+                            <option>KPLC</option>
+                            <option>NWSC</option>
+                            <option>DSTV</option>
+                            <option>GOtv</option>
+                            <option>Zuku</option>
 
-                            </select>
+                        </select>
 
-                            <label>Account Number</label>
+                        <label>Account Number</label>
 
-                            <input id="coopBillAccount" class="form-input" type="text" placeholder="Bill Account">
+                        <input id="coopBillAccount" class="form-input" type="text" placeholder="Bill Account">
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="coopBillAmount" class="form-input" type="number" placeholder="Amount">
+                        <input id="coopBillAmount" class="form-input" type="number" placeholder="Amount">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="coopBillPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+                        <input id="coopBillPIN" class="form-input" maxlength="4" type="password" placeholder="****">
 
-                            <button class="primary-btn" onclick="submitCoopBill()">
+                        <button class="primary-btn" onclick="submitCoopBill()">
 
-                                Pay Bill
+                            Pay Bill
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  CO-OPERATIVE BUY GOODS
             ========================================== -->
 
-                    <section id="coopBuyGoods" class="screen">
+                <section id="coopBuyGoods" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('coopDashboard')">
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Buy Goods</h2>
+                        <h2>Buy Goods</h2>
 
-                            <p>Pay Merchant Till</p>
+                        <p>Pay Merchant Till</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Till Number</label>
+                        <label>Till Number</label>
 
-                            <input id="coopTillNumber" class="form-input" type="text" placeholder="Till Number">
+                        <input id="coopTillNumber" class="form-input" type="text" placeholder="Till Number">
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="coopGoodsAmount" class="form-input" type="number" placeholder="Amount">
+                        <input id="coopGoodsAmount" class="form-input" type="number" placeholder="Amount">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="coopGoodsPIN" class="form-input" maxlength="4" type="password"
-                                placeholder="****">
+                        <input id="coopGoodsPIN" class="form-input" maxlength="4" type="password" placeholder="****">
 
-                            <button class="primary-btn" onclick="submitCoopBuyGoods()">
+                        <button class="primary-btn" onclick="submitCoopBuyGoods()">
 
-                                Pay Merchant
+                            Pay Merchant
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
              CO-OPERATIVE AIRTIME
         ========================================== -->
 
-                    <section id="coopAirtime" class="screen">
+                <section id="coopAirtime" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('coopDashboard')">
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Buy Airtime</h2>
+                        <h2>Buy Airtime</h2>
 
-                            <p>Purchase Airtime</p>
+                        <p>Purchase Airtime</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Phone Number</label>
+                        <label>Phone Number</label>
 
-                            <input id="coopAirtimeNumber" class="form-input" type="tel" maxlength="13"
-                                placeholder="07XXXXXXXX" oninput="detectNetwork()">
+                        <input id="coopAirtimeNumber" class="form-input" type="tel" maxlength="13"
+                            placeholder="07XXXXXXXX" oninput="detectNetwork()">
 
-                            <div id="networkResult"></div>
+                        <div id="networkResult"></div>
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="coopAirtimeAmount" class="form-input" type="number" placeholder="Amount">
+                        <input id="coopAirtimeAmount" class="form-input" type="number" placeholder="Amount">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="coopAirtimePIN" class="form-input" maxlength="4" type="password"
-                                placeholder="****">
+                        <input id="coopAirtimePIN" class="form-input" maxlength="4" type="password" placeholder="****">
 
-                            <button class="primary-btn" onclick="submitCoopAirtime()">
+                        <button class="primary-btn" onclick="submitCoopAirtime()">
 
-                                Buy Airtime
+                            Buy Airtime
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  CO-OPERATIVE BUNDLES
             ========================================== -->
 
-                    <section id="coopBundles" class="screen">
+                <section id="coopBundles" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('coopDashboard')">
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Buy Bundles</h2>
+                        <h2>Buy Bundles</h2>
 
-                            <p>Purchase Internet Bundles</p>
+                        <p>Purchase Internet Bundles</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Phone Number</label>
+                        <label>Phone Number</label>
 
-                            <input id="coopBundleNumber" class="form-input" type="tel" maxlength="13"
-                                placeholder="07XXXXXXXX" oninput="detectNetwork()">
+                        <input id="coopBundleNumber" class="form-input" type="tel" maxlength="13"
+                            placeholder="07XXXXXXXX" oninput="detectNetwork()">
 
-                            <div id="networkResult"></div>
+                        <div id="networkResult"></div>
 
-                            <label>Bundle Package</label>
+                        <label>Bundle Package</label>
 
-                            <select id="coopBundlePackage" class="form-input">
+                        <select id="coopBundlePackage" class="form-input">
 
-                                <option>100 MB</option>
-                                <option>500 MB</option>
-                                <option>1 GB</option>
-                                <option>5 GB</option>
-                                <option>10 GB</option>
+                            <option>100 MB</option>
+                            <option>500 MB</option>
+                            <option>1 GB</option>
+                            <option>5 GB</option>
+                            <option>10 GB</option>
 
-                            </select>
+                        </select>
 
-                            <label>Amount</label>
+                        <label>Amount</label>
 
-                            <input id="coopBundleAmount" class="form-input" type="number" placeholder="Amount">
+                        <input id="coopBundleAmount" class="form-input" type="number" placeholder="Amount">
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="coopBundlePIN" class="form-input" maxlength="4" type="password"
-                                placeholder="****">
+                        <input id="coopBundlePIN" class="form-input" maxlength="4" type="password" placeholder="****">
 
-                            <button class="primary-btn" onclick="submitCoopBundle()">
+                        <button class="primary-btn" onclick="submitCoopBundle()">
 
-                                Buy Bundle
+                            Buy Bundle
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  CO-OPERATIVE LOANS
             ========================================== -->
 
-                    <section id="coopLoans" class="screen">
+                <section id="coopLoans" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('coopDashboard')">
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Co-operative Loans</h2>
+                        <h2>Co-operative Loans</h2>
 
-                            <p>Instant Mobile Loans</p>
+                        <p>Instant Mobile Loans</p>
 
-                        </div>
+                    </div>
 
-                        <div class="balance-card">
+                    <div class="balance-card">
 
-                            <h3>Available Loan Limit</h3>
+                        <h3>Available Loan Limit</h3>
 
-                            <h1 id="coopLoanLimit">
+                        <h1 id="coopLoanLimit">
 
-                                KSh 100,000
+                            KSh 100,000
 
-                            </h1>
+                        </h1>
 
-                            <small id="coopLoanStatus">
+                        <small id="coopLoanStatus">
 
-                                No Active Loan
+                            No Active Loan
 
-                            </small>
+                        </small>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Loan Amount</label>
+                        <label>Loan Amount</label>
 
-                            <input id="coopLoanAmount" class="form-input" type="number" placeholder="Enter Amount">
+                        <input id="coopLoanAmount" class="form-input" type="number" placeholder="Enter Amount">
 
-                            <label>Repayment Period</label>
+                        <label>Repayment Period</label>
 
-                            <select id="coopLoanMonths" class="form-input">
+                        <select id="coopLoanMonths" class="form-input">
 
-                                <option value="1">1 Month</option>
-                                <option value="3">3 Months</option>
-                                <option value="6">6 Months</option>
-                                <option value="12">12 Months</option>
+                            <option value="1">1 Month</option>
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="12">12 Months</option>
 
-                            </select>
+                        </select>
 
-                            <label>Transaction PIN</label>
+                        <label>Transaction PIN</label>
 
-                            <input id="coopLoanPIN" class="form-input" maxlength="4" type="password" placeholder="****">
+                        <input id="coopLoanPIN" class="form-input" maxlength="4" type="password" placeholder="****">
 
-                            <button class="primary-btn" onclick="applyCoopLoan()">
+                        <button class="primary-btn" onclick="applyCoopLoan()">
 
-                                Apply Loan
+                            Apply Loan
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  CO-OPERATIVE CARDS
             ========================================== -->
 
-                    <section id="coopCards" class="screen">
+                <section id="coopCards" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('coopDashboard')">
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>My Cards</h2>
+                        <h2>My Cards</h2>
 
-                            <p>Manage Your Co-operative Cards</p>
+                        <p>Manage Your Co-operative Cards</p>
 
-                        </div>
+                    </div>
 
-                        <div class="balance-card">
+                    <div class="balance-card">
 
-                            <h3 id="coopCardType">
+                        <h3 id="coopCardType">
 
-                                Visa Debit
+                            Visa Debit
 
-                            </h3>
+                        </h3>
 
-                            <h2 id="coopCardNumber">
+                        <h2 id="coopCardNumber">
 
-                                **** **** **** 6734
+                            **** **** **** 6734
 
-                            </h2>
+                        </h2>
 
-                            <small>
+                        <small>
 
-                                Expiry:
+                            Expiry:
 
-                                <span id="coopCardExpiry">
+                            <span id="coopCardExpiry">
 
-                                    12/30
+                                12/30
 
-                                </span>
+                            </span>
 
-                            </small>
+                        </small>
 
-                            <br>
+                        <br>
 
-                            <small>
+                        <small>
 
-                                Status:
+                            Status:
 
-                                <span id="coopCardStatus">
+                            <span id="coopCardStatus">
 
-                                    ACTIVE
+                                ACTIVE
 
-                                </span>
+                            </span>
 
-                            </small>
+                        </small>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <button class="primary-btn" onclick="freezeCoopCard()">
+                        <button class="primary-btn" onclick="freezeCoopCard()">
 
-                                Freeze / Unfreeze Card
+                            Freeze / Unfreeze Card
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  CO-OPERATIVE STATEMENT
             ========================================== -->
 
-                    <section id="coopStatement" class="screen">
+                <section id="coopStatement" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('coopDashboard')">
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Account Statement</h2>
+                        <h2>Account Statement</h2>
 
-                            <p>Recent Transactions</p>
+                        <p>Recent Transactions</p>
 
-                        </div>
+                    </div>
 
-                        <div id="coopStatementList" class="statement-list">
+                    <div id="coopStatementList" class="statement-list">
 
-                        </div>
+                    </div>
 
-                    </section>
-                    <!-- ==========================================
+                </section>
+                <!-- ==========================================
                  CO-OPERATIVE SETTINGS
             ========================================== -->
 
-                    <section id="coopSettings" class="screen">
+                <section id="coopSettings" class="screen">
 
-                        <div class="screen-header">
+                    <div class="screen-header">
 
-                            <button class="back-btn" onclick="showScreen('coopDashboard')">
+                        <button class="back-btn" onclick="showScreen('coopDashboard')">
 
-                                ←
+                            ←
 
-                            </button>
+                        </button>
 
-                            <h2>Settings & Security</h2>
+                        <h2>Settings & Security</h2>
 
-                            <p>Manage Your Account</p>
+                        <p>Manage Your Account</p>
 
-                        </div>
+                    </div>
 
-                        <div class="service-card">
+                    <div class="service-card">
 
-                            <label>Current PIN</label>
+                        <label>Current PIN</label>
 
-                            <input id="coopOldPIN" class="form-input" type="password" maxlength="4" placeholder="****">
+                        <input id="coopOldPIN" class="form-input" type="password" maxlength="4" placeholder="****">
 
-                            <label>New PIN</label>
+                        <label>New PIN</label>
 
-                            <input id="coopNewPIN" class="form-input" type="password" maxlength="4" placeholder="****">
+                        <input id="coopNewPIN" class="form-input" type="password" maxlength="4" placeholder="****">
 
-                            <label>Confirm PIN</label>
+                        <label>Confirm PIN</label>
 
-                            <input id="coopConfirmPIN" class="form-input" type="password" maxlength="4"
-                                placeholder="****">
+                        <input id="coopConfirmPIN" class="form-input" type="password" maxlength="4" placeholder="****">
 
-                            <button class="primary-btn" onclick="changeCoopPIN()">
+                        <button class="primary-btn" onclick="changeCoopPIN()">
 
-                                Change PIN
+                            Change PIN
 
-                            </button>
+                        </button>
 
-                        </div>
+                    </div>
 
-                    </section>
+                </section>
             </main>
             <!-- ==========================================
              BOTTOM NAVIGATION

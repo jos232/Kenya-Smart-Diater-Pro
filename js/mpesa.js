@@ -18,14 +18,18 @@ function detectTransferNetwork() {
     const result = document.getElementById("transferNetwork");
 
     if (!input || !result) {
-        console.warn("M-Pesa network detection elements not found.");
+        console.warn(
+            "M-Pesa network detection elements not found."
+        );
         return;
     }
 
     const phone = input.value.replace(/\D/g, "");
 
     if (phone.length < 3) {
+
         result.textContent = "Network : Unknown";
+
         return;
     }
 
@@ -48,11 +52,65 @@ function detectTransferNetwork() {
         "077": "Telkom",
 
         "076": "Equitel"
+
     };
 
-    const network = networks[prefix] || "Unknown";
+    const network =
+        networks[prefix] || "Unknown";
 
-    result.textContent = `Network : ${network}`;
+    result.textContent =
+        `Network : ${network}`;
+}
+
+
+/* ==========================================
+   M-PESA TOAST
+========================================== */
+
+function showMPesaToast(
+    message,
+    type = "info"
+) {
+
+    /*
+       IMPORTANT:
+       Do NOT call showToast() here.
+       That caused the previous recursive
+       Maximum call stack error.
+    */
+
+    const toast =
+        document.getElementById("toast");
+
+    const toastMessage =
+        document.getElementById("toastMessage");
+
+
+    if (toast && toastMessage) {
+
+        toastMessage.textContent =
+            message;
+
+        toast.classList.add("show");
+
+        setTimeout(() => {
+
+            toast.classList.remove("show");
+
+        }, 3000);
+
+        return;
+    }
+
+
+    /*
+       Fallback if the toast HTML
+       does not exist.
+    */
+
+    console.log(
+        `[${type}] ${message}`
+    );
 }
 
 
@@ -63,16 +121,25 @@ function detectTransferNetwork() {
 function validateTransfer() {
 
     const phoneElement =
-        document.getElementById("sendMoneyNumber");
+        document.getElementById(
+            "sendMoneyNumber"
+        );
 
     const nameElement =
-        document.getElementById("recipientName");
+        document.getElementById(
+            "recipientName"
+        );
 
     const amountElement =
-        document.getElementById("sendAmount");
+        document.getElementById(
+            "sendAmount"
+        );
 
     const descriptionElement =
-        document.getElementById("sendDescription");
+        document.getElementById(
+            "sendDescription"
+        );
+
 
     const phone =
         phoneElement?.value.trim() || "";
@@ -81,15 +148,21 @@ function validateTransfer() {
         nameElement?.value.trim() || "";
 
     const amount =
-        Number(amountElement?.value || 0);
+        Number(
+            amountElement?.value || 0
+        );
 
     const description =
         descriptionElement?.value.trim() || "";
 
 
+    /* -------------------------
+       PHONE
+    ------------------------- */
+
     if (!phone) {
 
-        showToast(
+        showMPesaToast(
             "Please enter recipient phone number",
             "error"
         );
@@ -100,7 +173,7 @@ function validateTransfer() {
 
     if (!/^07\d{8}$/.test(phone)) {
 
-        showToast(
+        showMPesaToast(
             "Enter a valid Kenyan phone number",
             "error"
         );
@@ -109,9 +182,13 @@ function validateTransfer() {
     }
 
 
+    /* -------------------------
+       NAME
+    ------------------------- */
+
     if (!name) {
 
-        showToast(
+        showMPesaToast(
             "Please enter recipient name",
             "error"
         );
@@ -120,9 +197,16 @@ function validateTransfer() {
     }
 
 
-    if (!amount || amount <= 0) {
+    /* -------------------------
+       AMOUNT
+    ------------------------- */
 
-        showToast(
+    if (
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ) {
+
+        showMPesaToast(
             "Enter a valid amount",
             "error"
         );
@@ -132,10 +216,12 @@ function validateTransfer() {
 
 
     return {
+
         phone,
         name,
         amount,
         description
+
     };
 }
 
@@ -146,36 +232,48 @@ function validateTransfer() {
 
 function previewTransfer() {
 
-    const transfer = validateTransfer();
+    const transfer =
+        validateTransfer();
+
 
     if (!transfer) {
         return;
     }
 
+
     const networkElement =
-        document.getElementById("transferNetwork");
+        document.getElementById(
+            "transferNetwork"
+        );
+
 
     const network =
         networkElement?.textContent
-            ?.replace("Network :", "")
-            .trim() || "Unknown";
+            ?.replace(
+                "Network :",
+                ""
+            )
+            .trim() ||
+        "Unknown";
 
 
-    const confirmed = confirm(
+    const confirmed =
+        confirm(
 
-        `Confirm M-Pesa Transfer\n\n` +
+            `Confirm M-Pesa Transfer\n\n` +
 
-        `Recipient: ${transfer.name}\n` +
+            `Recipient: ${transfer.name}\n` +
 
-        `Phone: ${transfer.phone}\n` +
+            `Phone: ${transfer.phone}\n` +
 
-        `Network: ${network}\n` +
+            `Network: ${network}\n` +
 
-        `Amount: KES ${transfer.amount.toLocaleString()}\n` +
+            `Amount: KES ${transfer.amount.toLocaleString()}\n` +
 
-        `Description: ${transfer.description || "None"
-        }`
-    );
+            `Description: ${transfer.description || "None"
+            }`
+
+        );
 
 
     if (!confirmed) {
@@ -211,56 +309,78 @@ async function processMpesaTransfer(
             localStorage.getItem("token") || "";
 
 
+        if (!token) {
+
+            showMPesaToast(
+                "Please login again.",
+                "error"
+            );
+
+            return null;
+        }
+
+
         const response =
-            await fetch("/api/mpesa", {
+            await fetch(
+                "/api/mpesa",
+                {
 
-                method: "POST",
+                    method: "POST",
 
-                headers: {
+                    headers: {
 
-                    "Content-Type":
-                        "application/json",
+                        "Content-Type":
+                            "application/json",
 
-                    "Authorization":
-                        `Bearer ${token}`
-                },
+                        "Authorization":
+                            `Bearer ${token}`
 
-                body: JSON.stringify({
+                    },
 
-                    service: "SEND_MONEY",
+                    body: JSON.stringify({
 
-                    sender: "My M-Pesa",
+                        service:
+                            "SEND_MONEY",
 
-                    recipient:
-                        transfer.phone,
+                        sender:
+                            "My M-Pesa",
 
-                    reference:
-                        "MPESA-" +
-                        Date.now(),
+                        recipient:
+                            transfer.phone,
 
-                    amount:
-                        transfer.amount,
+                        reference:
+                            "MPESA-" +
+                            Date.now(),
 
-                    fee: 0,
+                        amount:
+                            transfer.amount,
 
-                    status: "SUCCESS",
+                        fee:
+                            0,
 
-                    metadata: {
+                        status:
+                            "SUCCESS",
 
-                        recipientName:
-                            transfer.name,
+                        metadata: {
 
-                        network:
-                            network,
+                            recipientName:
+                                transfer.name,
 
-                        description:
-                            transfer.description || "",
+                            network:
+                                network,
 
-                        source:
-                            "Kenya Smart Dialer Pro"
-                    }
-                })
-            });
+                            description:
+                                transfer.description || "",
+
+                            source:
+                                "Kenya Smart Dialer Pro"
+
+                        }
+
+                    })
+
+                }
+            );
 
 
         const data =
@@ -273,7 +393,10 @@ async function processMpesaTransfer(
         );
 
 
-        if (!response.ok || !data.success) {
+        if (
+            !response.ok ||
+            !data.success
+        ) {
 
             throw new Error(
                 data.message ||
@@ -282,7 +405,7 @@ async function processMpesaTransfer(
         }
 
 
-        showToast(
+        showMPesaToast(
             "M-Pesa transfer completed successfully",
             "success"
         );
@@ -300,7 +423,8 @@ async function processMpesaTransfer(
         return data;
 
 
-    } catch (error) {
+    }
+    catch (error) {
 
         console.error(
             "❌ M-Pesa transfer error:",
@@ -308,7 +432,7 @@ async function processMpesaTransfer(
         );
 
 
-        showToast(
+        showMPesaToast(
             error.message ||
             "Unable to process M-Pesa transfer",
             "error"
@@ -335,6 +459,7 @@ function clearTransferForm() {
         "sendAmount",
 
         "sendDescription"
+
     ];
 
 
@@ -346,7 +471,9 @@ function clearTransferForm() {
         if (element) {
 
             element.value = "";
+
         }
+
     });
 
 
@@ -360,34 +487,8 @@ function clearTransferForm() {
 
         network.textContent =
             "Network : Unknown";
+
     }
-}
-
-
-/* ==========================================
-   TOAST HELPER
-========================================== */
-
-function showToast(
-    message,
-    type = "info"
-) {
-
-    if (
-        typeof window.showToast ===
-        "function"
-    ) {
-
-        window.showToast(
-            message,
-            type
-        );
-
-        return;
-    }
-
-
-    alert(message);
 }
 
 
@@ -411,7 +512,8 @@ function openMpesaDashboard() {
             "mpesaDashboard"
         );
 
-    } else {
+    }
+    else {
 
         console.error(
             "showScreen() is not available"
@@ -442,6 +544,16 @@ async function loadMpesaDashboard() {
             localStorage.getItem("token") || "";
 
 
+        if (!token) {
+
+            console.warn(
+                "No authentication token found."
+            );
+
+            return;
+        }
+
+
         const response =
             await fetch(
                 "/api/mpesa",
@@ -453,7 +565,9 @@ async function loadMpesaDashboard() {
 
                         "Authorization":
                             `Bearer ${token}`
+
                     }
+
                 }
             );
 
@@ -484,12 +598,14 @@ async function loadMpesaDashboard() {
         );
 
 
-    } catch (error) {
+    }
+    catch (error) {
 
         console.error(
             "M-Pesa dashboard error:",
             error
         );
+
     }
 }
 
@@ -498,9 +614,7 @@ async function loadMpesaDashboard() {
    RENDER M-PESA TRANSACTIONS
 ========================================== */
 
-function renderMpesaTransactions(
-    data
-) {
+function renderMpesaTransactions(data) {
 
     const container =
         document.getElementById(
@@ -524,8 +638,10 @@ function renderMpesaTransactions(
         [];
 
 
-    if (!Array.isArray(transactions) ||
-        transactions.length === 0) {
+    if (
+        !Array.isArray(transactions) ||
+        transactions.length === 0
+    ) {
 
         container.innerHTML = `
 
@@ -554,8 +670,7 @@ function renderMpesaTransactions(
 
                 const amount =
                     Number(
-                        transaction.amount ||
-                        0
+                        transaction.amount || 0
                     );
 
 
@@ -587,7 +702,6 @@ function renderMpesaTransactions(
                             💸
                         </div>
 
-
                         <div class="transaction-details">
 
                             <strong>
@@ -603,7 +717,6 @@ function renderMpesaTransactions(
                             </small>
 
                         </div>
-
 
                         <div class="transaction-amount">
 
@@ -622,7 +735,7 @@ function renderMpesaTransactions(
 
 
 /* ==========================================
-   M-PESA SEND MONEY
+   SEND MONEY
 ========================================== */
 
 function openMpesaSendMoney() {
@@ -641,113 +754,123 @@ function openMpesaSendMoney() {
             "sendMoneyService"
         );
 
-    } else {
+    }
+    else {
 
         console.error(
             "showScreen() is not available"
         );
+
     }
 }
 
 
 /* ==========================================
-   M-PESA RECEIVE MONEY
+   RECEIVE MONEY
 ========================================== */
 
 function openMpesaReceiveMoney() {
 
-    alert(
-        "Receive Money feature will be added next."
+    showMPesaToast(
+        "Receive Money feature will be connected next.",
+        "info"
     );
 }
 
 
 /* ==========================================
-   M-PESA AIRTIME
+   AIRTIME
 ========================================== */
 
 function openMpesaAirtime() {
 
-    alert(
-        "M-Pesa Airtime feature will be connected next."
+    showMPesaToast(
+        "M-Pesa Airtime feature will be connected next.",
+        "info"
     );
 }
 
 
 /* ==========================================
-   M-PESA PAY BILL
+   PAY BILL
 ========================================== */
 
 function openMpesaPayBill() {
 
-    alert(
-        "M-Pesa Pay Bill feature will be connected next."
+    showMPesaToast(
+        "M-Pesa Pay Bill feature will be connected next.",
+        "info"
     );
 }
 
 
 /* ==========================================
-   M-PESA BUY GOODS
+   BUY GOODS
 ========================================== */
 
 function openMpesaBuyGoods() {
 
-    alert(
-        "M-Pesa Buy Goods feature will be connected next."
+    showMPesaToast(
+        "M-Pesa Buy Goods feature will be connected next.",
+        "info"
     );
 }
 
 
 /* ==========================================
-   M-PESA TRANSACTIONS
+   TRANSACTIONS
 ========================================== */
 
 function openMpesaTransactions() {
 
-    alert(
-        "M-Pesa transaction history will be connected next."
+    showMPesaToast(
+        "M-Pesa transaction history will be connected next.",
+        "info"
     );
 }
 
 
 /* ==========================================
-   M-PESA STATEMENT
+   STATEMENT
 ========================================== */
 
 function openMpesaStatement() {
 
-    alert(
-        "M-Pesa mini statement will be connected next."
+    showMPesaToast(
+        "M-Pesa mini statement will be connected next.",
+        "info"
     );
 }
 
 
 /* ==========================================
-   M-PESA SETTINGS
+   SETTINGS
 ========================================== */
 
 function openMpesaSettings() {
 
-    alert(
-        "M-Pesa account settings will be connected next."
+    showMPesaToast(
+        "M-Pesa account settings will be connected next.",
+        "info"
     );
 }
 
 
 /* ==========================================
-   M-PESA SECURITY
+   SECURITY
 ========================================== */
 
 function openMpesaSecurity() {
 
-    alert(
-        "M-Pesa security settings will be connected next."
+    showMPesaToast(
+        "M-Pesa security settings will be connected next.",
+        "info"
     );
 }
 
 
 /* ==========================================
-   EXPORT SEND MONEY FUNCTIONS
+   GLOBAL EXPORTS
 ========================================== */
 
 window.detectTransferNetwork =
@@ -765,9 +888,12 @@ window.processMpesaTransfer =
 window.clearTransferForm =
     clearTransferForm;
 
+window.showMPesaToast =
+    showMPesaToast;
+
 
 /* ==========================================
-   EXPORT DASHBOARD FUNCTIONS
+   DASHBOARD EXPORTS
 ========================================== */
 
 window.openMpesaDashboard =

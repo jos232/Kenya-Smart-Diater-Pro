@@ -5,7 +5,9 @@
 
 "use strict";
 
-const FinancialProfile = require("../models/FinancialProfile");
+const FinancialProfile =
+    require("../models/FinancialProfile");
+
 
 /* ==========================================
    GET FINANCIAL PROFILE
@@ -15,11 +17,10 @@ exports.getProfile = async (req, res) => {
 
     try {
 
-        const profile = await FinancialProfile.findOne({
-
-            user: req.user.userId
-
-        });
+        const profile =
+            await FinancialProfile.findOne({
+                user: req.user.userId
+            });
 
         if (!profile) {
 
@@ -27,13 +28,14 @@ exports.getProfile = async (req, res) => {
 
                 success: false,
 
-                message: "Financial profile not found."
+                message:
+                    "Financial profile not found."
 
             });
 
         }
 
-        res.json({
+        return res.status(200).json({
 
             success: true,
 
@@ -45,17 +47,99 @@ exports.getProfile = async (req, res) => {
 
     catch (error) {
 
-        res.status(500).json({
+        console.error(
+            "Get Financial Profile:",
+            error
+        );
+
+        return res.status(500).json({
 
             success: false,
 
-            message: error.message
+            message:
+                "Failed to load financial profile.",
+
+            error: error.message
 
         });
 
     }
 
 };
+
+
+/* ==========================================
+   GET BALANCES
+========================================== */
+
+exports.getBalances = async (req, res) => {
+
+    try {
+
+        const profile =
+            await FinancialProfile.findOne({
+                user: req.user.userId
+            });
+
+        if (!profile) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message:
+                    "Financial profile not found."
+
+            });
+
+        }
+
+        return res.status(200).json({
+
+            success: true,
+
+            balances: {
+
+                wallet:
+                    profile.wallet.balance,
+
+                kcb:
+                    profile.banks.kcb.balance,
+
+                equity:
+                    profile.banks.equity.balance,
+
+                coop:
+                    profile.banks.coop.balance
+
+            }
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Get Financial Balances:",
+            error
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Failed to load balances.",
+
+            error: error.message
+
+        });
+
+    }
+
+};
+
 
 /* ==========================================
    UPDATE WALLET
@@ -67,11 +151,27 @@ exports.updateWallet = async (req, res) => {
 
         const { amount } = req.body;
 
-        const profile = await FinancialProfile.findOne({
+        if (
+            amount === undefined ||
+            amount === null ||
+            Number(amount) < 0
+        ) {
 
-            user: req.user.userId
+            return res.status(400).json({
 
-        });
+                success: false,
+
+                message:
+                    "A valid wallet amount is required."
+
+            });
+
+        }
+
+        const profile =
+            await FinancialProfile.findOne({
+                user: req.user.userId
+            });
 
         if (!profile) {
 
@@ -79,21 +179,27 @@ exports.updateWallet = async (req, res) => {
 
                 success: false,
 
-                message: "Profile not found."
+                message:
+                    "Financial profile not found."
 
             });
 
         }
 
-        profile.wallet.balance = amount;
+        profile.wallet.balance =
+            Number(amount);
 
         await profile.save();
 
-        res.json({
+        return res.status(200).json({
 
             success: true,
 
-            wallet: profile.wallet
+            message:
+                "Wallet updated successfully.",
+
+            wallet:
+                profile.wallet
 
         });
 
@@ -101,17 +207,26 @@ exports.updateWallet = async (req, res) => {
 
     catch (error) {
 
-        res.status(500).json({
+        console.error(
+            "Update Wallet:",
+            error
+        );
+
+        return res.status(500).json({
 
             success: false,
 
-            message: error.message
+            message:
+                "Failed to update wallet.",
+
+            error: error.message
 
         });
 
     }
 
 };
+
 
 /* ==========================================
    UPDATE BANK BALANCE
@@ -122,18 +237,50 @@ exports.updateBankBalance = async (req, res) => {
     try {
 
         const {
-
             bank,
-
             balance
-
         } = req.body;
 
-        const profile = await FinancialProfile.findOne({
+        const allowedBanks = [
+            "kcb",
+            "equity",
+            "coop"
+        ];
 
-            user: req.user.userId
+        if (!allowedBanks.includes(bank)) {
 
-        });
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Invalid bank."
+
+            });
+
+        }
+
+        if (
+            balance === undefined ||
+            balance === null ||
+            Number(balance) < 0
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "A valid balance is required."
+
+            });
+
+        }
+
+        const profile =
+            await FinancialProfile.findOne({
+                user: req.user.userId
+            });
 
         if (!profile) {
 
@@ -141,33 +288,27 @@ exports.updateBankBalance = async (req, res) => {
 
                 success: false,
 
-                message: "Financial profile not found."
+                message:
+                    "Financial profile not found."
 
             });
 
         }
 
-        if (!profile.banks[bank]) {
-
-            return res.status(400).json({
-
-                success: false,
-
-                message: "Invalid bank."
-
-            });
-
-        }
-
-        profile.banks[bank].balance = balance;
+        profile.banks[bank].balance =
+            Number(balance);
 
         await profile.save();
 
-        res.json({
+        return res.status(200).json({
 
             success: true,
 
-            bank: profile.banks[bank]
+            message:
+                "Bank balance updated successfully.",
+
+            bank:
+                profile.banks[bank]
 
         });
 
@@ -175,11 +316,19 @@ exports.updateBankBalance = async (req, res) => {
 
     catch (error) {
 
-        res.status(500).json({
+        console.error(
+            "Update Bank Balance:",
+            error
+        );
+
+        return res.status(500).json({
 
             success: false,
 
-            message: error.message
+            message:
+                "Failed to update bank balance.",
+
+            error: error.message
 
         });
 
@@ -187,19 +336,22 @@ exports.updateBankBalance = async (req, res) => {
 
 };
 
+
 /* ==========================================
-   GET BALANCES
+   GET ACCOUNT INFORMATION
 ========================================== */
 
-exports.getBalances = async (req, res) => {
+exports.getAccountInformation = async (
+    req,
+    res
+) => {
 
     try {
 
-        const profile = await FinancialProfile.findOne({
-
-            user: req.user.userId
-
-        });
+        const profile =
+            await FinancialProfile.findOne({
+                user: req.user.userId
+            });
 
         if (!profile) {
 
@@ -207,21 +359,59 @@ exports.getBalances = async (req, res) => {
 
                 success: false,
 
-                message: "Financial profile not found."
+                message:
+                    "Financial profile not found."
 
             });
 
         }
 
-        res.json({
+        return res.status(200).json({
 
             success: true,
 
-            balances: {
-                wallet: profile.wallet.balance,
-                kcb: profile.banks.kcb.balance,
-                equity: profile.banks.equity.balance,
-                coop: profile.banks.coop.balance
+            accounts: {
+
+                kcb: {
+
+                    accountNumber:
+                        profile.banks.kcb.accountNumber,
+
+                    balance:
+                        profile.banks.kcb.balance
+
+                },
+
+                equity: {
+
+                    accountNumber:
+                        profile.banks.equity.accountNumber,
+
+                    balance:
+                        profile.banks.equity.balance
+
+                },
+
+                coop: {
+
+                    accountNumber:
+                        profile.banks.coop.accountNumber,
+
+                    balance:
+                        profile.banks.coop.balance
+
+                }
+
+            },
+
+            loans: {
+
+                limit:
+                    profile.loans.limit,
+
+                outstanding:
+                    profile.loans.outstanding
+
             }
 
         });
@@ -230,11 +420,19 @@ exports.getBalances = async (req, res) => {
 
     catch (error) {
 
-        res.status(500).json({
+        console.error(
+            "Get Account Information:",
+            error
+        );
+
+        return res.status(500).json({
 
             success: false,
 
-            message: error.message
+            message:
+                "Failed to load account information.",
+
+            error: error.message
 
         });
 

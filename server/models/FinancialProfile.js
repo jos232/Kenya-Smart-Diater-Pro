@@ -13,7 +13,9 @@ const mongoose = require("mongoose");
 
 const FinancialProfileSchema = new mongoose.Schema({
 
-    /* User */
+    /* ==========================================
+       USER
+    ========================================== */
 
     user: {
 
@@ -27,7 +29,9 @@ const FinancialProfileSchema = new mongoose.Schema({
 
     },
 
-    /* Wallet */
+    /* ==========================================
+       WALLET
+    ========================================== */
 
     wallet: {
 
@@ -43,9 +47,15 @@ const FinancialProfileSchema = new mongoose.Schema({
 
     },
 
-    /* Bank Accounts */
+    /* ==========================================
+       BANK ACCOUNTS
+    ========================================== */
 
     banks: {
+
+        /* -------------------------
+           KCB
+        ------------------------- */
 
         kcb: {
 
@@ -69,6 +79,10 @@ const FinancialProfileSchema = new mongoose.Schema({
 
         },
 
+        /* -------------------------
+           EQUITY
+        ------------------------- */
+
         equity: {
 
             accountNumber: {
@@ -90,6 +104,10 @@ const FinancialProfileSchema = new mongoose.Schema({
             }
 
         },
+
+        /* -------------------------
+           CO-OPERATIVE
+        ------------------------- */
 
         coop: {
 
@@ -115,7 +133,9 @@ const FinancialProfileSchema = new mongoose.Schema({
 
     },
 
-    /* Airtime */
+    /* ==========================================
+       AIRTIME
+    ========================================== */
 
     airtime: {
 
@@ -151,7 +171,9 @@ const FinancialProfileSchema = new mongoose.Schema({
 
     },
 
-    /* Bundles */
+    /* ==========================================
+       BUNDLES
+    ========================================== */
 
     bundles: {
 
@@ -187,9 +209,13 @@ const FinancialProfileSchema = new mongoose.Schema({
 
     },
 
-    /* Loans */
+    /* ==========================================
+       LOANS
+    ========================================== */
 
     loans: {
+
+        /* Current unpaid loan */
 
         outstanding: {
 
@@ -201,17 +227,33 @@ const FinancialProfileSchema = new mongoose.Schema({
 
         },
 
+        /* Maximum amount approved */
+
         limit: {
 
             type: Number,
 
-            default: 100000
+            default: 0,
+
+            min: 0
+
+        },
+
+        /* Whether the customer has been approved */
+
+        approved: {
+
+            type: Boolean,
+
+            default: false
 
         }
 
     },
 
-    /* Cards */
+    /* ==========================================
+       CARDS
+    ========================================== */
 
     cards: {
 
@@ -233,7 +275,9 @@ const FinancialProfileSchema = new mongoose.Schema({
 
     },
 
-    /* Savings */
+    /* ==========================================
+       SAVINGS
+    ========================================== */
 
     savings: {
 
@@ -256,7 +300,6 @@ const FinancialProfileSchema = new mongoose.Schema({
         timestamps: true
 
     });
-
 
 
 /* ==========================================

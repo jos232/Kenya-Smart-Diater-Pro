@@ -7,40 +7,66 @@
 
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/User");
-const FinancialProfile = require("../models/FinancialProfile");
+const User =
+    require("../models/User");
+
+const FinancialProfile =
+    require("../models/FinancialProfile");
+
 
 /* ==========================================
-   HELPERS
+   LOGIN SECURITY
 ========================================== */
 
 const MAX_LOGIN_ATTEMPTS = 5;
 
-const LOCK_TIME = 15 * 60 * 1000; // 15 Minutes
+const LOCK_TIME =
+    15 * 60 * 1000;
+
+
+/* ==========================================
+   GENERATE JWT
+========================================== */
 
 function generateToken(user) {
 
     return jwt.sign(
 
         {
-
             userId: user._id,
-
             role: user.role
-
         },
 
         process.env.JWT_SECRET,
 
         {
-
-            expiresIn: process.env.JWT_EXPIRES || "7d"
-
+            expiresIn:
+                process.env.JWT_EXPIRES || "7d"
         }
 
     );
 
 }
+
+
+/* ==========================================
+   GENERATE ACCOUNT NUMBER
+========================================== */
+
+function generateAccountNumber(prefix) {
+
+    const timestamp =
+        Date.now().toString().slice(-8);
+
+    const random =
+        Math.floor(
+            100 + Math.random() * 900
+        );
+
+    return `${prefix}${timestamp}${random}`;
+
+}
+
 
 /* ==========================================
    REGISTER
@@ -51,48 +77,45 @@ exports.register = async (req, res) => {
     try {
 
         let {
-
             fullName,
-
             email,
-
             phone,
-
             password
-
         } = req.body;
 
-        /* -------------------------
-           Validation
-        ------------------------- */
+
+        /* ======================================
+           VALIDATION
+        ====================================== */
 
         if (
-
             !fullName ||
-
             !email ||
-
             !phone ||
-
             !password
-
         ) {
 
             return res.status(400).json({
 
                 success: false,
 
-                message: "All fields are required."
+                message:
+                    "All fields are required."
 
             });
 
         }
 
-        fullName = fullName.trim();
 
-        email = email.trim().toLowerCase();
+        fullName =
+            fullName.trim();
 
-        phone = phone.trim();
+        email =
+            email.trim().toLowerCase();
+
+        phone =
+            phone.trim();
+
 
         if (password.length < 8) {
 
@@ -100,21 +123,22 @@ exports.register = async (req, res) => {
 
                 success: false,
 
-                message: "Password must be at least 8 characters."
+                message:
+                    "Password must be at least 8 characters."
 
             });
 
         }
 
-        /* -------------------------
-           Existing User
-        ------------------------- */
 
-        const emailExists = await User.findOne({
+        /* ======================================
+           CHECK EXISTING EMAIL
+        ====================================== */
 
-            email
-
-        });
+        const emailExists =
+            await User.findOne({
+                email
+            });
 
         if (emailExists) {
 
@@ -122,17 +146,22 @@ exports.register = async (req, res) => {
 
                 success: false,
 
-                message: "Email already registered."
+                message:
+                    "Email already registered."
 
             });
 
         }
 
-        const phoneExists = await User.findOne({
 
-            phone
+        /* ======================================
+           CHECK EXISTING PHONE
+        ====================================== */
 
-        });
+        const phoneExists =
+            await User.findOne({
+                phone
+            });
 
         if (phoneExists) {
 
@@ -140,103 +169,250 @@ exports.register = async (req, res) => {
 
                 success: false,
 
-                message: "Phone number already registered."
+                message:
+                    "Phone number already registered."
 
             });
 
         }
 
-        /* -------------------------
-           Create User
-        ------------------------- */
 
-        const user = await User.create({
+        /* ======================================
+           CREATE USER
+        ====================================== */
 
-            fullName,
+        const user =
+            await User.create({
 
-            email,
+                fullName,
 
-            phone,
+                email,
 
-            password
+                phone,
 
-        });
+                password
 
-        /* -------------------------
-           Create Financial Profile
-        ------------------------- */
+            });
 
-        await FinancialProfile.create({
 
-            user: user._id,
+        /* ======================================
+           GENERATE FINANCIAL ACCOUNT NUMBERS
+        ====================================== */
 
-            wallet: {
+        const kcbAccountNumber =
+            generateAccountNumber("KCB");
 
-                balance: 0
+        const equityAccountNumber =
+            generateAccountNumber("EQT");
 
-            },
+        const coopAccountNumber =
+            generateAccountNumber("COOP");
 
-            banks: {
 
-                kcb: {
+        /* ======================================
+           CREATE FINANCIAL PROFILE
+        ====================================== */
 
-                    accountNumber: "KCB" + Date.now(),
+        const financialProfile =
+            await FinancialProfile.create({
+
+                user: user._id,
+
+
+                /* ------------------------------
+                   WALLET
+                ------------------------------ */
+
+                wallet: {
 
                     balance: 0
 
                 },
 
-                equity: {
 
-                    accountNumber: "EQT" + Date.now(),
+                /* ------------------------------
+                   BANK ACCOUNTS
+                ------------------------------ */
 
-                    balance: 0
+                banks: {
+
+                    kcb: {
+
+                        accountNumber:
+                            kcbAccountNumber,
+
+                        balance: 0
+
+                    },
+
+                    equity: {
+
+                        accountNumber:
+                            equityAccountNumber,
+
+                        balance: 0
+
+                    },
+
+                    coop: {
+
+                        accountNumber:
+                            coopAccountNumber,
+
+                        balance: 0
+
+                    }
 
                 },
 
-                coop: {
 
-                    accountNumber: "COOP" + Date.now(),
+                /* ------------------------------
+                   AIRTIME
+                ------------------------------ */
+
+                airtime: {
+
+                    safaricom: 0,
+
+                    airtel: 0,
+
+                    telkom: 0
+
+                },
+
+
+                /* ------------------------------
+                   BUNDLES
+                ------------------------------ */
+
+                bundles: {
+
+                    data: 0,
+
+                    voice: 0,
+
+                    sms: 0
+
+                },
+
+
+                /* ------------------------------
+                   LOANS
+                ------------------------------ */
+
+                loans: {
+
+                    outstanding: 0,
+
+                    limit: 100000
+
+                },
+
+
+                /* ------------------------------
+                   CARDS
+                ------------------------------ */
+
+                cards: {
+
+                    active: true,
+
+                    frozen: false
+
+                },
+
+
+                /* ------------------------------
+                   SAVINGS
+                ------------------------------ */
+
+                savings: {
 
                     balance: 0
 
                 }
 
-            },
+            });
 
-            airtime: {
 
-                safaricom: 0,
+        console.log(
+            "✅ Financial profile created:",
+            user.email
+        );
 
-                airtel: 0,
 
-                telkom: 0
+        /* ======================================
+           GENERATE TOKEN
+        ====================================== */
 
-            },
+        const token =
+            generateToken(user);
 
-            bundles: {
 
-                data: 0,
-
-                voice: 0,
-
-                sms: 0
-
-            }
-
-        });
-
-        console.log("✅ Financial profile created:", user.email);
+        /* ======================================
+           REGISTRATION RESPONSE
+        ====================================== */
 
         return res.status(201).json({
 
             success: true,
 
-            message: "Account created successfully.",
+            message:
+                "Account created successfully.",
 
-            user,
 
-            token: generateToken(user)
+            /* ------------------------------
+               USER
+            ------------------------------ */
+
+            user: {
+
+                id: user._id,
+
+                fullName:
+                    user.fullName,
+
+                email:
+                    user.email,
+
+                phone:
+                    user.phone,
+
+                role:
+                    user.role
+
+            },
+
+
+            /* ------------------------------
+               FINANCIAL PROFILE
+            ------------------------------ */
+
+            financialProfile: {
+
+                wallet:
+                    financialProfile.wallet,
+
+                banks:
+                    financialProfile.banks,
+
+                loans:
+                    financialProfile.loans,
+
+                cards:
+                    financialProfile.cards,
+
+                savings:
+                    financialProfile.savings
+
+            },
+
+
+            /* ------------------------------
+               TOKEN
+            ------------------------------ */
+
+            token
 
         });
 
@@ -244,21 +420,29 @@ exports.register = async (req, res) => {
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "Registration Error:",
+            error
+        );
+
 
         return res.status(500).json({
 
             success: false,
 
-            message: "Registration failed.",
+            message:
+                "Registration failed.",
 
-            error: error.message
+            error:
+                error.message
 
         });
 
     }
 
 };
+
+
 /* ==========================================
    LOGIN
 ========================================== */
@@ -268,12 +452,10 @@ exports.login = async (req, res) => {
     try {
 
         let {
-
             email,
-
             password
-
         } = req.body;
+
 
         if (!email || !password) {
 
@@ -281,25 +463,27 @@ exports.login = async (req, res) => {
 
                 success: false,
 
-                message: "Email and password are required."
+                message:
+                    "Email and password are required."
 
             });
 
         }
 
-        email = email.trim().toLowerCase();
 
-        /* -------------------------
-           Find User
-        ------------------------- */
+        email =
+            email.trim().toLowerCase();
 
-        const user = await User.findOne({
 
-            email
+        /* ======================================
+           FIND USER
+        ====================================== */
 
-        });
+        const user =
+            await User.findOne({
+                email
+            });
 
-        console.log("User Found:", user);
 
         if (!user) {
 
@@ -307,108 +491,173 @@ exports.login = async (req, res) => {
 
                 success: false,
 
-                message: "Invalid email or password."
+                message:
+                    "Invalid email or password."
 
             });
 
         }
 
-        /* -------------------------
-           Account Status
-        ------------------------- */
 
-        if (user.accountStatus === "disabled") {
+        /* ======================================
+           ACCOUNT STATUS
+        ====================================== */
+
+        if (
+            user.accountStatus ===
+            "disabled"
+        ) {
 
             return res.status(403).json({
 
                 success: false,
 
-                message: "Account disabled. Contact support."
+                message:
+                    "Account disabled. Contact support."
 
             });
 
         }
 
-        if (user.lockUntil && user.lockUntil > Date.now()) {
+
+        if (
+            user.lockUntil &&
+            user.lockUntil > Date.now()
+        ) {
 
             return res.status(423).json({
 
                 success: false,
 
-                message: "Account temporarily locked. Try again later."
+                message:
+                    "Account temporarily locked. Try again later."
 
             });
 
         }
 
-        /* -------------------------
-           Verify Password
-        ------------------------- */
 
+        /* ======================================
+           VERIFY PASSWORD
+        ====================================== */
 
-        console.log("Email entered:", email);
-        console.log("Password entered:", password);
+        const passwordMatch =
+            await user.comparePassword(
+                password
+            );
 
-        const passwordMatch = await user.comparePassword(password);
-
-        console.log("Password Match:", passwordMatch);
 
         if (!passwordMatch) {
+
             user.failedLoginAttempts += 1;
 
-            if (user.failedLoginAttempts >= MAX_LOGIN_ATTEMPTS) {
 
-                user.lockUntil = new Date(
+            if (
+                user.failedLoginAttempts >=
+                MAX_LOGIN_ATTEMPTS
+            ) {
 
-                    Date.now() + LOCK_TIME
+                user.lockUntil =
+                    new Date(
+                        Date.now() +
+                        LOCK_TIME
+                    );
 
-                );
-
-                user.accountStatus = "locked";
+                user.accountStatus =
+                    "locked";
 
             }
 
+
             await user.save();
+
 
             return res.status(401).json({
 
                 success: false,
 
-                message: "Invalid email or password."
+                message:
+                    "Invalid email or password."
 
             });
 
         }
 
-        /* -------------------------
-           Reset Login Attempts
-        ------------------------- */
+
+        /* ======================================
+           RESET LOGIN SECURITY
+        ====================================== */
 
         user.failedLoginAttempts = 0;
 
         user.lockUntil = null;
 
-        user.accountStatus = "active";
+        user.accountStatus =
+            "active";
 
-        user.lastLogin = new Date();
+        user.lastLogin =
+            new Date();
+
 
         await user.save();
 
-        /* -------------------------
-           Generate Token
-        ------------------------- */
 
-        const token = generateToken(user);
+        /* ======================================
+           LOAD FINANCIAL PROFILE
+        ====================================== */
+
+        const financialProfile =
+            await FinancialProfile.findOne({
+
+                user: user._id
+
+            });
+
+
+        /* ======================================
+           GENERATE TOKEN
+        ====================================== */
+
+        const token =
+            generateToken(user);
+
+
+        /* ======================================
+           LOGIN RESPONSE
+        ====================================== */
 
         return res.status(200).json({
 
             success: true,
 
-            message: "Login successful.",
+            message:
+                "Login successful.",
 
-            token,
 
-            user
+            user: {
+
+                id: user._id,
+
+                fullName:
+                    user.fullName,
+
+                email:
+                    user.email,
+
+                phone:
+                    user.phone,
+
+                role:
+                    user.role
+
+            },
+
+
+            financialProfile:
+                financialProfile || null,
+
+
+            token
 
         });
 
@@ -416,21 +665,28 @@ exports.login = async (req, res) => {
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "Login Error:",
+            error
+        );
+
 
         return res.status(500).json({
 
             success: false,
 
-            message: "Login failed.",
+            message:
+                "Login failed.",
 
-            error: error.message
+            error:
+                error.message
 
         });
 
     }
 
 };
+
 
 /* ==========================================
    GET CURRENT USER
@@ -440,11 +696,11 @@ exports.getProfile = async (req, res) => {
 
     try {
 
-        const user = await User.findById(
+        const user =
+            await User.findById(
+                req.user.userId
+            );
 
-            req.user.userId
-
-        );
 
         if (!user) {
 
@@ -452,17 +708,47 @@ exports.getProfile = async (req, res) => {
 
                 success: false,
 
-                message: "User not found."
+                message:
+                    "User not found."
 
             });
 
         }
 
-        return res.json({
+
+        const financialProfile =
+            await FinancialProfile.findOne({
+
+                user:
+                    req.user.userId
+
+            });
+
+
+        return res.status(200).json({
 
             success: true,
 
-            user
+            user: {
+
+                id: user._id,
+
+                fullName:
+                    user.fullName,
+
+                email:
+                    user.email,
+
+                phone:
+                    user.phone,
+
+                role:
+                    user.role
+
+            },
+
+            financialProfile:
+                financialProfile || null
 
         });
 
@@ -470,13 +756,21 @@ exports.getProfile = async (req, res) => {
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "Get Profile Error:",
+            error
+        );
+
 
         return res.status(500).json({
 
             success: false,
 
-            message: error.message
+            message:
+                "Failed to load profile.",
+
+            error:
+                error.message
 
         });
 
@@ -484,17 +778,19 @@ exports.getProfile = async (req, res) => {
 
 };
 
+
 /* ==========================================
    LOGOUT
 ========================================== */
 
 exports.logout = async (req, res) => {
 
-    return res.json({
+    return res.status(200).json({
 
         success: true,
 
-        message: "Logged out successfully."
+        message:
+            "Logged out successfully."
 
     });
 
