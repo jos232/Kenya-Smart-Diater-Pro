@@ -304,7 +304,9 @@ exports.register = async (req, res) => {
 
                     outstanding: 0,
 
-                    limit: 100000
+                    limit: 100000,
+
+                    approved: false
 
                 },
 
