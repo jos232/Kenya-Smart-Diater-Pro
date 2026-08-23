@@ -3852,7 +3852,7 @@
                 </section>
                 <!-- ==========================================
                  KCB SETTINGS
-            ========================================== -->
+                ========================================== -->
 
                 <section id="kcbSettings" class="screen">
 
@@ -3907,10 +3907,11 @@
                 </section>
                 <!-- ==========================================
                  EQUITY MOBILE DASHBOARD
-            ========================================== -->
+                  ========================================== -->
 
                 <section id="equityDashboard" class="screen">
 
+                    <!-- HEADER -->
                     <div class="screen-header">
 
                         <button class="back-btn" onclick="showScreen('financialServices')">
@@ -3919,7 +3920,7 @@
 
                         </button>
 
-                        <img src="assets/banks/equity.png" class="bank-header-logo" alt="Equity">
+                        <img src="assets/banks/equity.png" class="bank-header-logo" alt="Equity Bank">
 
                         <h2>Equity Mobile</h2>
 
@@ -3927,169 +3928,148 @@
 
                     </div>
 
-                    <!-- Customer -->
+
+                    <!-- ==========================================
+                     CUSTOMER PROFILE
+                     ========================================== -->
 
                     <div class="customer-card">
 
                         <div>
 
                             <h3 id="equityHolder">
-
                                 Joshua Nkario
-
                             </h3>
 
-                            <small>Equity Customer</small>
+                            <small>
+                                Equity Customer
+                            </small>
 
                         </div>
 
                         <div class="customer-avatar">
-
                             J
-
                         </div>
 
                     </div>
 
-                    <!-- Balance -->
+
+                    <!-- ==========================================
+                     ACCOUNT BALANCE
+                     ========================================== -->
 
                     <div class="balance-card">
 
-                        <h3>Available Balance</h3>
+                        <h3>
+                            Available Balance
+                        </h3>
 
                         <h1 id="equityBalance">
-
-                            KSh 75,000.00
-
+                            KSh 0.00
                         </h1>
 
-                        <small id="equityAccountNumber">
+                        <small>
 
-                            Account No. 0123456789
+                            Account No.
+
+                            <span id="equityAccountNumber">
+                                Account number unavailable
+                            </span>
 
                         </small>
 
                     </div>
 
+
                     <!-- ==========================================
-                 QUICK BANKING
-            ========================================== -->
+                     QUICK BANKING
+                     ========================================== -->
 
                     <h3 class="bank-section-title">
-
                         Quick Banking
-
                     </h3>
 
                     <div class="bank-action-grid">
 
                         <button onclick="openEquityTransfer()">
-
                             💸
-
                             <span>Transfer</span>
-
                         </button>
 
                         <button onclick="openEquityDeposit()">
-
                             📥
-
                             <span>Deposit</span>
-
                         </button>
 
                         <button onclick="openEquityWithdraw()">
-
                             📤
-
                             <span>Withdraw</span>
-
                         </button>
 
                         <button onclick="openEquityStatement()">
-
                             📄
-
                             <span>Statement</span>
-
                         </button>
 
                         <button onclick="openEquityBills()">
-
                             💡
-
                             <span>Bills</span>
-
                         </button>
 
                         <button onclick="openEquityBuyGoods()">
-
                             🛒
-
                             <span>Buy Goods</span>
-
                         </button>
 
                         <button onclick="openEquityAirtime()">
-
                             📱
-
                             <span>Airtime</span>
-
                         </button>
 
                         <button onclick="openEquityBundles()">
-
                             📶
-
                             <span>Bundles</span>
-
                         </button>
 
                         <button onclick="openEquityLoans()">
-
                             💰
-
                             <span>Loans</span>
-
                         </button>
 
                         <button onclick="openEquityCards()">
-
                             💳
-
                             <span>Cards</span>
-
                         </button>
 
                         <button onclick="openEquitySettings()">
-
                             ⚙️
-
                             <span>Settings</span>
-
                         </button>
 
                     </div>
 
-                    <!-- Recent Transactions -->
+
+                    <!-- ==========================================
+                     RECENT TRANSACTIONS
+                    ========================================== -->
 
                     <div class="service-card">
 
-                        <h3>Recent Transactions</h3>
+                        <h3>
+                            Recent Transactions
+                        </h3>
 
                         <div id="equityRecentTransactions">
 
                             <div class="transaction-empty">
 
                                 <div class="transaction-empty-icon">
-
                                     📄
-
                                 </div>
 
-                                <h3>No Recent Transactions</h3>
+                                <h3>
+                                    No Recent Transactions
+                                </h3>
 
                             </div>
 
@@ -4098,12 +4078,15 @@
                     </div>
 
                 </section>
+
+
                 <!-- ==========================================
                  EQUITY TRANSFER
-            ========================================== -->
+                 ========================================== -->
 
                 <section id="equityTransfer" class="screen">
 
+                    <!-- HEADER -->
                     <div class="screen-header">
 
                         <button class="back-btn" onclick="showScreen('equityDashboard')">
@@ -4112,30 +4095,48 @@
 
                         </button>
 
-                        <h2>Money Transfer</h2>
+                        <h2>
+                            Money Transfer
+                        </h2>
 
-                        <p>Transfer Money</p>
+                        <p>
+                            Transfer Money
+                        </p>
 
                     </div>
 
+
+                    <!-- TRANSFER FORM -->
                     <div class="service-card">
 
-                        <label>Recipient Name</label>
+                        <label>
+                            Recipient Name
+                        </label>
 
                         <input id="equityTransferRecipient" class="form-input" type="text" placeholder="Recipient Name">
 
-                        <label>Recipient Account</label>
+
+                        <label>
+                            Recipient Account
+                        </label>
 
                         <input id="equityTransferAccount" class="form-input" type="text" placeholder="Account Number">
 
-                        <label>Amount</label>
+
+                        <label>
+                            Amount
+                        </label>
 
                         <input id="equityTransferAmount" class="form-input" type="number" placeholder="Amount">
 
-                        <label>Transaction PIN</label>
+
+                        <label>
+                            Transaction PIN
+                        </label>
 
                         <input id="equityTransferPIN" class="form-input" type="password" maxlength="4"
                             placeholder="****">
+
 
                         <button class="primary-btn" onclick="submitEquityTransfer()">
 
@@ -4148,7 +4149,7 @@
                 </section>
                 <!-- ==========================================
                  EQUITY DEPOSIT
-            ========================================== -->
+                ========================================== -->
 
                 <section id="equityDeposit" class="screen">
 
@@ -4686,44 +4687,60 @@
 
                 </section>
                 <!-- ==========================================
-                 CO-OPERATIVE DASHBOARD
-            ========================================== -->
+                <!-- ==========================================
+     CO-OPERATIVE BANK DASHBOARD
+========================================== -->
 
                 <section id="coopDashboard" class="screen">
 
+                    <!-- ==========================================
+         HEADER
+    ========================================== -->
+
                     <div class="screen-header">
 
-                        <button class="back-btn" onclick="showScreen('financial')">
+                        <button class="back-btn" onclick="showScreen('financialServices')">
 
                             ←
 
                         </button>
 
-                        <h2>Co-operative Bank</h2>
+                        <img src="assets/banks/coop.png" class="bank-header-logo" alt="Co-operative Bank">
 
-                        <p>Welcome <span id="coopHolder">Joshua Nkario</span></p>
+                        <h2>
+                            Co-operative Bank
+                        </h2>
+
+                        <p>
+                            Welcome
+                            <span id="coopHolder">
+                                Joshua Nkario
+                            </span>
+                        </p>
 
                     </div>
 
-                    <!-- Account Balance -->
+
+                    <!-- ==========================================
+         ACCOUNT BALANCE
+    ========================================== -->
 
                     <div class="balance-card">
 
-                        <h3>Available Balance</h3>
+                        <h3>
+                            Available Balance
+                        </h3>
 
                         <h1 id="coopBalance">
-
-                            KSh 50,000.00
-
+                            KSh 0.00
                         </h1>
 
                         <small>
 
                             Account No:
+
                             <span id="coopAccountNumber">
-
-                                011234567890
-
+                                Account number unavailable
                             </span>
 
                         </small>
@@ -4733,22 +4750,22 @@
                         <small>
 
                             Account Type:
+
                             <span id="coopAccountType">
-
                                 Current Account
-
                             </span>
 
                         </small>
 
                     </div>
 
-                    <!-- Quick Banking -->
+
+                    <!-- ==========================================
+         QUICK BANKING
+    ========================================== -->
 
                     <h3 class="bank-section-title">
-
                         Quick Banking
-
                     </h3>
 
                     <div class="bank-action-grid">
@@ -4810,15 +4827,28 @@
 
                     </div>
 
-                    <!-- Recent Transactions -->
+
+                    <!-- ==========================================
+                         RECENT TRANSACTIONS
+                         ========================================== -->
 
                     <h3 class="bank-section-title">
-
                         Recent Transactions
-
                     </h3>
 
                     <div id="coopRecentTransactions">
+
+                        <div class="transaction-empty">
+
+                            <div class="transaction-empty-icon">
+                                📄
+                            </div>
+
+                            <h3>
+                                No Recent Transactions
+                            </h3>
+
+                        </div>
 
                     </div>
 
