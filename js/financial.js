@@ -650,15 +650,83 @@ function updateFinancialDashboard(profile) {
 
     }
 
-
     /* ======================================
-       LOANS
-    ====================================== */
+   LOANS
+====================================== */
 
     if (profile.loans) {
 
-        updateLoanDashboard(profile);
+        const loanLimit =
+            Number(
+                profile.loans.limit || 0
+            );
 
+        const loanOutstanding =
+            Number(
+                profile.loans.outstanding || 0
+            );
+
+
+        /* ==================================
+           KCB LOAN LIMIT
+        ================================== */
+
+        if (
+            typeof updateLoanLimit ===
+            "function"
+        ) {
+
+            updateLoanLimit(
+                loanLimit
+            );
+
+        }
+
+
+        /* ==================================
+           EQUITY LOAN LIMIT
+        ================================== */
+
+        if (
+            typeof updateEquityLoanLimit ===
+            "function"
+        ) {
+
+            updateEquityLoanLimit(
+                loanLimit
+            );
+
+        }
+
+
+        /* ==================================
+           CO-OPERATIVE LOAN LIMIT
+        ================================== */
+
+        if (
+            typeof updateCoopLoanLimit ===
+            "function"
+        ) {
+
+            updateCoopLoanLimit(
+                loanLimit
+            );
+
+        }
+
+
+        /* ==================================
+           MAIN LOAN DASHBOARD
+        ================================== */
+
+        updateLoanDashboard(
+            profile
+        );
+
+
+        /* ==================================
+           CO-OP LOAN LIMIT DISPLAY
+        ================================== */
 
         const coopLoanLimit =
             document.getElementById(
@@ -669,10 +737,15 @@ function updateFinancialDashboard(profile) {
 
             coopLoanLimit.textContent =
                 formatFinancialMoney(
-                    profile.loans.limit || 0
+                    loanLimit
                 );
+
         }
 
+
+        /* ==================================
+           CO-OP LOAN STATUS
+        ================================== */
 
         const coopLoanStatus =
             document.getElementById(
@@ -681,18 +754,12 @@ function updateFinancialDashboard(profile) {
 
         if (coopLoanStatus) {
 
-            const outstanding =
-                Number(
-                    profile.loans.outstanding || 0
-                );
-
-
-            if (outstanding > 0) {
+            if (loanOutstanding > 0) {
 
                 coopLoanStatus.textContent =
                     "Active Loan • Outstanding " +
                     formatFinancialMoney(
-                        outstanding
+                        loanOutstanding
                     );
 
             } else {
@@ -701,6 +768,103 @@ function updateFinancialDashboard(profile) {
                     "No Active Loan";
 
             }
+
+        }
+
+
+        /* ==================================
+           EQUITY LOAN DISPLAY
+        ================================== */
+
+        const equityLoanLimit =
+            document.getElementById(
+                "equityLoanLimit"
+            );
+
+        if (equityLoanLimit) {
+
+            equityLoanLimit.textContent =
+                formatFinancialMoney(
+                    loanLimit
+                );
+
+        }
+
+
+        /* ==================================
+           EQUITY LOAN STATUS
+        ================================== */
+
+        const equityLoanStatus =
+            document.getElementById(
+                "equityLoanStatus"
+            );
+
+        if (equityLoanStatus) {
+
+            if (loanOutstanding > 0) {
+
+                equityLoanStatus.textContent =
+                    "Outstanding Loan: " +
+                    formatFinancialMoney(
+                        loanOutstanding
+                    );
+
+            } else {
+
+                equityLoanStatus.textContent =
+                    "No Active Loan";
+
+            }
+
+        }
+
+
+        /* ==================================
+           KCB LOAN DISPLAY
+        ================================== */
+
+        const kcbLoanLimit =
+            document.getElementById(
+                "loanLimit"
+            );
+
+        if (kcbLoanLimit) {
+
+            kcbLoanLimit.textContent =
+                formatFinancialMoney(
+                    loanLimit
+                );
+
+        }
+
+
+        const kcbLoanOutstanding =
+            document.getElementById(
+                "loanOutstanding"
+            );
+
+        if (kcbLoanOutstanding) {
+
+            kcbLoanOutstanding.textContent =
+                formatFinancialMoney(
+                    loanOutstanding
+                );
+
+        }
+
+
+        const kcbLoanStatus =
+            document.getElementById(
+                "loanStatus"
+            );
+
+        if (kcbLoanStatus) {
+
+            kcbLoanStatus.textContent =
+                loanOutstanding > 0
+                    ? "ACTIVE"
+                    : "NO ACTIVE LOAN";
 
         }
 

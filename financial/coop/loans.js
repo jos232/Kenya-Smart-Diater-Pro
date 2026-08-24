@@ -5,13 +5,14 @@
 
 "use strict";
 
+
 /* ==========================================
    LOAN ACCOUNT
 ========================================== */
 
 let coopLoan = {
 
-    limit: 100000,
+    limit: 0,
 
     active: false,
 
@@ -22,6 +23,7 @@ let coopLoan = {
     monthlyRepayment: 0
 
 };
+
 
 /* ==========================================
    OPEN LOANS
@@ -35,22 +37,48 @@ function openCoopLoans() {
 
 }
 
+
 /* ==========================================
-   UPDATE STATUS
+   UPDATE LOAN STATUS
 ========================================== */
 
 function updateCoopLoanStatus() {
 
-    const limit = document.getElementById("coopLoanLimit");
-    const status = document.getElementById("coopLoanStatus");
+    const limit =
+        document.getElementById(
+            "coopLoanLimit"
+        );
+
+    const status =
+        document.getElementById(
+            "coopLoanStatus"
+        );
+
+
+    /* --------------------------------------
+       LOAN LIMIT
+    -------------------------------------- */
 
     if (limit) {
 
-        limit.textContent = formatMoney(coopLoan.limit);
+        limit.textContent =
+            formatMoney(
+                coopLoan.limit
+            );
 
     }
 
-    if (!status) return;
+
+    /* --------------------------------------
+       LOAN STATUS
+    -------------------------------------- */
+
+    if (!status) {
+
+        return;
+
+    }
+
 
     if (coopLoan.active) {
 
@@ -58,7 +86,11 @@ function updateCoopLoanStatus() {
 
             Outstanding Loan<br>
 
-            <strong>${formatMoney(coopLoan.balance)}</strong>
+            <strong>
+                ${formatMoney(
+            coopLoan.balance
+        )}
+            </strong>
 
         `;
 
@@ -66,25 +98,50 @@ function updateCoopLoanStatus() {
 
     else {
 
-        status.textContent = "No Active Loan";
+        status.textContent =
+            "No Active Loan";
 
     }
 
 }
 
+
+/* ==========================================
+   UPDATE LOAN LIMIT
+========================================== */
+
+function updateCoopLoanLimit(newLimit) {
+
+    coopLoan.limit =
+        Number(newLimit) || 0;
+
+    updateCoopLoanStatus();
+
+}
+
+
 /* ==========================================
    CALCULATE REPAYMENT
 ========================================== */
 
-function calculateCoopLoanRepayment(amount, months) {
+function calculateCoopLoanRepayment(
+    amount,
+    months
+) {
 
     const interestRate = 0.12;
 
-    const total = amount + (amount * interestRate);
+    const total =
+        amount +
+        (amount * interestRate);
 
-    return total / months;
+
+    return months > 0
+        ? total / months
+        : 0;
 
 }
+
 
 /* ==========================================
    APPLY LOAN
@@ -92,137 +149,281 @@ function calculateCoopLoanRepayment(amount, months) {
 
 function applyCoopLoan() {
 
-    const amount = Number(
+    const amount =
+        Number(
+            document.getElementById(
+                "coopLoanAmount"
+            ).value
+        );
 
-        document.getElementById("coopLoanAmount").value
 
-    );
+    const months =
+        Number(
+            document.getElementById(
+                "coopLoanMonths"
+            ).value
+        );
 
-    const months = Number(
-
-        document.getElementById("coopLoanMonths").value
-
-    );
 
     const pin =
+        document.getElementById(
+            "coopLoanPIN"
+        ).value;
 
-        document.getElementById("coopLoanPIN").value;
+
+    /* --------------------------------------
+       VALIDATE AMOUNT
+    -------------------------------------- */
 
     if (amount <= 0) {
 
-        alert("Enter valid amount.");
+        alert(
+            "Enter a valid loan amount."
+        );
 
         return;
 
     }
+
+
+    /* --------------------------------------
+       CHECK LOAN LIMIT
+    -------------------------------------- */
 
     if (amount > coopLoan.limit) {
 
-        alert("Loan exceeds your limit.");
+        alert(
+            "Loan exceeds your available limit."
+        );
 
         return;
 
     }
 
-    const verify = verifyPIN(pin);
+
+    /* --------------------------------------
+       CHECK ACTIVE LOAN
+    -------------------------------------- */
+
+    if (coopLoan.active) {
+
+        alert(
+            "You already have an active loan."
+        );
+
+        return;
+
+    }
+
+
+    /* --------------------------------------
+       VERIFY PIN
+    -------------------------------------- */
+
+    const verify =
+        verifyPIN(pin);
+
 
     if (!verify.success) {
 
-        alert(verify.message);
+        alert(
+            verify.message
+        );
 
         return;
 
     }
 
+
+    /* --------------------------------------
+       CREDIT CO-OP ACCOUNT
+    -------------------------------------- */
+
     coopAccount.balance += amount;
+
+
+    /* --------------------------------------
+       SAVE LOAN
+    -------------------------------------- */
 
     coopLoan.active = true;
 
     coopLoan.balance = amount;
 
-    coopLoan.repaymentMonths = months;
+    coopLoan.repaymentMonths =
+        months;
 
-    coopLoan.monthlyRepayment = calculateCoopLoanRepayment(
+    coopLoan.monthlyRepayment =
+        calculateCoopLoanRepayment(
+            amount,
+            months
+        );
 
-        amount,
-
-        months
-
-    );
 
     updateCoopBalance();
 
     updateCoopLoanStatus();
 
-    if (typeof createTransaction === "function") {
 
-        const transaction = createTransaction({
+    /* ======================================
+       TRANSACTION
+    ====================================== */
 
-            bank: "CO-OP",
+    if (
+        typeof createTransaction ===
+        "function"
+    ) {
 
-            service: "LOAN",
+        const transaction =
+            createTransaction({
 
-            sender: "CO-OPERATIVE BANK",
+                bank: "CO-OP",
 
-            recipient: coopAccount.accountNumber,
+                service: "LOAN",
 
-            amount,
+                sender:
+                    "CO-OPERATIVE BANK",
 
-            fee: 0,
+                recipient:
+                    coopAccount.accountNumber,
 
-            total: amount,
+                amount,
 
-            balance: coopAccount.balance
+                fee: 0,
 
-        });
+                total: amount,
 
-        if (typeof saveBankTransaction === "function") {
+                balance:
+                    coopAccount.balance
 
-            saveBankTransaction(transaction);
+            });
+
+
+        if (
+            typeof saveBankTransaction ===
+            "function"
+        ) {
+
+            saveBankTransaction(
+                transaction
+            );
 
         }
 
-        if (typeof addStatement === "function") {
 
-            addStatement(transaction);
+        if (
+            typeof addStatement ===
+            "function"
+        ) {
+
+            addStatement(
+                transaction
+            );
 
         }
 
-        if (typeof generateReceipt === "function") {
 
-            generateReceipt(transaction);
+        if (
+            typeof generateReceipt ===
+            "function"
+        ) {
+
+            generateReceipt(
+                transaction
+            );
 
         }
 
     }
 
-    if (typeof addBankNotification === "function") {
+
+    /* ======================================
+       NOTIFICATION
+    ====================================== */
+
+    if (
+        typeof addBankNotification ===
+        "function"
+    ) {
 
         addBankNotification(
 
             "Loan Approved",
 
-            `${formatMoney(amount)} credited successfully.`
+            `${formatMoney(
+                amount
+            )} credited successfully.`
 
         );
 
     }
 
-    if (typeof loadCoopRecentTransactions === "function") {
+
+    /* ======================================
+       REFRESH TRANSACTIONS
+    ====================================== */
+
+    if (
+        typeof loadCoopRecentTransactions ===
+        "function"
+    ) {
 
         loadCoopRecentTransactions();
 
     }
 
-    document.getElementById("coopLoanAmount").value = "";
 
-    document.getElementById("coopLoanPIN").value = "";
+    /* ======================================
+       RESET FORM
+    ====================================== */
 
-    document.getElementById("coopLoanMonths").selectedIndex = 0;
+    const amountField =
+        document.getElementById(
+            "coopLoanAmount"
+        );
 
-    showScreen("kcbReceipt");
+    const pinField =
+        document.getElementById(
+            "coopLoanPIN"
+        );
+
+    const monthsField =
+        document.getElementById(
+            "coopLoanMonths"
+        );
+
+
+    if (amountField) {
+
+        amountField.value = "";
+
+    }
+
+
+    if (pinField) {
+
+        pinField.value = "";
+
+    }
+
+
+    if (monthsField) {
+
+        monthsField.selectedIndex = 0;
+
+    }
+
+
+    /* ======================================
+       RECEIPT
+    ====================================== */
+
+    showScreen(
+        "kcbReceipt"
+    );
 
 }
+
 
 /* ==========================================
    REPAY LOAN
@@ -232,17 +433,22 @@ function repayCoopLoan() {
 
     if (!coopLoan.active) {
 
-        alert("No active loan.");
+        alert(
+            "No active loan."
+        );
 
         return;
 
     }
 
-    const amount = Number(
 
-        prompt("Enter repayment amount")
+    const amount =
+        Number(
+            prompt(
+                "Enter repayment amount"
+            )
+        );
 
-    );
 
     if (!amount || amount <= 0) {
 
@@ -250,17 +456,30 @@ function repayCoopLoan() {
 
     }
 
+
     if (amount > coopAccount.balance) {
 
-        alert("Insufficient balance.");
+        alert(
+            "Insufficient balance."
+        );
 
         return;
 
     }
 
+
+    /* --------------------------------------
+       REPAY
+    -------------------------------------- */
+
     coopAccount.balance -= amount;
 
     coopLoan.balance -= amount;
+
+
+    /* --------------------------------------
+       CHECK COMPLETION
+    -------------------------------------- */
 
     if (coopLoan.balance <= 0) {
 
@@ -270,17 +489,28 @@ function repayCoopLoan() {
 
     }
 
+
     updateCoopBalance();
 
     updateCoopLoanStatus();
 
-    if (typeof addBankNotification === "function") {
+
+    /* --------------------------------------
+       NOTIFICATION
+    -------------------------------------- */
+
+    if (
+        typeof addBankNotification ===
+        "function"
+    ) {
 
         addBankNotification(
 
             "Loan Repayment",
 
-            `${formatMoney(amount)} repaid successfully.`
+            `${formatMoney(
+                amount
+            )} repaid successfully.`
 
         );
 
@@ -288,8 +518,9 @@ function repayCoopLoan() {
 
 }
 
+
 /* ==========================================
-   LOAN HISTORY PLACEHOLDER
+   LOAN HISTORY
 ========================================== */
 
 function loadCoopLoanHistory() {
@@ -298,18 +529,47 @@ function loadCoopLoanHistory() {
 
 }
 
+
+/* ==========================================
+   GET CO-OP LOAN
+========================================== */
+
+function getCoopLoan() {
+
+    return coopLoan;
+
+}
+
+
 /* ==========================================
    EXPORTS
 ========================================== */
 
-window.openCoopLoans = openCoopLoans;
+window.openCoopLoans =
+    openCoopLoans;
 
-window.updateCoopLoanStatus = updateCoopLoanStatus;
+window.updateCoopLoanStatus =
+    updateCoopLoanStatus;
 
-window.calculateCoopLoanRepayment = calculateCoopLoanRepayment;
+window.updateCoopLoanLimit =
+    updateCoopLoanLimit;
 
-window.applyCoopLoan = applyCoopLoan;
+window.calculateCoopLoanRepayment =
+    calculateCoopLoanRepayment;
 
-window.repayCoopLoan = repayCoopLoan;
+window.applyCoopLoan =
+    applyCoopLoan;
 
-window.loadCoopLoanHistory = loadCoopLoanHistory;
+window.repayCoopLoan =
+    repayCoopLoan;
+
+window.loadCoopLoanHistory =
+    loadCoopLoanHistory;
+
+window.getCoopLoan =
+    getCoopLoan;
+
+
+console.log(
+    "✅ Co-operative Bank Loans Module Loaded"
+);

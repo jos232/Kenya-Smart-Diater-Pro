@@ -5,13 +5,13 @@
 
 "use strict";
 
-/* ==========================
+/* ==========================================
    LOAN DETAILS
-========================== */
+========================================== */
 
 let equityLoan = {
 
-    limit: 100000,
+    limit: 0,
 
     active: false,
 
@@ -21,9 +21,10 @@ let equityLoan = {
 
 };
 
-/* ==========================
+
+/* ==========================================
    OPEN LOANS
-========================== */
+========================================== */
 
 function openEquityLoans() {
 
@@ -33,9 +34,10 @@ function openEquityLoans() {
 
 }
 
-/* ==========================
+
+/* ==========================================
    UPDATE LOAN STATUS
-========================== */
+========================================== */
 
 function updateEquityLoanStatus() {
 
@@ -45,16 +47,31 @@ function updateEquityLoanStatus() {
     const status =
         document.getElementById("equityLoanStatus");
 
-    if (limit)
+
+    /* --------------------------------------
+       LOAN LIMIT
+    -------------------------------------- */
+
+    if (limit) {
+
         limit.textContent =
             formatMoney(equityLoan.limit);
+
+    }
+
+
+    /* --------------------------------------
+       LOAN STATUS
+    -------------------------------------- */
 
     if (status) {
 
         if (equityLoan.active) {
 
             status.textContent =
-                `Outstanding Loan: ${formatMoney(equityLoan.balance)}`;
+                `Outstanding Loan: ${formatMoney(
+                    equityLoan.balance
+                )}`;
 
         } else {
 
@@ -67,39 +84,102 @@ function updateEquityLoanStatus() {
 
 }
 
-/* ==========================
+
+/* ==========================================
+   UPDATE LOAN LIMIT
+========================================== */
+
+function updateEquityLoanLimit(newLimit) {
+
+    equityLoan.limit =
+        Number(newLimit) || 0;
+
+
+    updateEquityLoanStatus();
+
+}
+
+
+/* ==========================================
    APPLY LOAN
-========================== */
+========================================== */
 
 function applyEquityLoan() {
 
     const amount =
-        Number(document.getElementById("equityLoanAmount").value);
+        Number(
+            document.getElementById(
+                "equityLoanAmount"
+            ).value
+        );
+
 
     const months =
-        Number(document.getElementById("equityLoanMonths").value);
+        Number(
+            document.getElementById(
+                "equityLoanMonths"
+            ).value
+        );
+
 
     const pin =
-        document.getElementById("equityLoanPIN").value;
+        document.getElementById(
+            "equityLoanPIN"
+        ).value;
+
+
+    /* --------------------------------------
+       VALIDATE AMOUNT
+    -------------------------------------- */
 
     if (amount <= 0) {
 
-        alert("Enter valid loan amount.");
+        alert(
+            "Enter a valid loan amount."
+        );
 
         return;
 
     }
+
+
+    /* --------------------------------------
+       CHECK LIMIT
+    -------------------------------------- */
 
     if (amount > equityLoan.limit) {
 
-        alert("Loan exceeds your limit.");
+        alert(
+            "Loan exceeds your available limit."
+        );
 
         return;
 
     }
 
+
+    /* --------------------------------------
+       CHECK ACTIVE LOAN
+    -------------------------------------- */
+
+    if (equityLoan.active) {
+
+        alert(
+            "You already have an active loan."
+        );
+
+        return;
+
+    }
+
+
+    /* --------------------------------------
+       VERIFY PIN
+    -------------------------------------- */
+
     const verify =
         verifyPIN(pin);
+
 
     if (!verify.success) {
 
@@ -109,9 +189,19 @@ function applyEquityLoan() {
 
     }
 
+
+    /* --------------------------------------
+       CREDIT ACCOUNT
+    -------------------------------------- */
+
     equityAccount.balance += amount;
 
     updateEquityBalance();
+
+
+    /* --------------------------------------
+       SAVE LOAN
+    -------------------------------------- */
 
     equityLoan.active = true;
 
@@ -119,33 +209,56 @@ function applyEquityLoan() {
 
     equityLoan.repaymentMonths = months;
 
+
     updateEquityLoanStatus();
 
-    const transaction = createTransaction({
 
-        bank: "EQUITY",
+    /* --------------------------------------
+       TRANSACTION
+    -------------------------------------- */
 
-        service: "LOAN",
+    const transaction =
+        createTransaction({
 
-        sender: "Equity Bank",
+            bank: "EQUITY",
 
-        recipient: equityAccount.accountNumber,
+            service: "LOAN",
 
-        amount,
+            sender: "Equity Bank",
 
-        fee: 0,
+            recipient:
+                equityAccount.accountNumber,
 
-        total: amount,
+            amount,
 
-        balance: equityAccount.balance
+            fee: 0,
 
-    });
+            total: amount,
 
-    saveBankTransaction(transaction);
+            balance:
+                equityAccount.balance
 
-    addStatement(transaction);
+        });
 
-    generateReceipt(transaction);
+
+    saveBankTransaction(
+        transaction
+    );
+
+
+    addStatement(
+        transaction
+    );
+
+
+    generateReceipt(
+        transaction
+    );
+
+
+    /* --------------------------------------
+       NOTIFICATION
+    -------------------------------------- */
 
     addBankNotification(
 
@@ -155,17 +268,44 @@ function applyEquityLoan() {
 
     );
 
+
+    /* --------------------------------------
+       REFRESH TRANSACTIONS
+    -------------------------------------- */
+
     loadEquityRecentTransactions();
 
-    document.getElementById("equityLoanAmount").value = "";
 
-    document.getElementById("equityLoanPIN").value = "";
+    /* --------------------------------------
+       RESET FORM
+    -------------------------------------- */
 
-    document.getElementById("equityLoanMonths").selectedIndex = 0;
+    document.getElementById(
+        "equityLoanAmount"
+    ).value = "";
 
-    showScreen("kcbReceipt");
+
+    document.getElementById(
+        "equityLoanPIN"
+    ).value = "";
+
+
+    document.getElementById(
+        "equityLoanMonths"
+    ).selectedIndex = 0;
+
+
+    /* --------------------------------------
+       RECEIPT
+    -------------------------------------- */
+
+    showScreen(
+        "kcbReceipt"
+    );
 
 }
+
+
 /* ==========================================
    REPAY LOAN
 ========================================== */
@@ -174,37 +314,57 @@ function repayEquityLoan() {
 
     if (!equityLoan.active) {
 
-        alert("No active loan.");
+        alert(
+            "No active loan."
+        );
 
         return;
 
     }
 
-    const amount = Number(
 
-        prompt("Enter repayment amount")
+    const amount =
+        Number(
+            prompt(
+                "Enter repayment amount"
+            )
+        );
 
-    );
 
     if (amount <= 0) {
 
-        alert("Invalid amount.");
+        alert(
+            "Invalid repayment amount."
+        );
 
         return;
 
     }
+
 
     if (amount > equityAccount.balance) {
 
-        alert("Insufficient Balance.");
+        alert(
+            "Insufficient balance."
+        );
 
         return;
 
     }
+
+
+    /* --------------------------------------
+       REPAY
+    -------------------------------------- */
 
     equityAccount.balance -= amount;
 
     equityLoan.balance -= amount;
+
+
+    /* --------------------------------------
+       CHECK COMPLETION
+    -------------------------------------- */
 
     if (equityLoan.balance <= 0) {
 
@@ -214,35 +374,59 @@ function repayEquityLoan() {
 
     }
 
+
     updateEquityBalance();
 
     updateEquityLoanStatus();
 
-    const transaction = createTransaction({
 
-        bank: "EQUITY",
+    /* --------------------------------------
+       TRANSACTION
+    -------------------------------------- */
 
-        service: "LOAN REPAYMENT",
+    const transaction =
+        createTransaction({
 
-        sender: equityAccount.accountNumber,
+            bank: "EQUITY",
 
-        recipient: "Equity Bank",
+            service: "LOAN REPAYMENT",
 
-        amount,
+            sender:
+                equityAccount.accountNumber,
 
-        fee: 0,
+            recipient:
+                "Equity Bank",
 
-        total: amount,
+            amount,
 
-        balance: equityAccount.balance
+            fee: 0,
 
-    });
+            total: amount,
 
-    saveBankTransaction(transaction);
+            balance:
+                equityAccount.balance
 
-    addStatement(transaction);
+        });
 
-    generateReceipt(transaction);
+
+    saveBankTransaction(
+        transaction
+    );
+
+
+    addStatement(
+        transaction
+    );
+
+
+    generateReceipt(
+        transaction
+    );
+
+
+    /* --------------------------------------
+       NOTIFICATION
+    -------------------------------------- */
 
     addBankNotification(
 
@@ -252,9 +436,15 @@ function repayEquityLoan() {
 
     );
 
+
+    /* --------------------------------------
+       REFRESH
+    -------------------------------------- */
+
     loadEquityRecentTransactions();
 
 }
+
 
 /* ==========================================
    LOAN HISTORY
@@ -262,29 +452,36 @@ function repayEquityLoan() {
 
 function loadEquityLoanHistory() {
 
-    return getBankStatements("EQUITY")
+    return getBankStatements(
+        "EQUITY"
+    ).filter(
 
-        .filter(item =>
-
+        item =>
             item.service === "LOAN" ||
-
             item.service === "LOAN REPAYMENT"
 
-        );
+    );
 
 }
+
 
 /* ==========================================
    LOAN CALCULATOR
 ========================================== */
 
-function calculateEquityLoan(months, amount) {
+function calculateEquityLoan(
+    months,
+    amount
+) {
 
     const rate = 0.09;
 
-    const interest = amount * rate;
+    const interest =
+        amount * rate;
 
-    const total = amount + interest;
+    const total =
+        amount + interest;
+
 
     return {
 
@@ -292,11 +489,15 @@ function calculateEquityLoan(months, amount) {
 
         total,
 
-        monthly: total / months
+        monthly:
+            months > 0
+                ? total / months
+                : 0
 
     };
 
 }
+
 
 /* ==========================================
    CHECK ELIGIBILITY
@@ -308,11 +509,14 @@ function checkEquityLoanEligibility() {
 
         "Eligible Loan Limit\n\n" +
 
-        formatMoney(equityLoan.limit)
+        formatMoney(
+            equityLoan.limit
+        )
 
     );
 
 }
+
 
 /* ==========================================
    REFRESH
@@ -326,12 +530,53 @@ function refreshEquityLoans() {
 
 }
 
+
+/* ==========================================
+   GET EQUITY LOAN
+========================================== */
+
+function getEquityLoan() {
+
+    return equityLoan;
+
+}
+
+
 /* ==========================================
    EXPORTS
 ========================================== */
 
-window.repayEquityLoan = repayEquityLoan;
-window.loadEquityLoanHistory = loadEquityLoanHistory;
-window.calculateEquityLoan = calculateEquityLoan;
-window.checkEquityLoanEligibility = checkEquityLoanEligibility;
-window.refreshEquityLoans = refreshEquityLoans;
+window.openEquityLoans =
+    openEquityLoans;
+
+window.updateEquityLoanStatus =
+    updateEquityLoanStatus;
+
+window.updateEquityLoanLimit =
+    updateEquityLoanLimit;
+
+window.applyEquityLoan =
+    applyEquityLoan;
+
+window.repayEquityLoan =
+    repayEquityLoan;
+
+window.loadEquityLoanHistory =
+    loadEquityLoanHistory;
+
+window.calculateEquityLoan =
+    calculateEquityLoan;
+
+window.checkEquityLoanEligibility =
+    checkEquityLoanEligibility;
+
+window.refreshEquityLoans =
+    refreshEquityLoans;
+
+window.getEquityLoan =
+    getEquityLoan;
+
+
+console.log(
+    "✅ Equity Loans Module Loaded"
+);
