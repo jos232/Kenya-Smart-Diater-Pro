@@ -49,6 +49,7 @@
     <link rel="stylesheet" href="css/kcb.css">
     <link rel="stylesheet" href="css/equity.css">
     <link rel="stylesheet" href="css/offers.css">
+    <link rel="stylesheet" href="css/mpesa.css">
 
 
 </head>
@@ -2505,57 +2506,47 @@
 
                 <section id="mpesaDashboard" class="screen">
 
+                    <!-- HEADER -->
+
                     <div class="screen-header">
 
-                        <button class="back-btn" onclick="showScreen('financialServices')">
+                        <button class="back-btn" onclick="showScreen('financialServices')" type="button">
+
                             ←
+
                         </button>
 
                         <div>
-                            <h2>💚 M-Pesa</h2>
-                            <p>Mobile Money Services</p>
+
+                            <h2>M-PESA</h2>
+
+                            <small>Mobile Money</small>
+
                         </div>
 
                     </div>
 
 
-                    <!-- ==========================================
-                         M-PESA ACCOUNT CARD
-                    ========================================== -->
+                    <!-- BALANCE -->
 
-                    <div class="mpesa-account-card">
+                    <div class="mpesa-balance-card">
 
-                        <div class="mpesa-account-header">
-
-                            <div class="mpesa-logo-circle">
-                                M
-                            </div>
-
-                            <div>
-                                <h3>M-Pesa</h3>
-                                <p>Mobile Money Account</p>
-                            </div>
-
+                        <div class="mpesa-balance-label">
+                            M-PESA Balance
                         </div>
 
+                        <strong id="mpesaDashboardBalance">
+                            KSh 0.00
+                        </strong>
 
-                        <div class="mpesa-balance-section">
-
-                            <span>Available Balance</span>
-
-                            <strong id="mpesaBalance">
-                                KSh 0.00
-                            </strong>
-
-                        </div>
-
-
-                        <div class="mpesa-account-status">
-
-                            <span class="status-dot"></span>
+                        <div class="mpesa-account-info">
 
                             <span>
-                                Account Active
+                                Safaricom M-PESA
+                            </span>
+
+                            <span>
+                                Available
                             </span>
 
                         </div>
@@ -2563,24 +2554,21 @@
                     </div>
 
 
-                    <!-- ==========================================
-                         QUICK ACTIONS
-                    ========================================== -->
+                    <!-- QUICK ACTIONS -->
 
-                    <div class="mpesa-section">
+                    <div class="mpesa-actions">
 
-                        <h3 class="mpesa-section-title">
-                            Quick Actions
+                        <h3 class="mpesa-actions-title">
+                            M-PESA Services
                         </h3>
 
 
                         <div class="mpesa-actions-grid">
 
-
-                            <button class="mpesa-action-card" onclick="openMpesaSendMoney()">
+                            <button class="mpesa-action-card" onclick="openMpesaSendMoney()" type="button">
 
                                 <div class="mpesa-action-icon">
-                                    💸
+                                    ↗
                                 </div>
 
                                 <span>
@@ -2590,20 +2578,20 @@
                             </button>
 
 
-                            <button class="mpesa-action-card" onclick="openMpesaReceiveMoney()">
+                            <button class="mpesa-action-card" onclick="openMpesaReceiveMoney()" type="button">
 
                                 <div class="mpesa-action-icon">
-                                    💰
+                                    ↓
                                 </div>
 
                                 <span>
-                                    Receive Money
+                                    Receive
                                 </span>
 
                             </button>
 
 
-                            <button class="mpesa-action-card" onclick="openMpesaAirtime()">
+                            <button class="mpesa-action-card" onclick="openMpesaAirtime()" type="button">
 
                                 <div class="mpesa-action-icon">
                                     📱
@@ -2616,7 +2604,7 @@
                             </button>
 
 
-                            <button class="mpesa-action-card" onclick="openMpesaPayBill()">
+                            <button class="mpesa-action-card" onclick="openMpesaPayBill()" type="button">
 
                                 <div class="mpesa-action-icon">
                                     🧾
@@ -2629,7 +2617,7 @@
                             </button>
 
 
-                            <button class="mpesa-action-card" onclick="openMpesaBuyGoods()">
+                            <button class="mpesa-action-card" onclick="openMpesaBuyGoods()" type="button">
 
                                 <div class="mpesa-action-icon">
                                     🛒
@@ -2642,7 +2630,7 @@
                             </button>
 
 
-                            <button class="mpesa-action-card" onclick="openMpesaTransactions()">
+                            <button class="mpesa-action-card" onclick="openMpesaTransactions()" type="button">
 
                                 <div class="mpesa-action-icon">
                                     📊
@@ -2655,7 +2643,7 @@
                             </button>
 
 
-                            <button class="mpesa-action-card" onclick="openMpesaStatement()">
+                            <button class="mpesa-action-card" onclick="openMpesaStatement()" type="button">
 
                                 <div class="mpesa-action-icon">
                                     📄
@@ -2668,10 +2656,10 @@
                             </button>
 
 
-                            <button class="mpesa-action-card" onclick="openMpesaSettings()">
+                            <button class="mpesa-action-card" onclick="openMpesaSettings()" type="button">
 
                                 <div class="mpesa-action-icon">
-                                    ⚙️
+                                    ⚙
                                 </div>
 
                                 <span>
@@ -2685,9 +2673,7 @@
                     </div>
 
 
-                    <!-- ==========================================
-                         RECENT TRANSACTIONS
-                    ========================================== -->
+                    <!-- RECENT TRANSACTIONS -->
 
                     <div class="mpesa-section">
 
@@ -2697,8 +2683,10 @@
                                 Recent Transactions
                             </h3>
 
-                            <button class="mpesa-view-all" onclick="openMpesaTransactions()">
+                            <button class="mpesa-view-all" onclick="openMpesaTransactions()" type="button">
+
                                 View All
+
                             </button>
 
                         </div>
@@ -2723,9 +2711,7 @@
                     </div>
 
 
-                    <!-- ==========================================
-                         SECURITY
-                    ========================================== -->
+                    <!-- SECURITY -->
 
                     <div class="mpesa-security-card">
 
@@ -2735,19 +2721,21 @@
 
                         <div class="security-content">
 
-                            <h3>
-                                M-Pesa Security
-                            </h3>
+                            <strong>
+                                M-PESA Security
+                            </strong>
 
                             <p>
-                                Keep your M-Pesa account secure
+                                Keep your M-PESA account secure
                                 and manage your security settings.
                             </p>
 
                         </div>
 
-                        <button class="security-btn" onclick="openMpesaSecurity()">
+                        <button class="security-btn" onclick="openMpesaSecurity()" type="button">
+
                             Manage
+
                         </button>
 
                     </div>
@@ -5851,6 +5839,7 @@
         <script src="js/services.js"></script>
         <script src="js/financial.js"></script>
         <script src="js/mpesa.js"></script>
+        <script src="/js/receiveMoney.js"></script>
         <script src="js/history.js"></script>
         <script src="js/app.js"></script>
         <script src="js/bank.js"></script>

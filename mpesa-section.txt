@@ -1,0 +1,250 @@
+
+                <section id="mpesaDashboard" class="screen">
+
+                    <!-- HEADER -->
+
+                    <div class="screen-header">
+
+                        <button class="back-btn" onclick="showScreen('financialServices')" type="button">
+
+                            ←
+
+                        </button>
+
+                        <div>
+
+                            <h2>M-PESA</h2>
+
+                            <small>Mobile Money</small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BALANCE -->
+
+                    <div class="mpesa-balance-card">
+
+                        <div class="mpesa-balance-label">
+                            M-PESA Balance
+                        </div>
+
+                        <strong id="mpesaDashboardBalance">
+                            KSh 0.00
+                        </strong>
+
+                        <div class="mpesa-account-info">
+
+                            <span>
+                                Safaricom M-PESA
+                            </span>
+
+                            <span>
+                                Available
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUICK ACTIONS -->
+
+                    <div class="mpesa-actions">
+
+                        <h3 class="mpesa-actions-title">
+                            M-PESA Services
+                        </h3>
+
+
+                        <div class="mpesa-actions-grid">
+
+                            <button class="mpesa-action-card" onclick="openMpesaSendMoney()" type="button">
+
+                                <div class="mpesa-action-icon">
+                                    ↗
+                                </div>
+
+                                <span>
+                                    Send Money
+                                </span>
+
+                            </button>
+
+
+                            <button class="mpesa-action-card" onclick="openMpesaReceiveMoney()" type="button">
+
+                                <div class="mpesa-action-icon">
+                                    ↓
+                                </div>
+
+                                <span>
+                                    Receive
+                                </span>
+
+                            </button>
+
+
+                            <button class="mpesa-action-card" onclick="openMpesaAirtime()" type="button">
+
+                                <div class="mpesa-action-icon">
+                                    📱
+                                </div>
+
+                                <span>
+                                    Airtime
+                                </span>
+
+                            </button>
+
+
+                            <button class="mpesa-action-card" onclick="openMpesaPayBill()" type="button">
+
+                                <div class="mpesa-action-icon">
+                                    🧾
+                                </div>
+
+                                <span>
+                                    Pay Bill
+                                </span>
+
+                            </button>
+
+
+                            <button class="mpesa-action-card" onclick="openMpesaBuyGoods()" type="button">
+
+                                <div class="mpesa-action-icon">
+                                    🛒
+                                </div>
+
+                                <span>
+                                    Buy Goods
+                                </span>
+
+                            </button>
+
+
+                            <button class="mpesa-action-card" onclick="openMpesaTransactions()" type="button">
+
+                                <div class="mpesa-action-icon">
+                                    📊
+                                </div>
+
+                                <span>
+                                    Transactions
+                                </span>
+
+                            </button>
+
+
+                            <button class="mpesa-action-card" onclick="openMpesaStatement()" type="button">
+
+                                <div class="mpesa-action-icon">
+                                    📄
+                                </div>
+
+                                <span>
+                                    Statement
+                                </span>
+
+                            </button>
+
+
+                            <button class="mpesa-action-card" onclick="openMpesaSettings()" type="button">
+
+                                <div class="mpesa-action-icon">
+                                    ⚙
+                                </div>
+
+                                <span>
+                                    Settings
+                                </span>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RECENT TRANSACTIONS -->
+
+                    <div class="mpesa-section">
+
+                        <div class="mpesa-section-heading">
+
+                            <h3 class="mpesa-section-title">
+                                Recent Transactions
+                            </h3>
+
+                            <button class="mpesa-view-all" onclick="openMpesaTransactions()" type="button">
+
+                                View All
+
+                            </button>
+
+                        </div>
+
+
+                        <div id="mpesaRecentTransactions" class="mpesa-transactions-list">
+
+                            <div class="mpesa-empty-state">
+
+                                <div class="empty-icon">
+                                    📊
+                                </div>
+
+                                <p>
+                                    No transactions yet
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SECURITY -->
+
+                    <div class="mpesa-security-card">
+
+                        <div class="security-icon">
+                            🔐
+                        </div>
+
+                        <div class="security-content">
+
+                            <strong>
+                                M-PESA Security
+                            </strong>
+
+                            <p>
+                                Keep your M-PESA account secure
+                                and manage your security settings.
+                            </p>
+
+                        </div>
+
+                        <button class="security-btn" onclick="openMpesaSecurity()" type="button">
+
+                            Manage
+
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ==========================================
+                     END M-PESA DASHBOARD
+                ========================================== -->
+
+                <!-- ==========================================
+                 KCB DASHBOARD
+                 ========================================== -->
+
+                <section id="kcbDashboard" class="screen">
+

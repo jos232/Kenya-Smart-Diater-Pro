@@ -48,6 +48,40 @@ const FinancialProfileSchema = new mongoose.Schema({
     },
 
     /* ==========================================
+   M-PESA
+========================================== */
+
+    mpesa: {
+
+        phoneNumber: {
+
+            type: String,
+
+            default: ""
+
+        },
+
+        accountNumber: {
+
+            type: String,
+
+            default: ""
+
+        },
+
+        balance: {
+
+            type: Number,
+
+            default: 0,
+
+            min: 0
+
+        }
+
+    },
+
+    /* ==========================================
        BANK ACCOUNTS
     ========================================== */
 

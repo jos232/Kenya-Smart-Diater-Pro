@@ -100,6 +100,8 @@ exports.getBalances = async (req, res) => {
 
             balances: {
 
+                mpesa:
+                    profile.mpesa.balance,
                 wallet:
                     profile.wallet.balance,
 
@@ -218,6 +220,110 @@ exports.updateWallet = async (req, res) => {
 
             message:
                 "Failed to update wallet.",
+
+            error: error.message
+
+        });
+
+    }
+
+};
+
+/* ==========================================
+   UPDATE M-PESA
+========================================== */
+
+exports.updateMpesa = async (req, res) => {
+
+    try {
+
+        const {
+            phoneNumber,
+            accountNumber,
+            balance
+        } = req.body;
+
+        if (
+            balance === undefined ||
+            balance === null ||
+            Number(balance) < 0
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "A valid M-Pesa balance is required."
+
+            });
+
+        }
+
+        const profile =
+            await FinancialProfile.findOne({
+                user: req.user.userId
+            });
+
+        if (!profile) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message:
+                    "Financial profile not found."
+
+            });
+
+        }
+
+        if (phoneNumber !== undefined) {
+
+            profile.mpesa.phoneNumber =
+                String(phoneNumber);
+
+        }
+
+        if (accountNumber !== undefined) {
+
+            profile.mpesa.accountNumber =
+                String(accountNumber);
+
+        }
+
+        profile.mpesa.balance =
+            Number(balance);
+
+        await profile.save();
+
+        return res.status(200).json({
+
+            success: true,
+
+            message:
+                "M-Pesa information updated successfully.",
+
+            mpesa:
+                profile.mpesa
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Update M-Pesa:",
+            error
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                "Failed to update M-Pesa information.",
 
             error: error.message
 
@@ -372,6 +478,19 @@ exports.getAccountInformation = async (
 
             accounts: {
 
+                mpesa: {
+
+                    phoneNumber:
+                        profile.mpesa.phoneNumber,
+
+                    accountNumber:
+                        profile.mpesa.accountNumber,
+
+                    balance:
+                        profile.mpesa.balance
+
+                },
+
                 kcb: {
 
                     accountNumber:
@@ -405,13 +524,9 @@ exports.getAccountInformation = async (
             },
 
             loans: {
-
-                limit:
-                    profile.loans.limit,
-
-                outstanding:
-                    profile.loans.outstanding
-
+                limit: profile.loans.limit,
+                outstanding: profile.loans.outstanding,
+                approved: profile.loans.approved
             }
 
         });

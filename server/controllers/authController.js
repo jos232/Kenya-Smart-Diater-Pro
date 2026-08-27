@@ -229,6 +229,21 @@ exports.register = async (req, res) => {
 
                 },
 
+                /* ------------------------------
+     M-PESA
+  ------------------------------ */
+
+                mpesa: {
+
+                    phoneNumber: phone,
+
+                    accountNumber:
+                        generateAccountNumber("MPESA"),
+
+                    balance: 0
+
+                },
+
 
                 /* ------------------------------
                    BANK ACCOUNTS
@@ -390,6 +405,9 @@ exports.register = async (req, res) => {
 
                 wallet:
                     financialProfile.wallet,
+
+                mpesa:
+                    financialProfile.mpesa,
 
                 banks:
                     financialProfile.banks,

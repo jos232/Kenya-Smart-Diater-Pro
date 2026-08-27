@@ -235,12 +235,24 @@ app.get(
 app.use(
    (req, res) => {
 
+      console.log(
+         "❌ API Route Not Found:",
+         req.method,
+         req.originalUrl
+      );
+
       res.status(404).json({
 
          success: false,
 
          message:
-            "API Route Not Found"
+            "API Route Not Found",
+
+         method:
+            req.method,
+
+         path:
+            req.originalUrl
 
       });
 

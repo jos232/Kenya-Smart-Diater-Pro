@@ -62,9 +62,9 @@ async function initializeLoans() {
     try {
 
         /*
-         * First load the real financial profile.
-         * This supplies the customer's actual
-         * approved loan limit.
+         * Load the real financial profile first.
+         * This provides the customer's current
+         * financial information.
          */
 
         if (typeof loadFinancialProfile === "function") {
@@ -81,11 +81,69 @@ async function initializeLoans() {
 
         }
 
+
         /*
-         * Then load actual loan history.
+         * Load the real loan history.
          */
 
         await loadLoanHistory();
+
+
+        /*
+         * Load the real loan eligibility.
+         *
+         * This is intentionally separate from
+         * the financial profile so the eligibility
+         * calculation comes from the backend.
+         */
+
+        try {
+
+            const eligibilityResponse =
+                await apiGet(
+                    LOAN_API + "/eligibility"
+                );
+
+            if (
+                eligibilityResponse &&
+                eligibilityResponse.success &&
+                eligibilityResponse.eligibility
+            ) {
+
+                const eligibility =
+                    eligibilityResponse.eligibility;
+
+                /*
+                 * Use the backend eligibility limit.
+                 */
+
+                kcbLoan.limit =
+                    Number(
+                        eligibility.loanLimit || 0
+                    );
+
+                console.log(
+                    "KCB Loan Eligibility Loaded:",
+                    eligibility
+                );
+
+            }
+
+        }
+
+        catch (eligibilityError) {
+
+            console.error(
+                "KCB Loan Eligibility Error:",
+                eligibilityError
+            );
+
+        }
+
+
+        /*
+         * Update the visible dashboard.
+         */
 
         updateLoanDashboard();
 

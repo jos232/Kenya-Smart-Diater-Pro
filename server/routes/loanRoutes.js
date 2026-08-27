@@ -7,23 +7,67 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 
 const {
-
     applyLoan,
-
     getLoans,
-
     repayLoan,
-
-    calculateLoan
-
+    calculateLoan,
+    getLoanEligibility
 } = require("../controllers/loanController");
 
-router.post("/apply", auth, applyLoan);
 
-router.post("/calculate", auth, calculateLoan);
+/* ==========================================
+   APPLY LOAN
+========================================== */
 
-router.get("/", auth, getLoans);
+router.post(
+    "/apply",
+    auth,
+    applyLoan
+);
 
-router.put("/repay/:id", auth, repayLoan);
+
+/* ==========================================
+   CALCULATE LOAN
+========================================== */
+
+router.post(
+    "/calculate",
+    auth,
+    calculateLoan
+);
+
+
+/* ==========================================
+   LOAN ELIGIBILITY
+========================================== */
+
+router.get(
+    "/eligibility",
+    auth,
+    getLoanEligibility
+);
+
+
+/* ==========================================
+   LOAN HISTORY
+========================================== */
+
+router.get(
+    "/",
+    auth,
+    getLoans
+);
+
+
+/* ==========================================
+   REPAY LOAN
+========================================== */
+
+router.put(
+    "/repay/:id",
+    auth,
+    repayLoan
+);
+
 
 module.exports = router;

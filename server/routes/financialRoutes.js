@@ -17,6 +17,7 @@ const {
    getBalances,
    getAccountInformation,
    updateWallet,
+   updateMpesa,
    updateBankBalance
 } = require(
    "../controllers/financialController"
@@ -64,6 +65,16 @@ router.put(
    "/wallet",
    auth,
    updateWallet
+);
+
+/* ==========================================
+   UPDATE M-PESA
+========================================== */
+
+router.put(
+   "/mpesa",
+   auth,
+   updateMpesa
 );
 
 

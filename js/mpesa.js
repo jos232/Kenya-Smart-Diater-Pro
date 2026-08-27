@@ -287,9 +287,8 @@ function previewTransfer() {
     );
 }
 
-
 /* ==========================================
-   PROCESS M-PESA TRANSACTION
+   PROCESS M-PESA SEND MONEY
 ========================================== */
 
 async function processMpesaTransfer(
@@ -300,10 +299,14 @@ async function processMpesaTransfer(
     try {
 
         console.log(
-            "💰 Processing M-Pesa transfer:",
+            "Processing M-Pesa Send Money:",
             transfer
         );
 
+
+        /* ==========================================
+           AUTHENTICATION
+        ========================================== */
 
         const token =
             localStorage.getItem("token") || "";
@@ -320,9 +323,13 @@ async function processMpesaTransfer(
         }
 
 
+        /* ==========================================
+           SEND REQUEST
+        ========================================== */
+
         const response =
             await fetch(
-                "/api/mpesa",
+                "/api/mpesa/send",
                 {
 
                     method: "POST",
@@ -339,43 +346,17 @@ async function processMpesaTransfer(
 
                     body: JSON.stringify({
 
-                        service:
-                            "SEND_MONEY",
-
-                        sender:
-                            "My M-Pesa",
-
                         recipient:
                             transfer.phone,
 
-                        reference:
-                            "MPESA-" +
-                            Date.now(),
+                        recipientName:
+                            transfer.name,
 
                         amount:
                             transfer.amount,
 
-                        fee:
-                            0,
-
-                        status:
-                            "SUCCESS",
-
-                        metadata: {
-
-                            recipientName:
-                                transfer.name,
-
-                            network:
-                                network,
-
-                            description:
-                                transfer.description || "",
-
-                            source:
-                                "Kenya Smart Dialer Pro"
-
-                        }
+                        description:
+                            transfer.description || ""
 
                     })
 
@@ -383,15 +364,23 @@ async function processMpesaTransfer(
             );
 
 
+        /* ==========================================
+           READ RESPONSE
+        ========================================== */
+
         const data =
             await response.json();
 
 
         console.log(
-            "M-PESA RESPONSE:",
+            "Send Money Response:",
             data
         );
 
+
+        /* ==========================================
+           HANDLE ERROR
+        ========================================== */
 
         if (
             !response.ok ||
@@ -399,48 +388,225 @@ async function processMpesaTransfer(
         ) {
 
             throw new Error(
+
                 data.message ||
-                "M-Pesa transaction failed"
+                "M-Pesa transfer failed."
+
             );
+
         }
 
 
+        /* ==========================================
+           SUCCESS
+        ========================================== */
+
         showMPesaToast(
-            "M-Pesa transfer completed successfully",
+
+            "Money sent successfully.",
+
             "success"
+
         );
 
 
-        clearTransferForm();
+        /* ==========================================
+           UPDATE BALANCE IMMEDIATELY
+        ========================================== */
+
+        updateMpesaBalanceDisplay(
+            data.balance
+        );
 
 
-        console.log(
-            "✅ M-Pesa transfer recorded:",
+        /* ==========================================
+           SHOW RECEIPT
+        ========================================== */
+
+        showSendMoneyReceipt(
             data.transaction
         );
 
 
+        /* ==========================================
+           CLEAR FORM
+        ========================================== */
+
+        clearTransferForm();
+
+
+        /* ==========================================
+           REFRESH DASHBOARD
+        ========================================== */
+
+        if (
+            typeof loadMpesaDashboard ===
+            "function"
+        ) {
+
+            loadMpesaDashboard();
+
+        }
+
+
         return data;
 
-
     }
+
     catch (error) {
 
         console.error(
-            "❌ M-Pesa transfer error:",
+            "M-Pesa Send Money Error:",
             error
         );
 
 
         showMPesaToast(
+
             error.message ||
-            "Unable to process M-Pesa transfer",
+            "Unable to send M-Pesa money.",
+
             "error"
+
         );
 
 
         return null;
+
     }
+
+}
+
+/* ==========================================
+   UPDATE M-PESA BALANCE DISPLAY
+========================================== */
+
+function updateMpesaBalanceDisplay(
+    balance
+) {
+
+    const balanceElements = [
+
+        document.getElementById(
+            "mpesaBalance"
+        ),
+
+        document.getElementById(
+            "mpesaDashboardBalance"
+        )
+
+    ];
+
+
+    balanceElements.forEach(
+        element => {
+
+            if (!element) {
+                return;
+            }
+
+
+            const numericBalance =
+                Number(balance) || 0;
+
+
+            element.textContent =
+                "KSh " +
+                numericBalance.toLocaleString(
+                    "en-KE",
+                    {
+
+                        minimumFractionDigits:
+                            2,
+
+                        maximumFractionDigits:
+                            2
+
+                    }
+                );
+
+        }
+    );
+
+
+    console.log(
+        "M-Pesa balance updated:",
+        balance
+    );
+
+}
+
+/* ==========================================
+   SEND MONEY RECEIPT
+========================================== */
+
+function showSendMoneyReceipt(
+    transaction
+) {
+
+    if (!transaction) {
+        return;
+    }
+
+
+    const recipient =
+        transaction.metadata?.recipientName ||
+        transaction.recipient ||
+        "Recipient";
+
+
+    const amount =
+        Number(
+            transaction.amount || 0
+        );
+
+
+    const balance =
+        Number(
+            transaction.balance || 0
+        );
+
+
+    const receipt =
+        transaction.receiptNumber ||
+        transaction.reference ||
+        "M-PESA";
+
+
+    const message =
+
+        "M-PESA PAYMENT SUCCESSFUL\n\n" +
+
+        "Recipient: " +
+        recipient +
+        "\n\n" +
+
+        "Amount: KSh " +
+        amount.toLocaleString(
+            "en-KE",
+            {
+                minimumFractionDigits: 2
+            }
+        ) +
+        "\n\n" +
+
+        "Receipt: " +
+        receipt +
+        "\n\n" +
+
+        "New Balance: KSh " +
+        balance.toLocaleString(
+            "en-KE",
+            {
+                minimumFractionDigits: 2
+            }
+        );
+
+
+    console.log(
+        message
+    );
+
 }
 
 
@@ -533,16 +699,12 @@ function openMpesaDashboard() {
 
 async function loadMpesaDashboard() {
 
-    console.log(
-        "💚 Loading M-Pesa Dashboard..."
-    );
-
+    console.log("💚 Loading M-Pesa Dashboard...");
 
     try {
 
         const token =
             localStorage.getItem("token") || "";
-
 
         if (!token) {
 
@@ -553,24 +715,18 @@ async function loadMpesaDashboard() {
             return;
         }
 
-
         const response =
             await fetch(
                 "/api/mpesa",
                 {
-
                     method: "GET",
 
                     headers: {
-
                         "Authorization":
                             `Bearer ${token}`
-
                     }
-
                 }
             );
-
 
         if (!response.ok) {
 
@@ -582,10 +738,8 @@ async function loadMpesaDashboard() {
             return;
         }
 
-
         const data =
             await response.json();
-
 
         console.log(
             "M-Pesa Dashboard API:",
@@ -593,12 +747,70 @@ async function loadMpesaDashboard() {
         );
 
 
+        /* ==========================================
+           REAL M-PESA BALANCE
+        ========================================== */
+
+        const transactions =
+            data?.transactions ||
+            data?.history ||
+            [];
+
+        let balance = 0;
+
+        if (
+            Array.isArray(transactions) &&
+            transactions.length > 0
+        ) {
+
+            const latestTransaction =
+                transactions[0];
+
+            balance =
+                Number(
+                    latestTransaction.balance || 0
+                );
+
+        }
+
+
+        /* ==========================================
+           DISPLAY BALANCE
+        ========================================== */
+
+        const balanceElement =
+            document.getElementById(
+                "mpesaBalance"
+            ) ||
+            document.getElementById(
+                "mpesaDashboardBalance"
+            );
+
+        if (balanceElement) {
+
+            balanceElement.textContent =
+                "KSh " +
+                balance.toLocaleString(
+                    "en-KE",
+                    {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }
+                );
+
+        }
+
+
+        /* ==========================================
+           RENDER TRANSACTIONS
+        ========================================== */
+
         renderMpesaTransactions(
             data
         );
 
-
     }
+
     catch (error) {
 
         console.error(
@@ -607,6 +819,7 @@ async function loadMpesaDashboard() {
         );
 
     }
+
 }
 
 
@@ -764,17 +977,18 @@ function openMpesaSendMoney() {
     }
 }
 
-
 /* ==========================================
    RECEIVE MONEY
 ========================================== */
 
 function openMpesaReceiveMoney() {
 
-    showMPesaToast(
-        "Receive Money feature will be connected next.",
-        "info"
+    console.log(
+        "💚 Opening Receive Money..."
     );
+
+    openReceiveMoney();
+
 }
 
 
@@ -884,6 +1098,12 @@ window.previewTransfer =
 
 window.processMpesaTransfer =
     processMpesaTransfer;
+
+window.updateMpesaBalanceDisplay =
+    updateMpesaBalanceDisplay;
+
+window.showSendMoneyReceipt =
+    showSendMoneyReceipt;
 
 window.clearTransferForm =
     clearTransferForm;
