@@ -11,19 +11,20 @@
 
 let equityAccount = {
 
-    holder: "Joshua Nkario",
+    holder: "",
 
-    accountNumber: "0123456789",
+    accountNumber: "",
 
     accountType: "Savings Account",
 
     branch: "Nakuru Branch",
 
-    balance: 75000.00,
+    balance: 0,
 
     currency: "KES"
 
 };
+
 
 /* ==========================
    LOAD DASHBOARD
@@ -38,6 +39,7 @@ function loadEquityDashboard() {
     loadEquityRecentTransactions();
 
 }
+
 
 /* ==========================
    UPDATE BALANCE
@@ -55,6 +57,7 @@ function updateEquityBalance() {
 
 }
 
+
 /* ==========================
    UPDATE ACCOUNT
 ========================== */
@@ -67,9 +70,11 @@ function updateEquityAccount() {
     const account =
         document.getElementById("equityAccountNumber");
 
+
     if (holder)
         holder.textContent =
             equityAccount.holder;
+
 
     if (account)
         account.textContent =
@@ -78,6 +83,7 @@ function updateEquityAccount() {
 
 }
 
+
 /* ==========================
    RECENT TRANSACTIONS
 ========================== */
@@ -85,12 +91,16 @@ function updateEquityAccount() {
 function loadEquityRecentTransactions() {
 
     const container =
-        document.getElementById("equityRecentTransactions");
+        document.getElementById(
+            "equityRecentTransactions"
+        );
 
     if (!container) return;
 
+
     const transactions =
         getBankStatements("EQUITY");
+
 
     if (transactions.length === 0) {
 
@@ -100,13 +110,16 @@ function loadEquityRecentTransactions() {
 
             <div class="transaction-empty-icon">
 
-                📄
+                💳
 
             </div>
 
             <h3>No Recent Transactions</h3>
 
-            <p>Your latest Equity transactions will appear here.</p>
+            <p>
+                Your latest Equity transactions
+                will appear here.
+            </p>
 
         </div>
 
@@ -116,7 +129,9 @@ function loadEquityRecentTransactions() {
 
     }
 
+
     container.innerHTML = "";
+
 
     transactions
         .slice(0, 5)
@@ -128,9 +143,13 @@ function loadEquityRecentTransactions() {
 
                 <div>
 
-                    <strong>${item.service}</strong>
+                    <strong>
+                        ${item.service}
+                    </strong>
 
-                    <small>${item.date}</small>
+                    <small>
+                        ${item.date}
+                    </small>
 
                 </div>
 
@@ -147,6 +166,8 @@ function loadEquityRecentTransactions() {
         });
 
 }
+
+
 /* ==========================================
    OPEN EQUITY DASHBOARD
 ========================================== */
@@ -158,8 +179,10 @@ function showEquityDashboard() {
     loadUserEquityProfile();
 
 }
+
+
 /* ==========================================
-   LOAD USER PROFILE
+   LOAD USER EQUITY PROFILE
 ========================================== */
 
 async function loadUserEquityProfile() {
@@ -168,6 +191,7 @@ async function loadUserEquityProfile() {
 
         const data =
             await apiGet("/financial/profile");
+
 
         if (!data.success) {
 
@@ -180,11 +204,44 @@ async function loadUserEquityProfile() {
 
         }
 
-        equityAccount.balance =
-            data.profile.banks.equity.balance;
 
-        equityAccount.accountNumber =
-            data.profile.banks.equity.accountNumber;
+        const profile =
+            data.profile ||
+            data.financialProfile;
+
+
+        /* ==========================
+           USER NAME
+        ========================== */
+
+        equityAccount.holder =
+            data.user?.fullName ||
+            localStorage.getItem("userName") ||
+            "";
+
+
+        /* ==========================
+           EQUITY ACCOUNT
+        ========================== */
+
+        if (
+            profile &&
+            profile.banks &&
+            profile.banks.equity
+        ) {
+
+            equityAccount.balance =
+                Number(
+                    profile.banks.equity.balance || 0
+                );
+
+
+            equityAccount.accountNumber =
+                profile.banks.equity.accountNumber ||
+                "";
+
+        }
+
 
         updateEquityBalance();
 
@@ -203,6 +260,7 @@ async function loadUserEquityProfile() {
 
 }
 
+
 /* ==========================================
    ACCOUNT SUMMARY
 ========================================== */
@@ -213,17 +271,24 @@ function showEquitySummary() {
 
         "EQUITY ACCOUNT\n\n" +
 
-        "Holder: " + equityAccount.holder +
+        "Holder: " +
+        equityAccount.holder +
 
-        "\nAccount: " + equityAccount.accountNumber +
+        "\nAccount: " +
+        equityAccount.accountNumber +
 
-        "\nType: " + equityAccount.accountType +
+        "\nType: " +
+        equityAccount.accountType +
 
-        "\nBalance: " + formatMoney(equityAccount.balance)
+        "\nBalance: " +
+        formatMoney(
+            equityAccount.balance
+        )
 
     );
 
 }
+
 
 /* ==========================================
    REFRESH DASHBOARD
@@ -245,6 +310,7 @@ function refreshEquityDashboard() {
 
 }
 
+
 /* ==========================================
    QUICK BALANCE
 ========================================== */
@@ -255,18 +321,30 @@ function quickEquityBalance() {
 
         "Available Balance\n\n" +
 
-        formatMoney(equityAccount.balance)
+        formatMoney(
+            equityAccount.balance
+        )
 
     );
 
 }
 
+
 /* ==========================================
    EXPORT FUNCTIONS
 ========================================== */
 
-window.showEquityDashboard = showEquityDashboard;
-window.loadUserEquityProfile = loadUserEquityProfile;
-window.refreshEquityDashboard = refreshEquityDashboard;
-window.quickEquityBalance = quickEquityBalance;
-window.showEquitySummary = showEquitySummary;
+window.showEquityDashboard =
+    showEquityDashboard;
+
+window.loadUserEquityProfile =
+    loadUserEquityProfile;
+
+window.refreshEquityDashboard =
+    refreshEquityDashboard;
+
+window.quickEquityBalance =
+    quickEquityBalance;
+
+window.showEquitySummary =
+    showEquitySummary;

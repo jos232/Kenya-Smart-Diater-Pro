@@ -17,11 +17,13 @@ exports.getProfile = async (req, res) => {
 
     try {
 
-        const profile =
-            await FinancialProfile.findOne({
-                user: req.user.userId
-            });
-
+       const profile =
+    await FinancialProfile.findOne({
+        user: req.user.userId
+    }).populate(
+        "user",
+        "name fullName username"
+    );
         if (!profile) {
 
             return res.status(404).json({

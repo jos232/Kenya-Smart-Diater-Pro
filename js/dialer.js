@@ -11,6 +11,10 @@
 
 const Dialer = {
 
+    /* ==========================
+       CALL STATE
+    ========================== */
+
     isCalling: false,
 
     muted: false,
@@ -29,7 +33,27 @@ const Dialer = {
 
     heldCall: null,
 
-    waitingCall: null
+    waitingCall: null,
+
+
+    /* ==========================
+       CURRENT DIALER DATA
+    ========================== */
+
+    currentNumber: "",
+
+    currentContact: null,
+
+    currentNetwork: "Unknown Network",
+
+
+    /* ==========================
+       USSD STATE
+    ========================== */
+
+    ussdCode: "",
+
+    isUSSD: false
 
 };
 

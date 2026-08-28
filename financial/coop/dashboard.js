@@ -11,15 +11,15 @@
 
 let coopAccount = {
 
-    holder: "Joshua Nkario",
+    holder: "",
 
-    accountNumber: "011234567890",
+    accountNumber: "",
 
     accountType: "Current Account",
 
-    branch: "Nakuru Branch",
+    branch: "",
 
-    balance: 50000.00,
+    balance: 0,
 
     currency: "KES"
 
@@ -29,15 +29,94 @@ let coopAccount = {
    LOAD DASHBOARD
 ========================== */
 
-function loadCoopDashboard() {
+async function loadCoopDashboard() {
 
-    updateCoopBalance();
+    try {
 
-    updateCoopAccount();
+        const data =
+            await apiGet("/financial/profile");
 
-    loadCoopRecentTransactions();
+        if (!data.success) {
+
+            console.error(
+                "Co-op Profile:",
+                data.message
+            );
+
+            return;
+
+        }
+
+        const profile =
+            data.profile;
+
+        /* ==========================
+           USER NAME
+        ========================== */
+
+        if (profile.user) {
+
+            if (typeof profile.user === "object") {
+
+                coopAccount.holder =
+                    profile.user.name ||
+                    profile.user.fullName ||
+                    profile.user.username ||
+                    "Customer";
+
+            }
+
+        }
+
+        /* ==========================
+           CO-OP ACCOUNT
+        ========================== */
+
+        if (
+            profile.banks &&
+            profile.banks.coop
+        ) {
+
+            const coop =
+                profile.banks.coop;
+
+            coopAccount.accountNumber =
+                coop.accountNumber || "";
+
+            coopAccount.balance =
+                Number(coop.balance || 0);
+
+        }
+
+        /* ==========================
+           UPDATE UI
+        ========================== */
+
+        updateCoopBalance();
+
+        updateCoopAccount();
+
+        loadCoopRecentTransactions();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Co-op Profile Error:",
+            error
+        );
+
+        updateCoopBalance();
+
+        updateCoopAccount();
+
+        loadCoopRecentTransactions();
+
+    }
 
 }
+
 
 /* ==========================
    UPDATE BALANCE
@@ -55,6 +134,7 @@ function updateCoopBalance() {
 
 }
 
+
 /* ==========================
    ACCOUNT DETAILS
 ========================== */
@@ -70,19 +150,23 @@ function updateCoopAccount() {
     const holder =
         document.getElementById("coopHolder");
 
+
     if (number)
         number.textContent =
             coopAccount.accountNumber;
 
+
     if (type)
         type.textContent =
             coopAccount.accountType;
+
 
     if (holder)
         holder.textContent =
             coopAccount.holder;
 
 }
+
 
 /* ==========================
    RECENT TRANSACTIONS
@@ -91,12 +175,16 @@ function updateCoopAccount() {
 function loadCoopRecentTransactions() {
 
     const container =
-        document.getElementById("coopRecentTransactions");
+        document.getElementById(
+            "coopRecentTransactions"
+        );
 
     if (!container) return;
 
+
     const transactions =
         getBankStatements("CO-OP");
+
 
     if (transactions.length === 0) {
 
@@ -106,7 +194,7 @@ function loadCoopRecentTransactions() {
 
             <div class="transaction-empty-icon">
 
-                📄
+                💳
 
             </div>
 
@@ -114,7 +202,8 @@ function loadCoopRecentTransactions() {
 
             <p>
 
-                Your latest banking transactions will appear here automatically.
+                Your latest banking transactions
+                will appear here automatically.
 
             </p>
 
@@ -126,19 +215,27 @@ function loadCoopRecentTransactions() {
 
     }
 
+
     container.innerHTML = "";
 
-    transactions.slice(0, 5).forEach(item => {
 
-        container.innerHTML += `
+    transactions
+        .slice(0, 5)
+        .forEach(item => {
+
+            container.innerHTML += `
 
         <div class="transaction-card">
 
             <div class="transaction-info">
 
-                <strong>${item.service}</strong>
+                <strong>
+                    ${item.service}
+                </strong>
 
-                <small>${item.date}</small>
+                <small>
+                    ${item.date}
+                </small>
 
             </div>
 
@@ -152,16 +249,26 @@ function loadCoopRecentTransactions() {
 
         `;
 
-    });
+        });
 
 }
+
+
 /* ==========================================
    EXPORTS
 ========================================== */
 
-window.coopAccount = coopAccount;
+window.coopAccount =
+    coopAccount;
 
-window.loadCoopDashboard = loadCoopDashboard;
-window.updateCoopBalance = updateCoopBalance;
-window.updateCoopAccount = updateCoopAccount;
-window.loadCoopRecentTransactions = loadCoopRecentTransactions;
+window.loadCoopDashboard =
+    loadCoopDashboard;
+
+window.updateCoopBalance =
+    updateCoopBalance;
+
+window.updateCoopAccount =
+    updateCoopAccount;
+
+window.loadCoopRecentTransactions =
+    loadCoopRecentTransactions;

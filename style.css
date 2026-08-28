@@ -66,7 +66,7 @@ body {
 
     align-items: center;
 
-    padding: 30px;
+    padding: 20px;
 
 }
 
@@ -79,14 +79,15 @@ body {
     width: 420px;
     max-width: 100%;
 
-    height: 900px;
+    height: min(900px, calc(100vh - 40px));
+    max-height: 900px;
+    min-height: 0;
 
     background: var(--surface);
 
     border-radius: 32px;
 
-    overflow-x: hidden;
-    overflow-y: hidden;
+    overflow: hidden;
 
     position: relative;
 
@@ -120,6 +121,8 @@ body {
     background: #111827;
 
     border-bottom: 1px solid var(--border);
+
+    flex-shrink: 0;
 
 }
 
@@ -159,7 +162,11 @@ body {
 
 .screens {
 
-    flex: 1;
+    flex: 1 1 auto;
+
+    min-height: 0;
+
+    height: 0;
 
     overflow-y: auto;
 
@@ -167,7 +174,9 @@ body {
 
     padding: 20px;
 
-    height: calc(100% - 143px);
+    padding-bottom: 450px;
+
+    box-sizing: border-box;
 
 }
 
@@ -444,17 +453,31 @@ input:focus {
 
 .bottom-nav {
 
-    height: 78px;
+    position: absolute;
+
+    left: 0;
+
+    right: 0;
+
+    bottom: 0;
+
+    height: 72px;
+
+    min-height: 72px;
 
     display: flex;
 
-    justify-content: space-around;
+    align-items: stretch;
 
-    align-items: center;
+    justify-content: space-around;
 
     background: #111827;
 
     border-top: 1px solid var(--border);
+
+    box-sizing: border-box;
+
+    z-index: 100;
 
 }
 
@@ -477,6 +500,10 @@ input:focus {
     gap: 4px;
 
     font-size: 13px;
+
+    border: none;
+
+    cursor: pointer;
 
 }
 
@@ -2193,7 +2220,7 @@ input:focus {
 
     border-radius: 20px;
 
-    padding: 30px;
+    padding: 20px;
 
     display: flex;
 
@@ -2282,3 +2309,375 @@ input:focus {
 .logout-btn:active {
     transform: scale(0.95);
 }
+
+/* ==========================================
+   USSD DASHBOARD
+========================================== */
+
+#ussdScreen {
+
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    box-sizing: border-box;
+
+    overflow-x: hidden;
+
+}
+
+
+/* ==========================================
+   USSD CONTAINER
+========================================== */
+
+.ussd-container {
+
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0 auto;
+
+    padding: 18px;
+
+    box-sizing: border-box;
+
+    background: rgba(15, 23, 42, 0.96);
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+
+}
+
+
+/* ==========================================
+   USSD HEADER
+========================================== */
+
+.ussd-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding-bottom: 16px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+}
+
+
+.ussd-header h2 {
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+}
+
+
+.ussd-header small {
+
+    display: block;
+
+    margin-top: 4px;
+
+    color: #94A3B8;
+
+    font-size: 13px;
+
+}
+
+
+.ussd-close {
+
+    width: 40px;
+
+    height: 40px;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    color: #ffffff;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.ussd-close:hover {
+
+    background: rgba(255, 255, 255, 0.15);
+
+}
+
+
+/* ==========================================
+   USSD CONTENT
+========================================== */
+
+.ussd-content {
+
+    text-align: center;
+
+    padding: 24px 10px;
+
+}
+
+
+.ussd-icon {
+
+    width: 64px;
+
+    height: 64px;
+
+    margin: 0 auto 12px;
+
+    border-radius: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: rgba(0, 230, 118, 0.12);
+
+    border: 1px solid rgba(0, 230, 118, 0.25);
+
+    font-size: 30px;
+
+}
+
+
+.ussd-content h3 {
+
+    margin: 0 0 14px;
+
+    color: #ffffff;
+
+    font-size: 22px;
+
+}
+
+
+.ussd-message {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 18px;
+
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    color: #E2E8F0;
+
+    text-align: left;
+
+    white-space: pre-line;
+
+    line-height: 1.7;
+
+    font-size: 14px;
+
+}
+
+
+/* ==========================================
+   USSD INPUT
+========================================== */
+
+.ussd-input-area {
+
+    display: flex;
+
+    gap: 10px;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+}
+
+
+#ussdInput {
+
+    flex: 1;
+
+    min-width: 0;
+
+    height: 48px;
+
+    padding: 0 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+}
+
+
+#ussdInput:focus {
+
+    border-color: var(--primary);
+
+    box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.12);
+
+}
+
+
+#ussdInput::placeholder {
+
+    color: #64748B;
+
+}
+
+
+.ussd-submit {
+
+    height: 48px;
+
+    padding: 0 18px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: var(--primary);
+
+    color: #020617;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+}
+
+
+.ussd-submit:hover {
+
+    filter: brightness(1.08);
+
+}
+
+
+/* ==========================================
+   USSD CANCEL
+========================================== */
+
+.ussd-cancel {
+
+    width: 100%;
+
+    height: 46px;
+
+    margin-top: 12px;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    color: #CBD5E1;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+}
+
+
+.ussd-cancel:hover {
+
+    background: rgba(255, 255, 255, 0.09);
+
+}
+
+/* ==========================================
+   USSD AS NORMAL APP SCREEN
+========================================== */
+
+#ussdScreen {
+
+    width: 100%;
+
+    max-width: 100%;
+
+    min-width: 0;
+
+    box-sizing: border-box;
+
+    position: relative;
+
+}
+
+#ussdScreen.active {
+
+    display: block;
+
+}
+
+#ussdScreen .ussd-container {
+
+    width: 100%;
+
+    max-width: 100%;
+
+    box-sizing: border-box;
+
+    margin: 0;
+
+}.ussd-container { padding: 20px; background: linear-gradient(145deg, rgba(15,23,42,.98), rgba(30,41,59,.96)); }
+.ussd-header { min-height: 48px; }
+.ussd-close { transition: transform .2s ease, background .2s ease; }
+.ussd-close:active { transform: scale(.94); }
+.ussd-content { padding: 22px 4px; }
+.ussd-icon { box-shadow: 0 8px 24px rgba(0,230,118,.08); }
+.ussd-message { min-height: 120px; max-height: 260px; overflow-y: auto; box-shadow: inset 0 1px 0 rgba(255,255,255,.03); }
+.ussd-input-area { margin-top: 4px; }
+.ussd-submit { min-width: 105px; transition: transform .2s ease, filter .2s ease; }
+.ussd-submit:active { transform: scale(.96); }
+.ussd-cancel { transition: background .2s ease, transform .2s ease; }
+.ussd-cancel:active { transform: scale(.98); }

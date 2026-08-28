@@ -110,6 +110,117 @@ function showLogin() {
 
 }
 
+/* ==========================================
+   LOAD CURRENT USER NAME
+========================================== */
+
+async function loadCurrentUser() {
+
+    try {
+
+        const token =
+            localStorage.getItem("token");
+
+        if (!token) {
+            return;
+        }
+
+        const response =
+            await fetch(
+                `${AUTH_API}/profile`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok || !data.success) {
+
+            console.error(
+                "Unable to load user profile:",
+                data.message
+            );
+
+            return;
+        }
+
+        const fullName =
+            data.user.fullName || "User";
+
+
+        /* ==============================
+           UPDATE BANNER NAME
+        ============================== */
+
+        const bannerName =
+            document.getElementById(
+                "bannerName"
+            );
+
+        if (bannerName) {
+            bannerName.textContent =
+                fullName;
+        }
+
+
+        /* ==============================
+           UPDATE WELCOME NAME
+        ============================== */
+
+        const welcomeName =
+            document.getElementById(
+                "welcomeName"
+            );
+
+        if (welcomeName) {
+            welcomeName.textContent =
+                fullName;
+        }
+
+
+        /* ==============================
+           SAVE USER PROFILE
+           FOR OTHER UI COMPONENTS
+        ============================== */
+
+        localStorage.setItem(
+            "authUser",
+            JSON.stringify(data.user)
+        );
+
+        localStorage.setItem(
+            "userPhone",
+            data.user.phone
+        );
+
+        console.log(
+            "User profile loaded:",
+            fullName
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Profile loading error:",
+            error
+        );
+
+    }
+
+}
+
 
 /* ==========================================
    LOAD USER FINANCIAL DATA
@@ -184,7 +295,13 @@ window.addEventListener(
             */
 
             setTimeout(
-                loadUserFinancialData,
+                async () => {
+
+                    await loadCurrentUser();
+
+                    await loadUserFinancialData();
+
+                },
                 300
             );
 
@@ -291,11 +408,7 @@ loginBtn.addEventListener(
 
             showApp();
 
-
-            /*
-               Immediately load the
-               logged-in user's financial data.
-            */
+            await loadCurrentUser();
 
             await loadUserFinancialData();
 
@@ -431,11 +544,7 @@ registerBtn.addEventListener(
 
                 showApp();
 
-
-                /*
-                   Immediately load the
-                   newly created financial profile.
-                */
+                await loadCurrentUser();
 
                 await loadUserFinancialData();
 

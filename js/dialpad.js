@@ -107,3 +107,48 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+/* ==========================================================
+   USSD / CALL ACTION
+========================================================== */
+
+function processDialerAction() {
+
+    const input =
+        document.getElementById("phoneNumber");
+
+    if (!input) return;
+
+    const value =
+        input.value.trim();
+
+    if (!value) {
+
+        showToast("Enter a phone number or USSD code");
+
+        return;
+
+    }
+
+
+    /* ==========================
+       USSD CODE
+    ========================== */
+
+    if (
+        typeof handleDialerInput === "function" &&
+        handleDialerInput(value)
+    ) {
+
+        return;
+
+    }
+
+
+    /* ==========================
+       NORMAL PHONE CALL
+    ========================== */
+
+    startCall(value);
+
+}

@@ -13,7 +13,7 @@
 let kcbCard = {
     id: null,
     type: "KCB Debit Card",
-    holderName: "Joshua Nkario",
+    holderName: Customer",
     number: "4567 8901 2345 6789",
     expiry: "12/30",
     cvv: "456",

@@ -165,6 +165,31 @@
 
 }
 
+/* ==========================================
+   USSD SCREEN
+========================================== */
+
+#ussdScreen {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#ussdScreen.active {
+    display: block;
+    animation: fadeUp .35s ease;
+}
+
+/* ==========================================
+   USSD APP CONTAINER
+========================================== */
+
+#ussdScreen .ussd-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
 /* Cards */
 
 .stat-card,
