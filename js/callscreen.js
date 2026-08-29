@@ -1,8 +1,10 @@
 /* ==========================================================
-   CALL SCREEN
+   KENYA SMART DIALER PRO
+   APP-TO-APP CALL SCREEN
 ========================================================== */
 
 "use strict";
+
 
 /* ==========================================================
    START CALL
@@ -12,23 +14,63 @@ function startCall(number = null) {
 
     if (!number) {
 
-        number = Dialer.currentNumber;
+        number =
+            Dialer.currentNumber;
 
     }
 
+
     if (!number || number.length < 10) {
 
-        showToast("Enter a valid phone number");
+        if (typeof showToast === "function") {
+
+            showToast(
+                "Enter a valid phone number"
+            );
+
+        }
 
         return;
 
     }
 
-    Dialer.isCalling = true;
+
+    /*
+       Store the number being called.
+    */
+
+    Dialer.currentNumber =
+        number;
+
+
+    Dialer.isCalling =
+        true;
+
+
+    /*
+       Open the existing call screen.
+    */
 
     openCallScreen(number);
 
+
+    /*
+       If the Socket.IO calling client
+       is available, make a real
+       app-to-app call.
+    */
+
+    if (
+        typeof startAppCall ===
+        "function"
+    ) {
+
+        startAppCall(number);
+
+    }
+
 }
+
 
 /* ==========================================================
    OPEN CALL SCREEN
@@ -36,66 +78,179 @@ function startCall(number = null) {
 
 function openCallScreen(number) {
 
-    const screen = document.getElementById("callScreen");
+    const screen =
+        document.getElementById(
+            "callScreen"
+        );
+
 
     if (!screen) return;
 
-    screen.classList.add("active");
 
-    document.getElementById("callName").textContent =
-        Dialer.currentContact
-            ? Dialer.currentContact.name
-            : number;
+    screen.classList.add(
+        "active"
+    );
 
-    document.getElementById("callPhone").textContent =
-        number;
 
-    document.getElementById("callNetwork").textContent =
-        Dialer.currentNetwork;
+    const callName =
+        document.getElementById(
+            "callName"
+        );
 
-    document.getElementById("callStatus").textContent =
-        "Calling...";
 
-    document.getElementById("callTimer").textContent =
-        "00:00";
+    const callPhone =
+        document.getElementById(
+            "callPhone"
+        );
 
-    const photo = document.getElementById("callPhoto");
 
-    if (Dialer.currentContact &&
-        Dialer.currentContact.photo) {
+    const callNumber =
+        document.getElementById(
+            "callNumber"
+        );
 
-        photo.src = Dialer.currentContact.photo;
 
-    } else {
+    const callNetwork =
+        document.getElementById(
+            "callNetwork"
+        );
 
-        photo.src = "assets/user.png";
+
+    const callStatus =
+        document.getElementById(
+            "callStatus"
+        );
+
+
+    const callTimer =
+        document.getElementById(
+            "callTimer"
+        );
+
+
+    if (callName) {
+
+        callName.textContent =
+            Dialer.currentContact
+                ? Dialer.currentContact.name
+                : number;
 
     }
 
-    setTimeout(connectCall, 2500);
+
+    if (callPhone) {
+
+        callPhone.textContent =
+            number;
+
+    }
+
+
+    if (callNumber) {
+
+        callNumber.textContent =
+            number;
+
+    }
+
+
+    if (callNetwork) {
+
+        callNetwork.textContent =
+            Dialer.currentNetwork ||
+            "Unknown";
+
+    }
+
+
+    if (callStatus) {
+
+        callStatus.textContent =
+            "Calling...";
+
+    }
+
+
+    if (callTimer) {
+
+        callTimer.textContent =
+            "00:00";
+
+    }
+
+
+    const photo =
+        document.getElementById(
+            "callPhoto"
+        );
+
+
+    if (
+        photo &&
+        Dialer.currentContact &&
+        Dialer.currentContact.photo
+    ) {
+
+        photo.src =
+            Dialer.currentContact.photo;
+
+    }
+
+    else if (photo) {
+
+        photo.src =
+            "assets/user.png";
+
+    }
 
 }
 
+
 /* ==========================================================
-   CONNECT CALL
+   CALL CONNECTED
 ========================================================== */
 
 function connectCall() {
 
-    document.getElementById("callStatus").textContent =
-        "Connected";
+    const status =
+        document.getElementById(
+            "callStatus"
+        );
 
-    Dialer.callSeconds = 0;
 
-    if (Dialer.timer) {
+    if (status) {
 
-        clearInterval(Dialer.timer);
+        status.textContent =
+            "Connected";
 
     }
 
-    Dialer.timer = setInterval(updateCallTimer, 1000);
+
+    Dialer.callSeconds =
+        Dialer.callSeconds || 0;
+
+
+    Dialer.seconds =
+        Dialer.callSeconds;
+
+
+    if (Dialer.timer) {
+
+        clearInterval(
+            Dialer.timer
+        );
+
+    }
+
+
+    Dialer.timer =
+        setInterval(
+            updateCallTimer,
+            1000
+        );
 
 }
+
 
 /* ==========================================================
    TIMER
@@ -103,113 +258,358 @@ function connectCall() {
 
 function updateCallTimer() {
 
-    Dialer.callSeconds++;
+    if (
+        typeof Dialer ===
+        "undefined"
+    ) {
 
-    const mins = String(
-        Math.floor(Dialer.callSeconds / 60)
-    ).padStart(2, "0");
+        return;
 
-    const secs = String(
-        Dialer.callSeconds % 60
-    ).padStart(2, "0");
+    }
 
-    document.getElementById("callTimer").textContent =
-        `${mins}:${secs}`;
+
+    Dialer.callSeconds =
+        (Dialer.callSeconds || 0) + 1;
+
+
+    Dialer.seconds =
+        Dialer.callSeconds;
+
+
+    const mins =
+        String(
+            Math.floor(
+                Dialer.callSeconds / 60
+            )
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const secs =
+        String(
+            Dialer.callSeconds % 60
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const timer =
+        document.getElementById(
+            "callTimer"
+        );
+
+
+    if (timer) {
+
+        timer.textContent =
+            `${mins}:${secs}`;
+
+    }
+
+
+    const bannerTimer =
+        document.getElementById(
+            "bannerTimer"
+        );
+
+
+    if (bannerTimer) {
+
+        bannerTimer.textContent =
+            `${mins}:${secs}`;
+
+    }
 
 }
-const bannerTimer = document.getElementById("bannerTimer");
 
-if (bannerTimer) {
-
-    bannerTimer.textContent =
-        document.getElementById("callTimer").textContent;
-
-}
 
 /* ==========================================================
    END CALL
 ========================================================== */
+
 function endCall() {
+
+    /*
+       Tell the other user that
+       the call has ended.
+    */
+
+    if (
+        typeof endAppCall ===
+        "function"
+    ) {
+
+        endAppCall();
+
+    }
+
+
+    /*
+       Handle held call.
+    */
 
     if (Dialer.heldCall) {
 
-        Dialer.currentCall = Dialer.heldCall;
+        Dialer.currentCall =
+            Dialer.heldCall;
 
-        Dialer.heldCall = null;
 
-        Dialer.seconds = 0;
+        Dialer.heldCall =
+            null;
 
-        document.getElementById("swapButton")
-            .classList.remove("show");
 
-        document.getElementById("callName").textContent =
-            Dialer.currentCall.name;
+        Dialer.seconds =
+            0;
 
-        document.getElementById("callNumber").textContent =
-            Dialer.currentCall.number;
 
-        document.getElementById("callNetwork").textContent =
-            Dialer.currentCall.network;
+        const swapButton =
+            document.getElementById(
+                "swapButton"
+            );
 
-        showToast("Returned to first call");
+
+        if (swapButton) {
+
+            swapButton.classList.remove(
+                "show"
+            );
+
+        }
+
+
+        const callName =
+            document.getElementById(
+                "callName"
+            );
+
+
+        const callNumber =
+            document.getElementById(
+                "callNumber"
+            );
+
+
+        const callNetwork =
+            document.getElementById(
+                "callNetwork"
+            );
+
+
+        if (callName) {
+
+            callName.textContent =
+                Dialer.currentCall.name;
+
+        }
+
+
+        if (callNumber) {
+
+            callNumber.textContent =
+                Dialer.currentCall.number;
+
+        }
+
+
+        if (callNetwork) {
+
+            callNetwork.textContent =
+                Dialer.currentCall.network;
+
+        }
+
+
+        if (
+            typeof showToast ===
+            "function"
+        ) {
+
+            showToast(
+                "Returned to first call"
+            );
+
+        }
+
 
         return;
 
     }
 
-    Dialer.isCalling = false;
 
-    // Save call before closing
+    /*
+       Save call history BEFORE
+       resetting the call state.
+    */
+
     saveCallRecord();
 
-    clearInterval(Dialer.timer);
 
-    document.getElementById("callScreen")
-        .classList.remove("active");
+    /*
+       Stop timer.
+    */
 
-    showToast("Call Ended");
-    // Deduct voice minutes
-    const minutesUsed = Math.max(
-        1,
-        Math.ceil(Dialer.seconds / 60)
-    );
+    if (Dialer.timer) {
 
-    if (typeof consumeVoice === "function") {
+        clearInterval(
+            Dialer.timer
+        );
 
-        consumeVoice(minutesUsed);
+        Dialer.timer =
+            null;
+
+    }
+
+
+    /*
+       Calculate voice minutes.
+    */
+
+    const secondsUsed =
+        Dialer.seconds ||
+        Dialer.callSeconds ||
+        0;
+
+
+    const minutesUsed =
+        Math.max(
+            1,
+            Math.ceil(
+                secondsUsed / 60
+            )
+        );
+
+
+    /*
+       Consume voice minutes.
+    */
+
+    if (
+        typeof consumeVoice ===
+        "function"
+    ) {
+
+        consumeVoice(
+            minutesUsed
+        );
+
+    }
+
+
+    /*
+       Reset call state.
+    */
+
+    Dialer.isCalling =
+        false;
+
+    Dialer.callSeconds =
+        0;
+
+    Dialer.seconds =
+        0;
+
+
+    /*
+       Close call screen.
+    */
+
+    const screen =
+        document.getElementById(
+            "callScreen"
+        );
+
+
+    if (screen) {
+
+        screen.classList.remove(
+            "active"
+        );
+
+    }
+
+
+    /*
+       Refresh application data.
+    */
+
+    if (
+        typeof refreshApp ===
+        "function"
+    ) {
+
+        refreshApp();
+
+    }
+
+
+    if (
+        typeof showToast ===
+        "function"
+    ) {
+
+        showToast(
+            "Call Ended"
+        );
 
     }
 
 }
-const minutes =
-    Math.ceil(Dialer.seconds / 60);
 
-Telecom.voice =
-    Math.max(0, Telecom.voice - minutes);
-
-Telecom.save();
-
-refreshApp();
 
 /* ==========================================================
-   SAVE CALL
+   SAVE CALL RECORD
 ========================================================== */
 
 function saveCallRecord() {
 
-    if (typeof saveCallHistory !== "function")
+    if (
+        typeof saveCallHistory !==
+        "function"
+    ) {
+
         return;
+
+    }
+
 
     saveCallHistory(
 
-        Dialer.currentCall?.number || Dialer.currentNumber,
+        Dialer.currentCall?.number ||
+        Dialer.currentNumber,
 
-        Dialer.currentCall?.network || Dialer.currentNetwork,
+        Dialer.currentCall?.network ||
+        Dialer.currentNetwork,
 
-        document.getElementById("callTimer").textContent,
+        document.getElementById(
+            "callTimer"
+        )?.textContent ||
+        "00:00",
 
         "Outgoing"
 
     );
 
 }
+
+
+/* ==========================================================
+   GLOBAL EXPORTS
+========================================================== */
+
+window.startCall =
+    startCall;
+
+window.openCallScreen =
+    openCallScreen;
+
+window.connectCall =
+    connectCall;
+
+window.updateCallTimer =
+    updateCallTimer;
+
+window.endCall =
+    endCall;

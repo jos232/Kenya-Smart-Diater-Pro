@@ -19,8 +19,7 @@ console.log("Environment Loaded");
 
 const express = require("express");
 const cors = require("cors");
-const http = require("http");
-const { Server } = require("socket.io");
+
 
 /* ==========================================
    DATABASE
@@ -46,8 +45,6 @@ const cardRoutes = require("./routes/cardRoutes");
 const statementRoutes = require("./routes/statementRoutes");
 const subscriptionRoutes = require("./routes/subscription");
 const mpesaRoutes = require("./routes/mpesaRoutes");
-const initializeCalling =
-   require("./services/calling/callingServer");
 
 
 /* ==========================================
@@ -63,26 +60,6 @@ const startSubscriptionExpiryJob =
 ========================================== */
 
 const app = express();
-const httpServer =
-   http.createServer(app);
-
-const io =
-   new Server(httpServer, {
-
-      cors: {
-
-         origin: "*",
-
-         methods: [
-            "GET",
-            "POST"
-         ]
-
-      }
-
-   });
-
-initializeCalling(io);
 
 
 /* ==========================================
@@ -315,7 +292,7 @@ app.use(
 const PORT =
    process.env.PORT || 3000;
 
-httpServer.listen(
+app.listen(
    PORT,
    "0.0.0.0",
    () => {

@@ -1,3 +1,4 @@
+```javascript
 /* ==========================================
    KENYA SMART DIALER PRO
    REAL APP-TO-APP INCOMING CALL
@@ -501,3 +502,4 @@ window.declineIncomingCall =
 
 window.missedIncomingCall =
     missedIncomingCall;
+```

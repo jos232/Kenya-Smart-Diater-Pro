@@ -5401,69 +5401,6 @@
                     </div>
 
                 </section>
-
-                <!-- ==========================================================
-                             USSD DASHBOARD
-                        ========================================================== -->
-
-                <section id="ussdScreen" class="screen">
-
-                    <div class="ussd-container">
-
-                        <div class="ussd-header">
-
-                            <button type="button" onclick="closeUSSD()" class="ussd-close">
-                                ×
-                            </button>
-
-                            <div>
-                                <h2 id="ussdTitle">
-                                    USSD Service
-                                </h2>
-
-                                <small id="ussdCodeDisplay">
-                                    *100#
-                                </small>
-                            </div>
-
-                        </div>
-
-
-                        <div class="ussd-content">
-
-                            <div class="ussd-icon">
-                                📱
-                            </div>
-
-                            <h3 id="ussdWelcome">
-                                Safaricom
-                            </h3>
-
-                            <div id="ussdMessage" class="ussd-message">
-                            </div>
-
-                        </div>
-
-
-                        <div class="ussd-input-area">
-
-                            <input id="ussdInput" type="number" inputmode="numeric" placeholder="Enter option"
-                                autocomplete="off">
-
-                            <button type="button" onclick="submitUSSDOption()" class="ussd-submit">
-                                Continue
-                            </button>
-
-                        </div>
-
-
-                        <button type="button" onclick="closeUSSD()" class="ussd-cancel">
-                            Cancel
-                        </button>
-
-                    </div>
-
-                </section>
             </main>
             <!-- ==========================================
              BOTTOM NAVIGATION
@@ -5861,7 +5798,68 @@
 
         </section>
 
+        <!-- ==========================================================
+             USSD DASHBOARD
+        ========================================================== -->
 
+        <section id="ussdScreen" class="screen">
+
+            <div class="ussd-container">
+
+                <div class="ussd-header">
+
+                    <button type="button" onclick="closeUSSD()" class="ussd-close">
+                        ×
+                    </button>
+
+                    <div>
+                        <h2 id="ussdTitle">
+                            USSD Service
+                        </h2>
+
+                        <small id="ussdCodeDisplay">
+                            *100#
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <div class="ussd-content">
+
+                    <div class="ussd-icon">
+                        📱
+                    </div>
+
+                    <h3 id="ussdWelcome">
+                        Safaricom
+                    </h3>
+
+                    <div id="ussdMessage" class="ussd-message">
+                    </div>
+
+                </div>
+
+
+                <div class="ussd-input-area">
+
+                    <input id="ussdInput" type="number" inputmode="numeric" placeholder="Enter option"
+                        autocomplete="off">
+
+                    <button type="button" onclick="submitUSSDOption()" class="ussd-submit">
+                        Continue
+                    </button>
+
+                </div>
+
+
+                <button type="button" onclick="closeUSSD()" class="ussd-cancel">
+                    Cancel
+                </button>
+
+            </div>
+
+        </section>
 
         <script src="js/storage.js"></script>
         <script src="js/networks.js"></script>
@@ -5875,7 +5873,6 @@
 
         <script src="js/dashboard.js"></script>
         <script src="js/contacts.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
 
         <!-- Dialer Modules -->
 
@@ -5892,8 +5889,6 @@
         <script src="js/call-controls.js"></script>
 
         <script src="js/incoming-call.js"></script>
-
-        <script src="js/app-calling.js"></script>
 
         <script src="js/call-history.js"></script>
 
