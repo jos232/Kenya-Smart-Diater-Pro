@@ -242,10 +242,7 @@ function initializeAppCalling() {
                 "function"
             ) {
 
-                showToast(
-                    data.message ||
-                    "User is offline"
-                );
+                fallbackToPhoneCall(data.phone);
 
             }
 
@@ -307,14 +304,32 @@ function initializeAppCalling() {
                 data
             );
 
+            const message =
+                data?.message ||
+                "Calling error";
+
+            const shouldFallback =
+                message.includes("not registered") ||
+                message.includes("not available");
+
+            if (shouldFallback) {
+
+                fallbackToPhoneCall(
+                    data?.phone ||
+                    window.currentCallPhone
+                );
+
+                return;
+
+            }
+
             if (
                 typeof showToast ===
                 "function"
             ) {
 
                 showToast(
-                    data.message ||
-                    "Calling error"
+                    message
                 );
 
             }
@@ -341,6 +356,8 @@ function initializeAppCalling() {
 
 }
 
+
+function fallbackToPhoneCall(phone) { if (!phone) { if (typeof showToast === 'function') { showToast('Phone number is required.'); } return; } const normalizedPhone=String(phone).replace(/[^\d+]/g, ''); console.log('Falling back to normal phone call:',normalizedPhone); window.location.href='tel:'+normalizedPhone; }
 
 /* ==========================================================
    START APP-TO-APP CALL
@@ -384,6 +401,8 @@ function startAppCall(phone) {
         "Starting app call to:",
         phone
     );
+
+    window.currentCallPhone = phone;
 
 
     callSocket.emit(
@@ -597,3 +616,5 @@ window.rejectAppCall =
 
 window.endAppCall =
     endAppCall;
+
+
