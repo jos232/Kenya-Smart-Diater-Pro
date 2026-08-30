@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "kenya-smart-dialer-v3";
+const CACHE_NAME = "kenya-smart-dialer-v4";
 
 const APP_SHELL = [
     "/",
@@ -181,6 +181,13 @@ self.addEventListener("fetch", event => {
         return;
     }
 
+    if (
+        url.pathname.startsWith('/api/') ||
+        url.pathname.startsWith('/socket.io/')
+    ) {
+        return;
+    }
+
     event.respondWith(
 
         fetch(request)
@@ -216,3 +223,4 @@ self.addEventListener("fetch", event => {
     );
 
 });
+
