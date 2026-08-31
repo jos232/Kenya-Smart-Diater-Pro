@@ -5,7 +5,7 @@
    M-PESA / SEND MONEY MODULE
 ========================================== */
 
-console.log("✅ M-Pesa Module Loaded");
+console.log("Ã¢Å“â€¦ M-Pesa Module Loaded");
 
 
 /* ==========================================
@@ -665,7 +665,7 @@ function clearTransferForm() {
 function openMpesaDashboard() {
 
     console.log(
-        "💚 Opening M-Pesa Dashboard..."
+        "Ã°Å¸â€™Å¡ Opening M-Pesa Dashboard..."
     );
 
 
@@ -699,7 +699,7 @@ function openMpesaDashboard() {
 
 async function loadMpesaDashboard() {
 
-    console.log("💚 Loading M-Pesa Dashboard...");
+    console.log("Ã°Å¸â€™Å¡ Loading M-Pesa Dashboard...");
 
     try {
 
@@ -861,7 +861,7 @@ function renderMpesaTransactions(data) {
             <div class="mpesa-empty-state">
 
                 <div class="empty-icon">
-                    📊
+                    Ã°Å¸â€œÅ 
                 </div>
 
                 <p>
@@ -912,7 +912,7 @@ function renderMpesaTransactions(data) {
                     <div class="mpesa-transaction">
 
                         <div class="transaction-icon">
-                            💸
+                            Ã°Å¸â€™Â¸
                         </div>
 
                         <div class="transaction-details">
@@ -954,7 +954,7 @@ function renderMpesaTransactions(data) {
 function openMpesaSendMoney() {
 
     console.log(
-        "💸 Opening M-Pesa Send Money..."
+        "Ã°Å¸â€™Â¸ Opening M-Pesa Send Money..."
     );
 
 
@@ -984,7 +984,7 @@ function openMpesaSendMoney() {
 function openMpesaReceiveMoney() {
 
     console.log(
-        "💚 Opening Receive Money..."
+        "Ã°Å¸â€™Å¡ Opening Receive Money..."
     );
 
     openReceiveMoney();
@@ -998,10 +998,19 @@ function openMpesaReceiveMoney() {
 
 function openMpesaAirtime() {
 
+    if (typeof openAirtime === "function") {
+
+        openAirtime();
+
+        return;
+
+    }
+
     showMPesaToast(
-        "M-Pesa Airtime feature will be connected next.",
-        "info"
+        "Airtime service is unavailable.",
+        "error"
     );
+
 }
 
 
@@ -1158,9 +1167,9 @@ window.openMpesaSecurity =
 ========================================== */
 
 console.log(
-    "✅ M-Pesa functions exported"
+    "Ã¢Å“â€¦ M-Pesa functions exported"
 );
 
 console.log(
-    "✅ M-Pesa Dashboard Controller Loaded"
+    "Ã¢Å“â€¦ M-Pesa Dashboard Controller Loaded"
 );

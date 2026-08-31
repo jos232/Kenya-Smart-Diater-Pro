@@ -12,6 +12,62 @@
 
 
 let selectedAmount = 0;
+let selectedAirtimePaymentMethod = "Wallet";
+
+/* ==========================================
+   SELECT PAYMENT METHOD
+========================================== */
+
+function selectAirtimePaymentMethod(method) {
+
+    selectedAirtimePaymentMethod = method;
+
+    document
+        .querySelectorAll(".payment-method-options button")
+        .forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+    const buttonMap = {
+
+        "Wallet": "airtimePayWallet",
+
+        "M-PESA": "airtimePayMpesa",
+
+        "KCB": "airtimePayKcb",
+
+        "EQUITY": "airtimePayEquity",
+
+        "CO-OP": "airtimePayCoop"
+
+    };
+
+    const button =
+        document.getElementById(
+            buttonMap[method]
+        );
+
+    if (button) {
+
+        button.classList.add("active");
+
+    }
+
+    const label =
+        document.getElementById(
+            "airtimePaymentMethod"
+        );
+
+    if (label) {
+
+        label.textContent = method;
+
+    }
+
+}
+
 
 /* ==========================================
    OPEN AIRTIME
@@ -196,7 +252,8 @@ async function buyAirtime() {
 
             phone: normalizedPhone,
             network,
-            amount
+            amount,
+            paymentMethod: selectedAirtimePaymentMethod
 
         });
 
@@ -209,16 +266,22 @@ async function buyAirtime() {
         }
 
         /* -------------------------
-           UPDATE LOCAL DATA
+           UPDATE DISPLAY
         ------------------------- */
 
-        Telecom.airtime += amount;
+        if (result.balance !== undefined) {
 
-        updateAirtimeDisplay();
+            console.log(
+                "Airtime payment balance:",
+                selectedAirtimePaymentMethod,
+                result.balance
+            );
+
+        }
 
         saveAirtimePurchase(amount);
 
-        showToast("✅ Airtime Purchased Successfully");
+        showToast("Airtime Purchased Successfully", "success");
 
         /* -------------------------
            RESET FORM
@@ -265,7 +328,12 @@ async function renderAirtimeHistory() {
 
     try {
 
-        const history = await apiGet("/airtime");
+        const response = await apiGet("/airtime");
+
+        const history =
+            Array.isArray(response)
+                ? response
+                : (response.history || []);
 
         if (!Array.isArray(history) || history.length === 0) {
 
@@ -465,6 +533,9 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ==========================================
    EXPORTS
 ========================================== */
+
+window.selectAirtimePaymentMethod =
+    selectAirtimePaymentMethod;
 
 window.selectAmount = selectAmount;
 window.buyAirtime = buyAirtime;
