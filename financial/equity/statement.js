@@ -39,7 +39,7 @@ function loadEquityStatement() {
 
             <div class="transaction-empty-icon">
 
-                📄
+
 
             </div>
 
@@ -189,7 +189,7 @@ function filterEquityStatement(service) {
 
         <div class="transaction-empty">
 
-            <div class="transaction-empty-icon">📄</div>
+            <div class="transaction-empty-icon"></div>
 
             <h3>No Matching Transactions</h3>
 

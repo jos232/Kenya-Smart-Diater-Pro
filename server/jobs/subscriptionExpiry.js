@@ -48,7 +48,7 @@ function startSubscriptionExpiryJob() {
     );
 
     console.log(
-        "✅ Subscription expiry job started."
+        " Subscription expiry job started."
     );
 
 }

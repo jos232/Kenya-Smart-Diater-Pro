@@ -108,7 +108,7 @@ async function loadKCBCard() {
 
         }
 
-        console.log("✅ Card Loaded From Backend");
+        console.log(" Card Loaded From Backend");
 
     }
 
@@ -839,6 +839,6 @@ document.addEventListener(
 
 console.log(
 
-    "✅ KCB Cards Module Loaded"
+    " KCB Cards Module Loaded"
 
 );

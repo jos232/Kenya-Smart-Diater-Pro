@@ -1735,5 +1735,5 @@ exports.getLoanEligibility = async (req, res) => {
 ========================================== */
 
 console.log(
-    "✅ Loan Controller Loaded"
+    " Loan Controller Loaded"
 );

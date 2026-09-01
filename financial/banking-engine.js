@@ -232,7 +232,7 @@ function loadStatement(bank) {
 
         <div class="empty-state">
 
-            <div class="empty-icon">📄</div>
+            <div class="empty-icon"></div>
 
             <h3>No Transactions Found</h3>
 

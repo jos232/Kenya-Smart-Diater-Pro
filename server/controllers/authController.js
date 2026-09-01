@@ -349,7 +349,7 @@ exports.register = async (req, res) => {
 
 
         console.log(
-            "✅ Financial profile created:",
+            " Financial profile created:",
             user.email
         );
 

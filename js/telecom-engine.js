@@ -47,25 +47,25 @@ function checkTelecomBalances() {
 
     if (Telecom.airtime < 10) {
 
-        showToast("⚠ Low Airtime");
+        showToast(" Low Airtime");
 
     }
 
     if (Telecom.data < 100) {
 
-        showToast("⚠ Low Data Bundle");
+        showToast(" Low Data Bundle");
 
     }
 
     if (Telecom.voice < 5) {
 
-        showToast("⚠ Low Voice Minutes");
+        showToast(" Low Voice Minutes");
 
     }
 
     if (Telecom.sms < 5) {
 
-        showToast("⚠ Low SMS");
+        showToast(" Low SMS");
 
     }
 
@@ -129,13 +129,13 @@ function consumeData(mb) {
 
     if (Telecom.data <= 500 && Telecom.data > 0) {
 
-        showToast("⚠️ Low Bundle Balance");
+        showToast("️ Low Bundle Balance");
 
     }
 
     if (Telecom.data === 0) {
 
-        showToast("❌ Bundle Exhausted");
+        showToast(" Bundle Exhausted");
 
     }
 
@@ -151,7 +151,7 @@ function browseInternet() {
 
     consumeData(2);
 
-    showToast("🌐 Browsing... -2 MB");
+    showToast(" Browsing... -2 MB");
 
 }
 
@@ -159,7 +159,7 @@ function watchVideo() {
 
     consumeData(50);
 
-    showToast("🎥 Video Streaming... -50 MB");
+    showToast(" Video Streaming... -50 MB");
 
 }
 

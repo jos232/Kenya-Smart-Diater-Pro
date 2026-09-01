@@ -2567,9 +2567,7 @@
 
                             <button class="mpesa-action-card" onclick="openMpesaSendMoney()" type="button">
 
-                                <div class="mpesa-action-icon">
-                                    ↗
-                                </div>
+                                <div class="mpesa-action-icon">&#x27A1;&#xFE0F;</div>
 
                                 <span>
                                     Send Money
@@ -2580,9 +2578,7 @@
 
                             <button class="mpesa-action-card" onclick="openMpesaReceiveMoney()" type="button">
 
-                                <div class="mpesa-action-icon">
-                                    ↓
-                                </div>
+                                <div class="mpesa-action-icon">&#x2B07;&#xFE0F;</div>
 
                                 <span>
                                     Receive
@@ -2593,9 +2589,7 @@
 
                             <button class="mpesa-action-card" onclick="openMpesaAirtime()" type="button">
 
-                                <div class="mpesa-action-icon">
-                                    📱
-                                </div>
+                                <div class="mpesa-action-icon">&#x1F4F1;</div>
 
                                 <span>
                                     Airtime
@@ -2606,9 +2600,7 @@
 
                             <button class="mpesa-action-card" onclick="openMpesaPayBill()" type="button">
 
-                                <div class="mpesa-action-icon">
-                                    🧾
-                                </div>
+                                <div class="mpesa-action-icon">&#x1F9FE;</div>
 
                                 <span>
                                     Pay Bill
@@ -2619,9 +2611,7 @@
 
                             <button class="mpesa-action-card" onclick="openMpesaBuyGoods()" type="button">
 
-                                <div class="mpesa-action-icon">
-                                    🛒
-                                </div>
+                                <div class="mpesa-action-icon">&#x1F6D2;</div>
 
                                 <span>
                                     Buy Goods
@@ -2632,9 +2622,7 @@
 
                             <button class="mpesa-action-card" onclick="openMpesaTransactions()" type="button">
 
-                                <div class="mpesa-action-icon">
-                                    📊
-                                </div>
+                                <div class="mpesa-action-icon">&#x1F4CA;</div>
 
                                 <span>
                                     Transactions
@@ -2645,9 +2633,7 @@
 
                             <button class="mpesa-action-card" onclick="openMpesaStatement()" type="button">
 
-                                <div class="mpesa-action-icon">
-                                    📄
-                                </div>
+                                <div class="mpesa-action-icon">&#x1F4C4;</div>
 
                                 <span>
                                     Statement
@@ -2658,9 +2644,7 @@
 
                             <button class="mpesa-action-card" onclick="openMpesaSettings()" type="button">
 
-                                <div class="mpesa-action-icon">
-                                    ⚙
-                                </div>
+                                <div class="mpesa-action-icon">&#x2699;&#xFE0F;</div>
 
                                 <span>
                                     Settings
@@ -2747,11 +2731,455 @@
                      END M-PESA DASHBOARD
                 ========================================== -->
 
+
                 <!-- ==========================================
+                     M-PESA PAY BILL
+                ========================================== -->
+
+                <section id="mpesaPayBill" class="screen">
+
+                    <div class="screen-header">
+
+                        <button class="back-btn"
+                                onclick="showScreen('mpesaDashboard')"
+                                type="button">
+
+                            &#x2190;
+
+                        </button>
+
+                        <div>
+
+                            <h2>Pay Bill</h2>
+
+                            <p>Pay a business or service securely</p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="service-card">
+
+                        <label for="mpesaBillBusiness">
+                            Business Name
+                        </label>
+
+                        <input
+                            id="mpesaBillBusiness"
+                            class="form-input"
+                            type="text"
+                            placeholder="e.g. Kenya Power"
+                            autocomplete="organization"
+                        >
+
+
+                        <label for="mpesaBillNumber">
+                            Paybill Number
+                        </label>
+
+                        <input
+                            id="mpesaBillNumber"
+                            class="form-input"
+                            type="text"
+                            inputmode="numeric"
+                            maxlength="10"
+                            placeholder="Enter Paybill number"
+                            autocomplete="off"
+                        >
+
+
+                        <label for="mpesaBillAccount">
+                            Account Number
+                        </label>
+
+                        <input
+                            id="mpesaBillAccount"
+                            class="form-input"
+                            type="text"
+                            placeholder="Enter account number"
+                            autocomplete="off"
+                        >
+
+
+                        <label for="mpesaBillAmount">
+                            Amount (KES)
+                        </label>
+
+                        <input
+                            id="mpesaBillAmount"
+                            class="form-input"
+                            type="number"
+                            min="1"
+                            step="1"
+                            placeholder="Enter amount"
+                            inputmode="numeric"
+                        >
+
+
+                        <label for="mpesaBillPIN">
+                            Transaction PIN
+                        </label>
+
+                        <input
+                            id="mpesaBillPIN"
+                            class="form-input"
+                            type="password"
+                            maxlength="4"
+                            inputmode="numeric"
+                            placeholder="****"
+                            autocomplete="off"
+                        >
+
+
+                        <button
+                            class="primary-btn"
+                            onclick="submitMpesaPayBill()"
+                            type="button"
+                        >
+                            Pay Bill
+                        </button>
+
+                    </div>
+
+                </section>
+
+                <!-- ==========================================
+                     M-PESA PAY BILL
+                ========================================== -->
+
+
+
+                <!-- ==========================================
+                     M-PESA TRANSACTIONS
+                ========================================== -->
+
+                <section id="mpesaTransactions" class="screen">
+
+                    <div class="screen-header">
+
+                        <button
+                            class="back-btn"
+                            onclick="showScreen('mpesaDashboard')"
+                            type="button"
+                        >
+                            &#x2190;
+                        </button>
+
+                        <div>
+
+                            <h2>Transactions</h2>
+
+                            <p>M-Pesa transaction history</p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mpesa-section">
+
+                        <div class="mpesa-section-heading">
+
+                            <h3 class="mpesa-section-title">
+                                Transaction History
+                            </h3>
+
+                        </div>
+
+
+                        <div
+                            id="mpesaAllTransactions"
+                            class="mpesa-transactions-list"
+                        >
+
+                            <div class="mpesa-empty-state">
+
+                                <div class="empty-icon">
+                                    &#x1F4CA;
+                                </div>
+
+                                <p>
+                                    Loading transactions...
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+<!-- ==========================================
                  KCB DASHBOARD
                  ========================================== -->
 
-                <section id="kcbDashboard" class="screen">
+                <!-- ==========================================
+     M-PESA STATEMENT
+========================================== -->
+
+<section id="mpesaStatement" class="screen">
+
+    <div class="screen-header">
+
+        <button
+            class="back-btn"
+            onclick="showScreen('mpesaDashboard')"
+            type="button"
+        >
+            &#x2190;
+        </button>
+
+        <div>
+            <h2>Statement</h2>
+            <p>M-Pesa mini statement</p>
+        </div>
+
+    </div>
+
+    <div class="mpesa-section">
+
+        <div class="mpesa-section-heading">
+
+            <h3 class="mpesa-section-title">
+                Recent Statement
+            </h3>
+
+        </div>
+
+        <div
+            id="mpesaStatementList"
+            class="mpesa-transactions-list"
+        >
+
+            <div class="mpesa-empty-state">
+
+                <div class="empty-icon">
+                    &#x1F4C4;
+                </div>
+
+                <p>
+                    Loading statement...
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================
+     M-PESA SETTINGS
+========================================== -->
+
+<section id="mpesaSettings" class="screen">
+
+    <div class="screen-header">
+
+        <button
+            class="back-btn"
+            onclick="showScreen('mpesaDashboard')"
+            type="button"
+        >
+            &#x2190;
+        </button>
+
+        <div>
+            <h2>M-Pesa Settings</h2>
+            <p>Manage your M-Pesa account</p>
+        </div>
+
+    </div>
+
+
+    <div class="mpesa-section">
+
+        <div class="mpesa-section-heading">
+
+            <h3 class="mpesa-section-title">
+                Account Details
+            </h3>
+
+        </div>
+
+
+        <div class="mpesa-form-group">
+
+            <label for="mpesaSettingsPhone">
+                M-Pesa Phone Number
+            </label>
+
+            <input
+                id="mpesaSettingsPhone"
+                type="tel"
+                inputmode="numeric"
+                placeholder="07XXXXXXXX"
+                autocomplete="tel"
+            >
+
+        </div>
+
+
+        <div class="mpesa-form-group">
+
+            <label for="mpesaSettingsAccount">
+                M-Pesa Account
+            </label>
+
+            <input
+                id="mpesaSettingsAccount"
+                type="text"
+                placeholder="M-Pesa account"
+            >
+
+        </div>
+
+
+        <button
+            class="mpesa-primary-btn"
+            type="button"
+            onclick="saveMpesaSettings()"
+        >
+            Save Settings
+        </button>
+
+    </div>
+
+
+    <div class="mpesa-section">
+
+        <div class="mpesa-section-heading">
+
+            <h3 class="mpesa-section-title">
+                Preferences
+            </h3>
+
+        </div>
+
+
+        <label class="mpesa-setting-row">
+
+            <span>
+                Transaction notifications
+            </span>
+
+            <input
+                id="mpesaTransactionNotifications"
+                type="checkbox"
+                checked
+            >
+
+        </label>
+
+
+        <label class="mpesa-setting-row">
+
+            <span>
+                Confirm payments before sending
+            </span>
+
+            <input
+                id="mpesaPaymentConfirmation"
+                type="checkbox"
+                checked
+            >
+
+        </label>
+
+    </div>
+
+</section>
+
+<!-- ==========================================
+     M-PESA SECURITY
+========================================== -->
+
+<section id="mpesaSecurity" class="screen">
+
+    <div class="screen-header">
+
+        <button
+            class="back-btn"
+            onclick="showScreen('mpesaDashboard')"
+            type="button"
+        >
+            &#x2190;
+        </button>
+
+        <div>
+            <h2>Security</h2>
+            <p>M-Pesa security settings</p>
+        </div>
+
+    </div>
+
+    <div class="mpesa-section">
+
+        <div class="mpesa-section-heading">
+            <h3 class="mpesa-section-title">
+                Security
+            </h3>
+        </div>
+
+        <div class="mpesa-security-settings">
+
+            <div class="mpesa-setting-card">
+
+                <div>
+                    <strong>Transaction PIN</strong>
+                    <small>
+                        Protect M-Pesa transactions with your PIN.
+                    </small>
+                </div>
+
+                <input
+                    id="mpesaSecurityPIN"
+                    type="password"
+                    inputmode="numeric"
+                    maxlength="4"
+                    placeholder="4-digit PIN"
+                    autocomplete="off"
+                >
+
+            </div>
+
+            <div class="mpesa-setting-card">
+
+                <div>
+                    <strong>Confirm PIN</strong>
+                    <small>
+                        Confirm your new transaction PIN.
+                    </small>
+                </div>
+
+                <input
+                    id="mpesaSecurityConfirmPIN"
+                    type="password"
+                    inputmode="numeric"
+                    maxlength="4"
+                    placeholder="Confirm PIN"
+                    autocomplete="off"
+                >
+
+            </div>
+
+            <button
+                class="mpesa-primary-btn"
+                onclick="saveMpesaSecurity()"
+                type="button"
+            >
+                Save Security Settings
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+<section id="kcbDashboard" class="screen">
 
                     <!-- ==========================================
                      HEADER
@@ -2941,7 +3369,7 @@
                         </button>
 
 
-                        <button type="button" onclick="openBuyGoods()">
+                        <button type="button" onclick="openMpesaBuyGoods()">
                             🛒
                             <span>Buy Goods</span>
                         </button>
@@ -4747,7 +5175,7 @@
                     </div>
 
 
-                    <!-- ========================================== 
+                    <!-- ==========================================
                      QUICK BANKING
                      ========================================== -->
 
@@ -5464,65 +5892,8 @@
                     </div>
 
                 </section>
-            </main>
-            <!-- ==========================================
-             BOTTOM NAVIGATION
-        ========================================== -->
 
-            <nav class="bottom-nav">
 
-    <button class="nav-btn active" onclick="showScreen('dashboard')">
-
-        &#x1F3E0;
-        <span>Home</span>
-
-    </button>
-
-    <button class="nav-btn" onclick="showScreen('dialer')">
-
-        &#x1F4DE;
-        <span>Dialer</span>
-
-    </button>
-
-    <button class="nav-btn" onclick="showScreen('contacts')">
-
-        &#x1F465;
-        <span>Contacts</span>
-
-    </button>
-
-    <button class="nav-btn" onclick="showScreen('history')">
-
-        &#x1F552;
-        <span>History</span>
-
-    </button>
-
-    <button class="nav-btn" onclick="showScreen('services')">
-
-        &#x1F4F1;
-        <span>Services</span>
-
-    </button>
-
-</nav>
-
-            <!-- ==========================================
-             TOAST
-        ========================================== -->
-
-            <div id="toast" class="toast">
-
-                <span id="toastMessage">
-
-                    Success
-
-                </span>
-
-            </div>
-
-        </div>
         <!-- ==========================================
          SEND MONEY SCREEN
     ========================================== -->
@@ -5603,7 +5974,152 @@
             </div>
 
         </div>
+
+
         <!-- ==========================================
+         RECEIVE MONEY SCREEN
+    ========================================== -->
+
+        <div id="receiveMoneyService" class="financial-content">
+
+            <div class="service-card">
+
+                <div class="service-card-title">
+
+                    <div class="service-card-icon">
+                        &#x2B07;&#xFE0F;
+                    </div>
+
+                    <div>
+                        <h3>Receive Money</h3>
+                        <p>Receive money securely</p>
+                    </div>
+
+                </div>
+
+                <div class="service-divider"></div>
+
+                <div class="send-money-form">
+
+                    <label>
+                        Sender Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="receiveSender"
+                        class="form-input"
+                        placeholder="0712345678"
+                        maxlength="13"
+                    >
+
+                    <label>
+                        Sender Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="receiveSenderName"
+                        class="form-input"
+                        placeholder="Sender name"
+                    >
+
+                    <label>
+                        Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="receiveAmount"
+                        class="form-input"
+                        placeholder="KES 0"
+                        min="1"
+                        step="1"
+                    >
+
+                    <label>
+                        Description
+                    </label>
+
+                    <input
+                        type="text"
+                        id="receiveDescription"
+                        class="form-input"
+                        placeholder="Optional description"
+                    >
+
+                    <button
+                        type="button"
+                        class="primary-btn"
+                        onclick="previewReceiveMoney()"
+                    >
+                        Continue
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+</main>
+            <!-- ==========================================
+             BOTTOM NAVIGATION
+        ========================================== -->
+
+            <nav class="bottom-nav">
+
+    <button class="nav-btn active" onclick="showScreen('dashboard')">
+
+        &#x1F3E0;
+        <span>Home</span>
+
+    </button>
+
+    <button class="nav-btn" onclick="showScreen('dialer')">
+
+        &#x1F4DE;
+        <span>Dialer</span>
+
+    </button>
+
+    <button class="nav-btn" onclick="showScreen('contacts')">
+
+        &#x1F465;
+        <span>Contacts</span>
+
+    </button>
+
+    <button class="nav-btn" onclick="showScreen('history')">
+
+        &#x1F552;
+        <span>History</span>
+
+    </button>
+
+    <button class="nav-btn" onclick="showScreen('services')">
+
+        &#x1F4F1;
+        <span>Services</span>
+
+    </button>
+
+</nav>
+
+            <!-- ==========================================
+             TOAST
+        ========================================== -->
+
+            <div id="toast" class="toast">
+
+                <span id="toastMessage">
+
+                    Success
+
+                </span>
+
+            </div>
+
+        </div><!-- ==========================================
          PROFESSIONAL CALL SCREEN
     ========================================== -->
 
@@ -5988,4 +6504,3 @@
   </body>
 
 </html>
-

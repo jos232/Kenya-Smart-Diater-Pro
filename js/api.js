@@ -234,5 +234,5 @@ window.apiPut = apiPut;
 window.apiDelete = apiDelete;
 window.getToken = getToken;
 
-console.log("✅ API Helper Loaded");
-console.log("🌐 API BASE:", API_BASE);
+console.log(" API Helper Loaded");
+console.log(" API BASE:", API_BASE);

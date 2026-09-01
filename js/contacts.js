@@ -5,7 +5,7 @@
 
 "use strict";
 
-console.log("✅ Contacts Module Loaded");
+console.log(" Contacts Module Loaded");
 
 /* ==========================================
    CONFIGURATION
@@ -73,7 +73,7 @@ function renderContacts(list = contacts) {
 
         <div class="empty-state">
 
-            <div class="empty-icon">👥</div>
+            <div class="empty-icon"></div>
 
             <h3>No Contacts</h3>
 
@@ -149,14 +149,14 @@ function renderContacts(list = contacts) {
                     <button
                         onclick="event.stopPropagation();toggleFavorite('${contact._id}')">
 
-                        ${contact.favorite ? "⭐" : "☆"}
+                        ${contact.favorite ? "⭐" : ""}
 
                     </button>
 
                     <button
                         onclick="event.stopPropagation();callContact('${contact._id}')">
 
-                        📞
+
 
                     </button>
 
@@ -175,13 +175,13 @@ function renderContacts(list = contacts) {
 
                     <button onclick="editContact('${contact._id}')">
 
-                        ✏ Edit
+                         Edit
 
                     </button>
 
                     <button onclick="deleteContact('${contact._id}')">
 
-                        🗑 Delete
+                         Delete
 
                     </button>
 
@@ -304,7 +304,7 @@ async function addContact() {
             photoInput.value = "";
         }
 
-        showToast("✅ Contact Added");
+        showToast(" Contact Added");
 
     }
 
@@ -362,7 +362,7 @@ async function editContact(id) {
 
         await loadContacts();
 
-        showToast("✏ Contact Updated");
+        showToast(" Contact Updated");
 
     }
 
@@ -391,7 +391,7 @@ async function deleteContact(id) {
 
         await loadContacts();
 
-        showToast("🗑 Contact Deleted");
+        showToast(" Contact Deleted");
 
     }
 

@@ -58,7 +58,7 @@ async function fetchKCBStatements() {
 
         kcbStatements = await response.json();
 
-        console.log("✅ Statements Loaded");
+        console.log(" Statements Loaded");
 
         return kcbStatements;
 
@@ -122,7 +122,7 @@ async function loadStatement() {
 
             <div class="transaction-empty-icon">
 
-                📄
+
 
             </div>
 
@@ -826,6 +826,6 @@ document.addEventListener(
 
 console.log(
 
-    "✅ KCB Statements Module Loaded"
+    " KCB Statements Module Loaded"
 
 );

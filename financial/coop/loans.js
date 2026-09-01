@@ -571,5 +571,5 @@ window.getCoopLoan =
 
 
 console.log(
-    "✅ Co-operative Bank Loans Module Loaded"
+    " Co-operative Bank Loans Module Loaded"
 );

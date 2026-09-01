@@ -41,6 +41,15 @@ const userSchema = new mongoose.Schema({
         minlength: 8
     },
 
+    /* ==========================================
+       APP SECURITY PIN
+       Stored as a bcrypt hash.
+    ========================================== */
+
+    securityPin: {
+        type: String,
+        default: null
+    },
     role: {
         type: String,
         enum: ["user", "admin"],

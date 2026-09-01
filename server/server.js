@@ -259,7 +259,7 @@ app.use(
    (req, res) => {
 
       console.log(
-         "❌ API Route Not Found:",
+         " API Route Not Found:",
          req.method,
          req.originalUrl
       );
@@ -321,7 +321,7 @@ httpServer.listen(
    () => {
 
       console.log(
-         `🚀 Server running on 0.0.0.0:${PORT}`
+         ` Server running on 0.0.0.0:${PORT}`
       );
 
    }

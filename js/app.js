@@ -117,7 +117,7 @@ window.refreshApp = refreshApp;
 
 function startApplication() {
 
-    console.log("🇰🇪 Kenya Smart Dialer Pro Started");
+    console.log(" Kenya Smart Dialer Pro Started");
 
     if (typeof showLoader === "function") {
         showLoader("Loading Kenya Smart Dialer...");
@@ -313,7 +313,7 @@ function importBackup(file) {
 
 function logout() {
 
-    console.log("🚪 Logging out...");
+    console.log(" Logging out...");
 
     // Remove authentication information only
     localStorage.removeItem("token");
@@ -339,7 +339,7 @@ function logout() {
     if (email) email.value = "";
     if (password) password.value = "";
 
-    console.log("✅ Logged out successfully.");
+    console.log(" Logged out successfully.");
 }
 
 
@@ -355,7 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         logoutBtn.addEventListener("click", logout);
 
-        console.log("✅ Logout button ready.");
+        console.log(" Logout button ready.");
 
     }
 
@@ -370,7 +370,7 @@ if ("serviceWorker" in navigator) {
             .then(registration => {
 
                 console.log(
-                    "✅ Service Worker Registered:",
+                    " Service Worker Registered:",
                     registration.scope
                 );
 
@@ -378,7 +378,7 @@ if ("serviceWorker" in navigator) {
             .catch(error => {
 
                 console.error(
-                    "❌ Service Worker Registration Failed:",
+                    " Service Worker Registration Failed:",
                     error
                 );
 

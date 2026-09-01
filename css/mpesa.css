@@ -228,6 +228,12 @@
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
 }
 
+.transaction-icon-image {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    display: block;
+}
 .transaction-icon {
     width: 42px;
     height: 42px;

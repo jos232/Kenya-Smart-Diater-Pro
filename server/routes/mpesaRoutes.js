@@ -105,4 +105,14 @@ router.delete(
 );
 
 
+
+/* ==========================================
+   M-PESA SECURITY
+========================================== */
+
+router.post(
+    "/security",
+    auth,
+    mpesaController.saveMpesaSecurity
+);
 module.exports = router;

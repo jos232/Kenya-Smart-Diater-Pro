@@ -359,7 +359,7 @@ async function buyVoicePackage() {
            SUCCESS
         ------------------------- */
         showToast(
-            "🎤 " +
+            " " +
             activatedPackage +
             " activated successfully."
         );

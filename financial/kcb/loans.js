@@ -1185,5 +1185,5 @@ window.loadLoanHistory =
 ========================================== */
 
 console.log(
-    "✅ KCB Loans Module Loaded"
+    " KCB Loans Module Loaded"
 );

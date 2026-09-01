@@ -4,6 +4,12 @@
 ========================================== */
 
 "use strict";
+const User =
+    require("../models/User");
+
+const bcrypt =
+    require("bcrypt");
+
 
 const Transaction =
     require("../models/Transaction");
@@ -16,6 +22,75 @@ const FinancialProfile =
    HELPER: GET FINANCIAL PROFILE
 ========================================== */
 
+
+/* ==========================================
+   SAVE M-PESA APP SECURITY PIN
+========================================== */
+
+exports.saveMpesaSecurity = async (req, res) => {
+
+    try {
+
+        const userId =
+            req.user?.userId;
+
+        if (!userId) {
+            return res.status(401).json({
+                message: "Authentication required."
+            });
+        }
+
+        const pin =
+            String(req.body?.pin || "").trim();
+
+        if (!/^\d{4}$/.test(pin)) {
+            return res.status(400).json({
+                message:
+                    "Security PIN must contain exactly 4 digits."
+            });
+        }
+
+        const user =
+            await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User account not found."
+            });
+        }
+
+        const hashedPin =
+            await bcrypt.hash(pin, 12);
+
+        user.securityPin =
+            hashedPin;
+
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message:
+                "App security PIN saved successfully."
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "SAVE M-PESA SECURITY ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message:
+                "Could not save app security PIN."
+        });
+
+    }
+
+};
 async function getFinancialProfile(userId) {
 
     return await FinancialProfile.findOne({
@@ -90,6 +165,7 @@ exports.sendMoney = async (req, res) => {
             recipient,
             recipientName,
             amount,
+            securityPin,
             description
         } = req.body;
 
@@ -100,6 +176,80 @@ exports.sendMoney = async (req, res) => {
 
         const transferAmount =
             Number(amount);
+
+
+        /* ==========================
+           VERIFY M-PESA SECURITY PIN
+        ========================== */
+
+        if (!/^\d{4}$/.test(String(securityPin || "").trim())) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Enter your 4-digit M-Pesa Security PIN."
+
+            });
+
+        }
+
+
+        const user =
+            await User.findById(
+                req.user.userId
+            );
+
+
+        if (!user) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message:
+                    "User account not found."
+
+            });
+
+        }
+
+
+        if (!user.securityPin) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "M-Pesa Security PIN has not been set."
+
+            });
+
+        }
+
+
+        const pinMatches =
+            await bcrypt.compare(
+                String(securityPin).trim(),
+                user.securityPin
+            );
+
+
+        if (!pinMatches) {
+
+            return res.status(401).json({
+
+                success: false,
+
+                message:
+                    "Incorrect M-Pesa Security PIN."
+
+            });
+
+        }
+
 
 
         if (!recipient) {

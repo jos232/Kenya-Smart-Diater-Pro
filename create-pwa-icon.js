@@ -13,8 +13,8 @@ sharp("assets/logo.png")
     .png()
     .toFile("assets/pwa-icon-512.png")
     .then(() => {
-        console.log("✅ PWA icon created: assets/pwa-icon-512.png");
+        console.log(" PWA icon created: assets/pwa-icon-512.png");
     })
     .catch((error) => {
-        console.error("❌ Error creating PWA icon:", error);
+        console.error(" Error creating PWA icon:", error);
     });

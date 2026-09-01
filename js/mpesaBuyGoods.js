@@ -1,4 +1,4 @@
-﻿/* ==========================================
+/* ==========================================
    KENYA SMART DIALER PRO
    M-PESA BUY GOODS MODULE
 ========================================== */
@@ -21,7 +21,7 @@ function openMpesaBuyGoods() {
         <div class="mpesa-modal-content">
 
             <div class="mpesa-modal-header">
-                <h2>🛒 Buy Goods</h2>
+                <h2> Buy Goods</h2>
 
                 <button
                     type="button"
@@ -75,7 +75,16 @@ function openMpesaBuyGoods() {
         </div>
     `;
 
+    const appContainer =
+    document.querySelector(".phone") ||
+    document.querySelector(".app-container") ||
+    document.querySelector("main");
+
+if (appContainer) {
+    appContainer.appendChild(modal);
+} else {
     document.body.appendChild(modal);
+}
 }
 
 function closeMpesaBuyGoods() {
@@ -271,7 +280,7 @@ function showMpesaBuyGoodsReceipt(data) {
         <div class="mpesa-receipt-content">
 
             <div class="receipt-success">
-                ✓
+
             </div>
 
             <h2>
@@ -340,7 +349,16 @@ function showMpesaBuyGoodsReceipt(data) {
         </div>
     `;
 
+    const appContainer =
+    document.querySelector(".phone") ||
+    document.querySelector(".app-container") ||
+    document.querySelector("main");
+
+if (appContainer) {
+    appContainer.appendChild(receipt);
+} else {
     document.body.appendChild(receipt);
+}
 }
 
 function closeMpesaBuyGoodsReceipt() {
@@ -381,5 +399,5 @@ window.closeMpesaBuyGoodsReceipt =
     closeMpesaBuyGoodsReceipt;
 
 console.log(
-    "✓ M-Pesa Buy Goods module loaded"
+    " M-Pesa Buy Goods module loaded"
 );

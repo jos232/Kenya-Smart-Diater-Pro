@@ -165,7 +165,7 @@ function renderHistory(history = callHistory) {
                         title="Call Again"
                         onclick="callFromHistory('${call.number}')">
 
-                        📞
+
 
                     </button>
 
@@ -174,7 +174,7 @@ function renderHistory(history = callHistory) {
                         title="Delete Call"
                         onclick="deleteHistoryItem(${index})">
 
-                        🗑️
+                        ️
 
                     </button>
 

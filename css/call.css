@@ -855,7 +855,7 @@
 
 .call-network::before {
 
-    content: "🟢 ";
+    content: " ";
 
 }
 

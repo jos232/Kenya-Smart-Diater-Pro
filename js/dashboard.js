@@ -574,7 +574,7 @@ async function refreshApp() {
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    console.log("✅ Dashboard Initialized");
+    console.log(" Dashboard Initialized");
 
     await refreshApp();
 

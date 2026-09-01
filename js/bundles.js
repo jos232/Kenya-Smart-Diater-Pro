@@ -319,7 +319,7 @@ async function buyBundle() {
            SUCCESS MESSAGE
         ------------------------- */
 
-        showToast("📶 Bundle activated successfully!");
+        showToast(" Bundle activated successfully!");
 
     }
 

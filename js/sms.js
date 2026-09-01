@@ -391,7 +391,7 @@ async function buySMSPackage() {
         ------------------------- */
 
         showToast(
-            "💬 " +
+            " " +
             result.purchase.packageName +
             " activated successfully."
         );
@@ -542,13 +542,13 @@ function consumeSMS(count = 1) {
 
     if (Telecom.sms <= 10 && Telecom.sms > 0) {
 
-        showToast("⚠️ Low SMS Balance");
+        showToast("️ Low SMS Balance");
 
     }
 
     if (Telecom.sms === 0) {
 
-        showToast("❌ SMS Balance Exhausted");
+        showToast(" SMS Balance Exhausted");
 
     }
 

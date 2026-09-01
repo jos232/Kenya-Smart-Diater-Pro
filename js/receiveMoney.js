@@ -5,7 +5,7 @@
 
 "use strict";
 
-console.log("💚 Receive Money Module Loaded");
+console.log("ðŸ’š Receive Money Module Loaded");
 
 
 /* ==========================================
@@ -21,126 +21,55 @@ let receiveMoneyData = null;
 
 function openReceiveMoney() {
 
-    console.log("💚 Opening M-Pesa Receive Money...");
+    console.log("Opening M-Pesa Receive Money inside app...");
 
-    const modal = document.getElementById(
-        "receiveMoneyModal"
-    );
+    /* ==========================================
+       HIDE OTHER FINANCIAL SCREENS
+    ========================================== */
 
-    if (modal) {
+    document
+        .querySelectorAll(".financial-content")
+        .forEach(screen => {
+            screen.classList.remove("active");
+        });
 
-        modal.style.display = "flex";
+
+    /* ==========================================
+       OPEN RECEIVE MONEY SCREEN
+    ========================================== */
+
+    const screen =
+        document.getElementById(
+            "receiveMoneyService"
+        );
+
+    if (!screen) {
+
+        console.error(
+            "receiveMoneyService not found in index.html"
+        );
 
         return;
-
     }
 
-    createReceiveMoneyModal();
+    screen.classList.add("active");
+
+
+    /* ==========================================
+       SCROLL TO TOP
+    ========================================== */
+
+    const main =
+        document.querySelector("main.screens");
+
+    if (main) {
+        main.scrollTop = 0;
+    }
 
 }
 
 
-/* ==========================================
-   CREATE MODAL
-========================================== */
 
-function createReceiveMoneyModal() {
-
-    const modal =
-        document.createElement("div");
-
-    modal.id =
-        "receiveMoneyModal";
-
-    modal.className =
-        "mpesa-modal";
-
-    modal.innerHTML = `
-
-        <div class="mpesa-modal-content">
-
-            <div class="mpesa-modal-header">
-
-                <h2>
-                    Receive Money
-                </h2>
-
-                <button
-                    type="button"
-                    onclick="closeReceiveMoney()"
-                >
-                    ×
-                </button>
-
-            </div>
-
-
-            <div class="mpesa-form">
-
-                <label>
-                    Sender Phone Number
-                </label>
-
-                <input
-                    type="tel"
-                    id="receiveSender"
-                    placeholder="0712345678"
-                    maxlength="13"
-                >
-
-
-                <label>
-                    Sender Name
-                </label>
-
-                <input
-                    type="text"
-                    id="receiveSenderName"
-                    placeholder="Sender name"
-                >
-
-
-                <label>
-                    Amount
-                </label>
-
-                <input
-                    type="number"
-                    id="receiveAmount"
-                    placeholder="KES 0"
-                    min="1"
-                    step="1"
-                >
-
-
-                <label>
-                    Description
-                </label>
-
-                <input
-                    type="text"
-                    id="receiveDescription"
-                    placeholder="Optional description"
-                >
-
-
-                <button
-                    type="button"
-                    class="mpesa-primary-button"
-                    onclick="previewReceiveMoney()"
-                >
-                    Continue
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
-
-    document.body.appendChild(modal);
-
-}
 
 
 /* ==========================================
@@ -149,14 +78,14 @@ function createReceiveMoneyModal() {
 
 function closeReceiveMoney() {
 
-    const modal =
+    const screen =
         document.getElementById(
-            "receiveMoneyModal"
+            "receiveMoneyService"
         );
 
-    if (modal) {
+    if (screen) {
 
-        modal.style.display = "none";
+        screen.classList.remove("active");
 
     }
 
@@ -383,7 +312,7 @@ function showReceiveMoneyLoading() {
 
     const button =
         document.querySelector(
-            "#receiveMoneyModal .mpesa-primary-button"
+            "#receiveMoneyService .primary-btn"
         );
 
     if (!button) {
@@ -454,7 +383,7 @@ function showReceiveMoneyReceipt(data) {
         <div class="mpesa-receipt-content">
 
             <div class="receipt-success">
-                ✓
+                âœ“
             </div>
 
             <h2>
@@ -628,5 +557,5 @@ window.closeReceiveMoneyReceipt =
 
 
 console.log(
-    "✅ Receive Money functions exported"
+    "âœ… Receive Money functions exported"
 );

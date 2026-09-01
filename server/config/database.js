@@ -12,23 +12,23 @@ async function connectDB() {
 
         });
 
-        console.log("✅ MongoDB Atlas Connected");
+        console.log(" MongoDB Atlas Connected");
 
         mongoose.connection.on("connected", () => {
 
-            console.log("📦 Database Ready");
+            console.log(" Database Ready");
 
         });
 
         mongoose.connection.on("disconnected", () => {
 
-            console.log("⚠ MongoDB Disconnected");
+            console.log(" MongoDB Disconnected");
 
         });
 
         mongoose.connection.on("reconnected", () => {
 
-            console.log("🔄 MongoDB Reconnected");
+            console.log(" MongoDB Reconnected");
 
         });
 
@@ -42,7 +42,7 @@ async function connectDB() {
 
     catch (err) {
 
-        console.error("❌ Failed to connect MongoDB");
+        console.error(" Failed to connect MongoDB");
 
         console.error(err.message);
 

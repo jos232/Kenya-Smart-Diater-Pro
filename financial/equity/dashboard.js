@@ -110,7 +110,7 @@ function loadEquityRecentTransactions() {
 
             <div class="transaction-empty-icon">
 
-                💳
+
 
             </div>
 

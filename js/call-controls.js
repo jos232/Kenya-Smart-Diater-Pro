@@ -19,7 +19,7 @@ function toggleMute() {
 
         btn.classList.add("active");
         btn.innerHTML = `
-            🎤🚫
+
             <span class="label">Muted</span>
         `;
 
@@ -27,7 +27,7 @@ function toggleMute() {
 
         btn.classList.remove("active");
         btn.innerHTML = `
-            🔇
+
             <span class="label">Mute</span>
         `;
 
@@ -51,7 +51,7 @@ function toggleSpeaker() {
         btn.classList.add("active");
 
         btn.innerHTML = `
-            🔊
+
             <span class="label">Speaker On</span>
         `;
 
@@ -60,7 +60,7 @@ function toggleSpeaker() {
         btn.classList.remove("active");
 
         btn.innerHTML = `
-            🔊
+
             <span class="label">Speaker</span>
         `;
 

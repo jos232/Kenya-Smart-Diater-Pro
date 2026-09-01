@@ -212,7 +212,7 @@ function loadKCBRecentTransactions() {
         <div class="transaction-empty">
 
             <div class="transaction-empty-icon">
-                🧾
+
             </div>
 
             <h3>No Recent Transactions</h3>

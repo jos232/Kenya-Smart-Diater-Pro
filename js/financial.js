@@ -1,6 +1,6 @@
 "use strict";
 
-console.log("✅ financial.js loaded");
+console.log(" financial.js loaded");
 
 
 /* ==========================================
@@ -998,7 +998,7 @@ function updateFinancialDashboard(profile) {
     ====================================== */
 
     console.log(
-        "✅ Financial dashboard updated:",
+        " Financial dashboard updated:",
         profile
     );
 
@@ -1101,5 +1101,5 @@ window.formatFinancialMoney =
 
 
 console.log(
-    "✅ Financial functions exported"
+    " Financial functions exported"
 );

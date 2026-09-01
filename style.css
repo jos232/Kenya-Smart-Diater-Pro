@@ -166,15 +166,17 @@ body {
 
     min-height: 0;
 
-    height: 0;
+    height: auto;
 
     overflow-y: auto;
 
     overflow-x: hidden;
 
+    -webkit-overflow-scrolling: touch;
+
     padding: 20px;
 
-    padding-bottom: 450px;
+    padding-bottom: 20px;
 
     box-sizing: border-box;
 
@@ -191,6 +193,14 @@ body {
 .screen.active {
 
     display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    min-height: max-content;
+
+    box-sizing: border-box;
 
 }
 
@@ -453,17 +463,15 @@ input:focus {
 
 .bottom-nav {
 
-    position: absolute;
+    position: relative;
 
-    left: 0;
-
-    right: 0;
-
-    bottom: 0;
+    width: 100%;
 
     height: 72px;
 
     min-height: 72px;
+
+    flex-shrink: 0;
 
     display: flex;
 
@@ -477,7 +485,7 @@ input:focus {
 
     box-sizing: border-box;
 
-    z-index: 100;
+    z-index: 1000;
 
 }
 
@@ -2722,4 +2730,416 @@ input:focus {
 
 .ussd-cancel:active {
     transform: scale(.98);
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   FINAL MOBILE APP LAYOUT FIX
+========================================== */
+
+.phone {
+    display: flex !important;
+    flex-direction: column !important;
+    height: min(900px, calc(100vh - 40px)) !important;
+    max-height: 900px !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+.screens {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+    padding: 20px !important;
+    padding-bottom: 20px !important;
+}
+
+.screens > .screen,
+.screens > main,
+.screen {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+#dashboard {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+.bottom-nav {
+    position: relative !important;
+    flex: 0 0 71px !important;
+    height: 71px !important;
+    min-height: 71px !important;
+    max-height: 71px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    z-index: 100 !important;
+}
+
+/* ==========================================
+   M-PESA BUY GOODS - INSIDE APP
+========================================== */
+
+.phone {
+    position: relative !important;
+}
+
+.mpesa-modal,
+.mpesa-receipt {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+    z-index: 500 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 20px !important;
+    background: rgba(2, 6, 23, 0.97) !important;
+}
+
+.mpesa-modal-content,
+.mpesa-receipt-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 auto !important;
+}
+
+.mpesa-modal-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+}
+
+.mpesa-close-button {
+    flex-shrink: 0 !important;
+}
+
+.mpesa-form-group {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.mpesa-form-input {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.mpesa-primary-button {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Keep Buy Goods content above the app navigation */
+#mpesaBuyGoodsModal,
+#mpesaBuyGoodsReceipt {
+    padding-bottom: 90px !important;
+}
+
+
+/* ==========================================
+   M-PESA BUY GOODS
+   APP-INTERNAL MODAL STYLING
+========================================== */
+
+.phone {
+    position: relative !important;
+}
+
+.mpesa-modal,
+.mpesa-receipt {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    box-sizing: border-box !important;
+
+    z-index: 500 !important;
+
+    padding: 20px !important;
+    padding-bottom: 90px !important;
+
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+
+    background: rgba(15, 23, 42, 0.98) !important;
+
+    color: var(--text, #f8fafc) !important;
+}
+
+.mpesa-modal-content,
+.mpesa-receipt-content {
+    width: 100% !important;
+    max-width: 420px !important;
+
+    margin: 0 auto !important;
+
+    box-sizing: border-box !important;
+
+    background: rgba(30, 41, 59, 0.96) !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+
+    border-radius: 20px !important;
+
+    padding: 20px !important;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.45) !important;
+}
+
+.mpesa-modal-header {
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: space-between !important;
+
+    gap: 12px !important;
+
+    margin-bottom: 20px !important;
+}
+
+.mpesa-modal-header h2 {
+    margin: 0 !important;
+
+    font-size: 22px !important;
+
+    font-weight: 700 !important;
+
+    color: #f8fafc !important;
+}
+
+.mpesa-close-button {
+    width: 40px !important;
+
+    height: 40px !important;
+
+    flex-shrink: 0 !important;
+
+    border: none !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(255, 255, 255, 0.08) !important;
+
+    color: #ffffff !important;
+
+    font-size: 24px !important;
+
+    cursor: pointer !important;
+}
+
+.mpesa-form-group {
+    margin-bottom: 16px !important;
+
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+}
+
+.mpesa-form-group label {
+    display: block !important;
+
+    margin-bottom: 7px !important;
+
+    font-size: 14px !important;
+
+    font-weight: 600 !important;
+
+    color: #cbd5e1 !important;
+}
+
+.mpesa-form-input {
+    display: block !important;
+
+    width: 100% !important;
+
+    min-height: 48px !important;
+
+    box-sizing: border-box !important;
+
+    padding: 12px 14px !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+
+    border-radius: 12px !important;
+
+    outline: none !important;
+
+    background: rgba(15, 23, 42, 0.9) !important;
+
+    color: #ffffff !important;
+
+    font-family: inherit !important;
+
+    font-size: 15px !important;
+}
+
+.mpesa-form-input:focus {
+    border-color: #00c853 !important;
+
+    box-shadow: 0 0 0 2px rgba(0, 200, 83, 0.15) !important;
+}
+
+.mpesa-form-input::placeholder {
+    color: #64748b !important;
+}
+
+.mpesa-primary-button {
+    width: 100% !important;
+
+    min-height: 48px !important;
+
+    margin-top: 8px !important;
+
+    border: none !important;
+
+    border-radius: 12px !important;
+
+    background: #00c853 !important;
+
+    color: #ffffff !important;
+
+    font-family: inherit !important;
+
+    font-size: 15px !important;
+
+    font-weight: 700 !important;
+
+    cursor: pointer !important;
+}
+
+.mpesa-primary-button:disabled {
+    opacity: 0.6 !important;
+
+    cursor: not-allowed !important;
+}
+
+.receipt-success {
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    width: 64px !important;
+
+    height: 64px !important;
+
+    margin: 0 auto 16px !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(0, 200, 83, 0.15) !important;
+}
+
+.receipt-success::after {
+    content: "?" !important;
+
+    font-size: 34px !important;
+
+    font-weight: 700 !important;
+
+    color: #00c853 !important;
+}
+
+.mpesa-receipt-content h2 {
+    margin: 0 0 8px !important;
+
+    text-align: center !important;
+
+    color: #f8fafc !important;
+}
+
+.mpesa-receipt-content p {
+    margin: 0 0 20px !important;
+
+    text-align: center !important;
+
+    color: #94a3b8 !important;
+}
+
+.receipt-amount {
+    margin: 15px 0 !important;
+
+    padding: 18px !important;
+
+    border-radius: 14px !important;
+
+    text-align: center !important;
+
+    background: rgba(0, 200, 83, 0.10) !important;
+
+    color: #00c853 !important;
+
+    font-size: 26px !important;
+
+    font-weight: 800 !important;
+}
+
+.receipt-details {
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    gap: 12px !important;
+
+    margin: 18px 0 !important;
+}
+
+.receipt-details > div {
+    display: flex !important;
+
+    justify-content: space-between !important;
+
+    align-items: center !important;
+
+    gap: 15px !important;
+
+    padding: 10px 0 !important;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+.receipt-details span {
+    color: #94a3b8 !important;
+
+    font-size: 13px !important;
+}
+
+.receipt-details strong {
+    color: #f8fafc !important;
+
+    font-size: 14px !important;
+
+    text-align: right !important;
+
+    word-break: break-word !important;
+}
+
+#mpesaBuyGoodsModal,
+#mpesaBuyGoodsReceipt {
+    font-family: Poppins, Arial, sans-serif !important;
 }

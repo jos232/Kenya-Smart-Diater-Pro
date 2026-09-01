@@ -578,5 +578,5 @@ window.getEquityLoan =
 
 
 console.log(
-    "✅ Equity Loans Module Loaded"
+    " Equity Loans Module Loaded"
 );

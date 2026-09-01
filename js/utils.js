@@ -274,7 +274,7 @@ function generateReference(prefix = "TXN") {
 
 function refreshApp() {
 
-    console.log("🔄 Refreshing application...");
+    console.log(" Refreshing application...");
 
     if (typeof refreshDashboard === "function") {
         refreshDashboard();

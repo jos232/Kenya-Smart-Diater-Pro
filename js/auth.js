@@ -248,7 +248,7 @@ async function loadUserFinancialData() {
             await initializeFinancialData();
 
             console.log(
-                "✅ User financial data loaded."
+                " User financial data loaded."
             );
 
         } else {

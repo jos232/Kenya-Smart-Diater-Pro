@@ -47,7 +47,7 @@ function loadCoopStatement(filter = "ALL") {
 
         <div class="transaction-empty">
 
-            <div class="transaction-empty-icon">📄</div>
+            <div class="transaction-empty-icon"></div>
 
             <h3>No Statements Available</h3>
 

@@ -194,7 +194,7 @@ function loadCoopRecentTransactions() {
 
             <div class="transaction-empty-icon">
 
-                💳
+
 
             </div>
 

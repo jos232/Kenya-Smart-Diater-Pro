@@ -99,12 +99,12 @@ self.addEventListener("install", event => {
 
                             await cache.put(file, response);
 
-                            console.log("✅ Cached:", file);
+                            console.log(" Cached:", file);
 
                         } else {
 
                             console.warn(
-                                "⚠️ Could not cache:",
+                                "️ Could not cache:",
                                 file,
                                 response.status
                             );
@@ -114,7 +114,7 @@ self.addEventListener("install", event => {
                     } catch (error) {
 
                         console.warn(
-                            "⚠️ Cache failed:",
+                            "️ Cache failed:",
                             file,
                             error
                         );

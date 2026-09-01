@@ -73,7 +73,7 @@ function initializeDialer() {
 
     console.log(
 
-        "✅ Kenya Smart Dialer Loaded"
+        " Kenya Smart Dialer Loaded"
 
     );
 
