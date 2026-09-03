@@ -1,4 +1,4 @@
-/* ==========================================
+﻿/* ==========================================
    KENYA SMART DIALER PRO
    M-PESA BUY GOODS MODULE
 ========================================== */
@@ -27,7 +27,7 @@ function openMpesaBuyGoods() {
                     type="button"
                     class="mpesa-close-button"
                     onclick="closeMpesaBuyGoods()">
-                    ×
+                    Ã—
                 </button>
             </div>
 
@@ -64,6 +64,20 @@ function openMpesaBuyGoods() {
                     step="1"
                     placeholder="Enter amount">
             </div>
+
+            <div class="mpesa-form-group">
+                <label>Transaction PIN</label>
+
+                <input
+                    id="mpesaBuyGoodsPIN"
+                    class="mpesa-form-input"
+                    type="password"
+                    inputmode="numeric"
+                    maxlength="4"
+                    pattern="[0-9]{4}"
+                    placeholder="Enter 4-digit PIN">
+            </div>
+
 
             <button
                 type="button"
@@ -125,10 +139,19 @@ function previewMpesaBuyGoods() {
         return;
     }
 
+    const securityPin = document.getElementById("mpesaBuyGoodsPIN")?.value.trim();
+
+    if (!/^\d{4}$/.test(securityPin || "")) {
+        alert("Please enter your 4-digit transaction PIN.");
+        return;
+    }
+
+
     buyGoodsData = {
         tillNumber,
         merchantName: merchantName || "Merchant",
-        amount
+        amount,
+        securityPin
     };
 
     const confirmed = confirm(
@@ -401,3 +424,4 @@ window.closeMpesaBuyGoodsReceipt =
 console.log(
     " M-Pesa Buy Goods module loaded"
 );
+

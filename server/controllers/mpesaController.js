@@ -1,4 +1,4 @@
-/* ==========================================
+﻿/* ==========================================
    KENYA SMART DIALER PRO
    M-PESA CONTROLLER
 ========================================== */
@@ -650,8 +650,42 @@ exports.buyGoods = async (req, res) => {
             tillNumber,
             merchantName,
             amount,
-            description
+            description,
+            securityPin
         } = req.body;
+
+
+        if (!/^\d{4}$/.test(String(securityPin || ""))) {
+            return res.status(400).json({
+                success: false,
+                message: "Enter your 4-digit transaction PIN."
+            });
+        }
+
+
+        const user = await User.findById(req.user.userId);
+
+
+        if (!user || !user.securityPin) {
+            return res.status(400).json({
+                success: false,
+                message: "Transaction PIN is not configured."
+            });
+        }
+
+
+        const pinValid = await bcrypt.compare(
+            String(securityPin),
+            user.securityPin
+        );
+
+
+        if (!pinValid) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid transaction PIN."
+            });
+        }
 
 
         const purchaseAmount =
@@ -851,6 +885,43 @@ exports.payBill = async (req, res) => {
             amount,
             description
         } = req.body;
+
+        const securityPin = String(req.body.securityPin || "").trim();
+
+        if (!/^\d{4}$/.test(securityPin)) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Enter your 4-digit transaction PIN."
+            });
+
+        }
+
+        const user = await User.findById(req.user.userId);
+
+        if (!user || !user.securityPin) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Transaction PIN is not configured."
+            });
+
+        }
+
+        const pinValid = await bcrypt.compare(
+            securityPin,
+            user.securityPin
+        );
+
+        if (!pinValid) {
+
+            return res.status(401).json({
+                success: false,
+                message: "Invalid transaction PIN."
+            });
+
+        }
+
 
 
         const billAmount =
@@ -1317,3 +1388,4 @@ exports.deleteMpesaTransaction =
         }
 
     };
+
