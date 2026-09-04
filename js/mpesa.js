@@ -290,7 +290,6 @@ function previewTransfer() {
 /* ==========================================
    PROCESS M-PESA SEND MONEY
 ========================================== */
-
 async function processMpesaTransfer(
     transfer,
     network
@@ -299,7 +298,7 @@ async function processMpesaTransfer(
     try {
 
         console.log(
-            "Processing M-Pesa Send Money:",
+            "Processing REAL Daraja STK Push:",
             transfer
         );
 
@@ -324,30 +323,12 @@ async function processMpesaTransfer(
 
 
         /* ==========================================
-           SECURITY PIN
-        ========================================== */
-
-        const securityPin =
-            prompt("Enter your 4-digit M-Pesa Security PIN:");
-
-        if (!/^\d{4}$/.test(securityPin || "")) {
-
-            showMPesaToast(
-                "Please enter your 4-digit Security PIN.",
-                "error"
-            );
-
-            return null;
-        }
-
-
-        /* ==========================================
-           SEND REQUEST
+           REAL DARAJA STK PUSH
         ========================================== */
 
         const response =
             await fetch(
-                "/api/mpesa/send",
+                "/api/mpesa/stkpush",
                 {
 
                     method: "POST",
@@ -358,26 +339,24 @@ async function processMpesaTransfer(
                             "application/json",
 
                         "Authorization":
-                            `Bearer ${token}`
+                            "Bearer " + token
 
                     },
 
                     body: JSON.stringify({
 
-                        recipient:
-                            transfer.phone,
-
-                        recipientName:
-                            transfer.name,
-
                         amount:
                             transfer.amount,
 
+                        phoneNumber:
+                            transfer.phone,
 
-                        securityPin:
-                            securityPin,
-                        description:
-                            transfer.description || ""
+                        accountReference:
+                            "KSDP",
+
+                        transactionDesc:
+                            transfer.description ||
+                            "KSDP payment"
 
                     })
 
@@ -394,7 +373,7 @@ async function processMpesaTransfer(
 
 
         console.log(
-            "Send Money Response:",
+            "Daraja STK Push Response:",
             data
         );
 
@@ -411,42 +390,34 @@ async function processMpesaTransfer(
             throw new Error(
 
                 data.message ||
-                "M-Pesa transfer failed."
+                "Unable to send M-Pesa payment prompt."
 
             );
 
         }
 
 
+        const transactionId =
+            data.transactionId;
+
+
         /* ==========================================
-           SUCCESS
+           STK PROMPT SENT
         ========================================== */
 
         showMPesaToast(
 
-            "Money sent successfully.",
+            "M-Pesa payment prompt sent. Check your phone.",
 
             "success"
 
         );
 
 
-        /* ==========================================
-           UPDATE BALANCE IMMEDIATELY
-        ========================================== */
-
-        updateMpesaBalanceDisplay(
-            data.balance
-        );
-
-
-        /* ==========================================
-           SHOW RECEIPT
-        ========================================== */
-
-        showSendMoneyReceipt(
-            data.transaction
-        );
+        /*
+           Daraja has accepted the request,
+           but the payment is NOT confirmed yet.
+        */
 
 
         /* ==========================================
@@ -457,15 +428,14 @@ async function processMpesaTransfer(
 
 
         /* ==========================================
-           REFRESH DASHBOARD
+           WAIT FOR CALLBACK
         ========================================== */
 
-        if (
-            typeof loadMpesaDashboard ===
-            "function"
-        ) {
+        if (transactionId) {
 
-            loadMpesaDashboard();
+            pollMpesaStkStatus(
+                transactionId
+            );
 
         }
 
@@ -477,7 +447,7 @@ async function processMpesaTransfer(
     catch (error) {
 
         console.error(
-            "M-Pesa Send Money Error:",
+            "Daraja STK Push Error:",
             error
         );
 
@@ -485,7 +455,7 @@ async function processMpesaTransfer(
         showMPesaToast(
 
             error.message ||
-            "Unable to send M-Pesa money.",
+            "Unable to start M-Pesa payment.",
 
             "error"
 
@@ -493,6 +463,210 @@ async function processMpesaTransfer(
 
 
         return null;
+
+    }
+
+}
+
+
+/* ==========================================
+   POLL REAL STK TRANSACTION STATUS
+========================================== */
+
+async function pollMpesaStkStatus(
+    transactionId
+) {
+
+    const maxAttempts = 24;
+
+    const intervalMs = 5000;
+
+
+    for (
+        let attempt = 0;
+        attempt < maxAttempts;
+        attempt++
+    ) {
+
+        try {
+
+            await new Promise(
+                resolve =>
+                    setTimeout(
+                        resolve,
+                        intervalMs
+                    )
+            );
+
+
+            const token =
+                localStorage.getItem("token") || "";
+
+
+            if (!token) {
+                return;
+            }
+
+
+            const response =
+                await fetch(
+                    "/api/mpesa/" +
+                    encodeURIComponent(
+                        transactionId
+                    ),
+                    {
+
+                        method: "GET",
+
+                        headers: {
+
+                            "Authorization":
+                                "Bearer " + token
+
+                        }
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                console.warn(
+                    "STK status check failed:",
+                    response.status
+                );
+
+                continue;
+            }
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "STK status:",
+                data
+            );
+
+
+            const transaction =
+                data.transaction ||
+                data.data ||
+                data;
+
+
+            const status =
+                String(
+                    transaction?.status ||
+                    ""
+                ).toUpperCase();
+
+
+            /* ==========================================
+               SUCCESS
+            ========================================== */
+
+            if (status === "SUCCESS") {
+
+                showMPesaToast(
+
+                    "M-Pesa payment confirmed successfully.",
+
+                    "success"
+
+                );
+
+
+                if (
+                    typeof loadMpesaDashboard ===
+                    "function"
+                ) {
+
+                    loadMpesaDashboard();
+
+                }
+
+
+                if (
+                    typeof showSendMoneyReceipt ===
+                    "function"
+                ) {
+
+                    showSendMoneyReceipt(
+                        transaction
+                    );
+
+                }
+
+
+                return transaction;
+
+            }
+
+
+            /* ==========================================
+               FAILED
+            ========================================== */
+
+            if (status === "FAILED") {
+
+                showMPesaToast(
+
+                    "M-Pesa payment was not completed.",
+
+                    "error"
+
+                );
+
+
+                if (
+                    typeof loadMpesaDashboard ===
+                    "function"
+                ) {
+
+                    loadMpesaDashboard();
+
+                }
+
+
+                return transaction;
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "STK status polling error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* ==========================================
+       STILL PENDING
+    ========================================== */
+
+    showMPesaToast(
+
+        "Payment is still pending. Check Transactions for the latest status.",
+
+        "error"
+
+    );
+
+
+    if (
+        typeof loadMpesaDashboard ===
+        "function"
+    ) {
+
+        loadMpesaDashboard();
 
     }
 

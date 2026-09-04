@@ -1,4 +1,4 @@
-/* ==========================================
+﻿/* ==========================================
    KENYA SMART DIALER PRO
    M-PESA ROUTES
 ========================================== */
@@ -31,6 +31,8 @@ router.get(
 /* ==========================================
    SEND MONEY
 ========================================== */
+
+router.post("/stkpush", auth, mpesaController.stkPush);
 
 router.post(
     "/send",
@@ -83,6 +85,16 @@ router.get(
 );
 
 
+
+/* ==========================================
+   DARAJA STK CALLBACK
+   PUBLIC ROUTE - NO JWT AUTH
+========================================== */
+
+router.post(
+    "/callback",
+    mpesaController.stkCallback
+);
 /* ==========================================
    SINGLE TRANSACTION
 ========================================== */
@@ -116,3 +128,5 @@ router.post(
     mpesaController.saveMpesaSecurity
 );
 module.exports = router;
+
+

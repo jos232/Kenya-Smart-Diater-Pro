@@ -1389,3 +1389,533 @@ exports.deleteMpesaTransaction =
 
     };
 
+/*
+   REAL DARAJA STK PUSH
+   ------------------------------------------
+   Creates a PENDING transaction first.
+   Daraja callback later changes it to
+   SUCCESS or FAILED.
+*/
+
+const darajaService =
+    require("../services/darajaService");
+
+
+exports.stkPush = async (req, res) => {
+
+    let transaction = null;
+
+    try {
+
+        const {
+            amount,
+            phoneNumber,
+            accountReference,
+            transactionDesc
+        } = req.body;
+
+
+        if (!amount || !phoneNumber) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Amount and phone number are required."
+
+            });
+
+        }
+
+
+        const numericAmount =
+            Number(amount);
+
+
+        if (
+            !Number.isFinite(numericAmount) ||
+            numericAmount <= 0
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Invalid M-Pesa amount."
+
+            });
+
+        }
+
+
+        /*
+           Normalize phone number.
+           Accept both:
+
+           07XXXXXXXX
+           2547XXXXXXXX
+        */
+
+        let normalizedPhone =
+            String(phoneNumber)
+                .replace(/\D/g, "");
+
+
+        if (
+            normalizedPhone.startsWith("07") &&
+            normalizedPhone.length === 10
+        ) {
+
+            normalizedPhone =
+                "254" +
+                normalizedPhone.substring(1);
+
+        }
+
+
+        if (!/^2547\d{8}$/.test(normalizedPhone)) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Invalid M-Pesa phone number."
+
+            });
+
+        }
+
+
+        /*
+           Create PENDING transaction
+           BEFORE contacting Daraja.
+        */
+
+        transaction =
+            await createTransaction({
+
+                userId:
+                    req.user.userId,
+
+                service:
+                    "STK_PUSH",
+
+                sender:
+                    normalizedPhone,
+
+                recipient:
+                    "M-PESA",
+
+                reference:
+                    accountReference ||
+                    "KSDP",
+
+                amount:
+                    Math.round(numericAmount),
+
+                fee:
+                    0,
+
+                balance:
+                    0,
+
+                status:
+                    "PENDING",
+
+                metadata: {
+
+                    paymentProvider:
+                        "DARAJA",
+
+                    phoneNumber:
+                        normalizedPhone,
+
+                    accountReference:
+                        accountReference ||
+                        "KSDP",
+
+                    transactionDesc:
+                        transactionDesc ||
+                        "M-Pesa payment"
+
+                }
+
+            });
+
+
+        /*
+           Send STK Push to Safaricom.
+        */
+
+        const result =
+            await darajaService.stkPush({
+
+                amount:
+                    Math.round(numericAmount),
+
+                phoneNumber:
+                    normalizedPhone,
+
+                accountReference:
+                    accountReference ||
+                    "KSDP",
+
+                transactionDesc:
+                    transactionDesc ||
+                    "M-Pesa payment"
+
+            });
+
+
+        /*
+           Store Daraja identifiers.
+        */
+
+        transaction.metadata = {
+
+            ...transaction.metadata,
+
+            merchantRequestId:
+                result.MerchantRequestID ||
+                "",
+
+            checkoutRequestId:
+                result.CheckoutRequestID ||
+                "",
+
+            responseCode:
+                result.ResponseCode ??
+                "",
+
+            responseDescription:
+                result.ResponseDescription ||
+                "",
+
+            customerMessage:
+                result.CustomerMessage ||
+                ""
+
+        };
+
+
+        await transaction.save();
+
+
+        return res.status(200).json({
+
+            success: true,
+
+            message:
+                result.CustomerMessage ||
+                result.ResponseDescription ||
+                "STK Push sent successfully.",
+
+            transactionId:
+                transaction._id,
+
+            status:
+                transaction.status,
+
+            data: {
+
+                MerchantRequestID:
+                    result.MerchantRequestID,
+
+                CheckoutRequestID:
+                    result.CheckoutRequestID,
+
+                ResponseCode:
+                    result.ResponseCode,
+
+                ResponseDescription:
+                    result.ResponseDescription,
+
+                CustomerMessage:
+                    result.CustomerMessage
+
+            }
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "DARAJA STK PUSH ERROR:",
+            error.message
+        );
+
+
+        /*
+           If the transaction was already created,
+           mark it FAILED instead of leaving it
+           permanently PENDING.
+        */
+
+        if (transaction) {
+
+            try {
+
+                transaction.status =
+                    "FAILED";
+
+                transaction.metadata = {
+
+                    ...transaction.metadata,
+
+                    error:
+                        error.message
+
+                };
+
+                await transaction.save();
+
+            } catch (saveError) {
+
+                console.error(
+                    "FAILED TO UPDATE STK TRANSACTION:",
+                    saveError.message
+                );
+
+            }
+
+        }
+
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                error.message ||
+                "Unable to initiate M-Pesa STK Push."
+
+        });
+
+    }
+
+};
+
+/*
+   REAL DARAJA STK CALLBACK
+   ------------------------------------------
+   Safaricom calls this endpoint after the
+   customer completes or cancels the STK prompt.
+*/
+
+exports.stkCallback = async (req, res) => {
+
+    try {
+
+        console.log("DARAJA STK CALLBACK RECEIVED");
+
+        const callback =
+            req.body?.Body?.stkCallback;
+
+        if (!callback) {
+
+            console.error(
+                "Invalid Daraja callback body."
+            );
+
+            return res.status(200).json({
+                ResultCode: 0,
+                ResultDesc: "Accepted"
+            });
+
+        }
+
+        const {
+            MerchantRequestID,
+            CheckoutRequestID,
+            ResultCode,
+            ResultDesc
+        } = callback;
+
+        console.log(
+            "CheckoutRequestID:",
+            CheckoutRequestID
+        );
+
+        console.log(
+            "ResultCode:",
+            ResultCode
+        );
+
+        console.log(
+            "ResultDesc:",
+            ResultDesc
+        );
+
+        const transaction =
+            await Transaction.findOne({
+
+                bank: "M-PESA",
+
+                service: "STK_PUSH",
+
+                status: "PENDING",
+
+                "metadata.checkoutRequestId":
+                    CheckoutRequestID
+
+            });
+
+        if (!transaction) {
+
+            console.warn(
+                "No matching pending STK transaction found:",
+                CheckoutRequestID
+            );
+
+            return res.status(200).json({
+                ResultCode: 0,
+                ResultDesc: "Accepted"
+            });
+
+        }
+
+        if (Number(ResultCode) === 0) {
+
+            let receiptNumber = "";
+
+            const items =
+                callback
+                    ?.CallbackMetadata
+                    ?.Item;
+
+            if (Array.isArray(items)) {
+
+                const receiptItem =
+                    items.find(
+                        item =>
+                            item.Name ===
+                            "MpesaReceiptNumber"
+                    );
+
+                if (receiptItem) {
+
+                    receiptNumber =
+                        String(
+                            receiptItem.Value || ""
+                        );
+
+                }
+
+            }
+
+            transaction.status =
+                "SUCCESS";
+
+            transaction.metadata = {
+
+                ...transaction.metadata,
+
+                merchantRequestId:
+                    MerchantRequestID ||
+                    transaction.metadata
+                        ?.merchantRequestId ||
+                    "",
+
+                checkoutRequestId:
+                    CheckoutRequestID,
+
+                resultCode:
+                    ResultCode,
+
+                resultDesc:
+                    ResultDesc,
+
+                callbackReceived:
+                    true,
+
+                callbackReceivedAt:
+                    new Date()
+
+            };
+
+            if (receiptNumber) {
+
+                transaction.receiptNumber =
+                    receiptNumber;
+
+            }
+
+            await transaction.save();
+
+            console.log(
+                "STK PAYMENT SUCCESS:",
+                transaction._id.toString()
+            );
+
+        } else {
+
+            transaction.status =
+                "FAILED";
+
+            transaction.metadata = {
+
+                ...transaction.metadata,
+
+                merchantRequestId:
+                    MerchantRequestID ||
+                    transaction.metadata
+                        ?.merchantRequestId ||
+                    "",
+
+                checkoutRequestId:
+                    CheckoutRequestID,
+
+                resultCode:
+                    ResultCode,
+
+                resultDesc:
+                    ResultDesc,
+
+                callbackReceived:
+                    true,
+
+                callbackReceivedAt:
+                    new Date()
+
+            };
+
+            await transaction.save();
+
+            console.log(
+                "STK PAYMENT FAILED:",
+                ResultDesc
+            );
+
+        }
+
+        return res.status(200).json({
+
+            ResultCode: 0,
+
+            ResultDesc: "Accepted"
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "DARAJA CALLBACK ERROR:",
+            error.message
+        );
+
+        return res.status(200).json({
+
+            ResultCode: 0,
+
+            ResultDesc: "Accepted"
+
+        });
+
+    }
+
+};
+
